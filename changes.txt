@@ -1,0 +1,75 @@
+to load faster homepage
+    frontend/index
+        
+        $.post('{{ route('home.section.featured')}}', {_token:'{{ csrf_token() }}'
+            },
+            function(data) {
+            var preloader = document.getElementById("loading");
+            preloader.style.display = 'none';
+
+
+phone number validation
+    user_registration.blade
+     $('#phone').on('keypress', function(e) {
+            var $this = $(this);
+            var regex = new RegExp("^[0-9\b]+$");
+            var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+            // for 10 digit number only
+            if ($this.val().length > 9) {
+                e.preventDefault();
+                return false;
+            }
+            if (e.charCode < 57 && e.charCode > 47) {
+                if ($this.val().length == 0) {
+                    e.preventDefault();
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            if (regex.test(str)) {
+                return true;
+            }
+            e.preventDefault();
+            return false;
+        });
+
+seller_form_blade
+
+user_registration_blade
+
+product controller -> create ,update
+
+product_details.blade
+
+sku -- alreadyh cha--kaa dekhauney sodhney
+
+amount calculation garera dekhauni
+    flat ra percentage lekheko ko col badha ko
+    product create.blade
+    product edit.blade
+
+Payment process needs to be secure, frictionless and reliable
+    frontend/assets/js/main.js
+    702 radio: true,
+
+Allow users to add or edit their profile photos.
+    homecontroller -- customer_update_profile
+    api/usercontroller -- updateName
+
+"Sort by" features also require from seller store.
+    seller_shop.blade.php
+
+Need to customize search results format
+    search_content.blade.php
+
+color images
+    ALTER TABLE `products` ADD `color_images` LONGTEXT NULL AFTER `colors`;
+    product controller
+    product_details.blade
+    frontend/layout/app.blade
+    app/product.php -- add color_image column in fillable
+    sku_combination_edit.blade
+    products/edit -- create.blade
+
+
