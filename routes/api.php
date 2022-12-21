@@ -16,9 +16,6 @@ Route::prefix('v1/auth')->group(function () {
 });
 
 Route::prefix('v1')->group(function () {
-    
-    Route::get('pops', 'Api\SliderController@pop')->name('api.pop');
-
     Route::apiResource('banners', 'Api\BannerController')->only('index');
 
     Route::get('notifications/{id}', 'Api\NotificationsController@getUserNotification');
@@ -69,7 +66,7 @@ Route::prefix('v1')->group(function () {
     Route::get('products/top-from-seller/{id}', 'Api\ProductController@topFromSeller')->name('products.topFromSeller');
     Route::get('products/search', 'Api\ProductController@search');
     Route::get('shop/search', 'Api\ProductController@searchShop');
-    Route::post('products/variant/price', 'Api\ProductController@variantPrice');
+Route::post('products/variant/price', 'Api\ProductController@variantPrice');
     Route::get('products/home', 'Api\ProductController@home');
     Route::apiResource('products', 'Api\ProductController')->except(['store', 'update', 'destroy']);
 
@@ -120,9 +117,7 @@ Route::prefix('v1')->group(function () {
     Route::post('payments/pay/cod', 'Api\PaymentController@cashOnDelivery')->middleware('auth:api');
 
     Route::post('order/store', 'Api\OrderController@store')->middleware('auth:api');
-    // ->middleware('auth:api')
-    Route::post('/addresses/update/{id}', 'Api\AddressController@update')->middleware('auth:api');
-
+    
     Route::resource('addresses','Api\AddressController')->middleware('auth:api');
     Route::get('/addresses/destroy/{id}', 'Api\AddressController@destroy')->middleware('auth:api');
     Route::get('/addresses/set_default/{id}', 'Api\AddressController@set_default')->middleware('auth:api');
