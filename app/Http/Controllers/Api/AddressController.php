@@ -165,7 +165,25 @@ class AddressController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $address = Address::find($id);
+        $address->address = $request->address;
+        $address->country = $request->country;
+        $address->delivery_location = $request->delivery_location;
+        $address->city = $request->city;
+        $address->postal_code = $request->postal_code;
+        $address->phone = $request->phone;
+        if($address->save()){
+            return response()->json([
+                'success' => true,
+                'status' => 200,
+                'message' => 'Address Updated Successfully !!'
+            ],200);
+        }        
+        return response()->json([
+            'success' => false,
+            'status'=>200,
+            'message' => 'Something went wrong.'
+        ],200);
     }
 
     /**

@@ -11,4 +11,16 @@ class SliderController extends Controller
     {
         return new SliderCollection(Slider::all());
     }
+    public function pop(){
+        $generalsetting = \App\GeneralSetting::first();
+        $data = [
+            'status' => $generalsetting->pop_status,
+            'url' => $generalsetting->pop_url,
+            'image' => $generalsetting->pop_img,
+        ];
+        return response()->json([
+            'status'=>200,
+            'data' => $data
+        ], 200);
+    }
 }
