@@ -38,7 +38,9 @@ class AuthController extends Controller
             $user->save();
             $customer = new Customer;
             $customer->user_id = $user->id;
-            $customer->save();
+             $customer->save();
+             $user->sendEmailVerificationNotification();
+            //  asdfasdfasdf
          }
          catch(\Exception $e){
             return response()->json([
