@@ -16,6 +16,8 @@ Route::prefix('v1/auth')->group(function () {
 });
 // check
 Route::prefix('v1')->group(function () {
+    Route::get('pops', 'Api\SliderController@pop')->name('api.pop');
+
     Route::apiResource('banners', 'Api\BannerController')->only('index');
 
     Route::get('notifications/{id}', 'Api\NotificationsController@getUserNotification');
@@ -117,7 +119,7 @@ Route::post('products/variant/price', 'Api\ProductController@variantPrice');
     Route::post('payments/pay/cod', 'Api\PaymentController@cashOnDelivery')->middleware('auth:api');
 
     Route::post('order/store', 'Api\OrderController@store')->middleware('auth:api');
-    
+    Route::post('/addresses/update/{id}', 'Api\AddressController@update')->middleware('auth:api');
     Route::resource('addresses','Api\AddressController')->middleware('auth:api');
     Route::get('/addresses/destroy/{id}', 'Api\AddressController@destroy')->middleware('auth:api');
     Route::get('/addresses/set_default/{id}', 'Api\AddressController@set_default')->middleware('auth:api');
