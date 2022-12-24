@@ -14,7 +14,7 @@ Route::prefix('v1/auth')->group(function () {
         Route::get('user', 'Api\AuthController@user');
     });
 });
-
+// check
 Route::prefix('v1')->group(function () {
     Route::apiResource('banners', 'Api\BannerController')->only('index');
 
