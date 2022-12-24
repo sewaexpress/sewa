@@ -39,6 +39,7 @@ class AuthController extends Controller
             $customer = new Customer;
             $customer->user_id = $user->id;
              $customer->save();
+            //  asdfasdfasdf
          }
          catch(\Exception $e){
             return response()->json([
