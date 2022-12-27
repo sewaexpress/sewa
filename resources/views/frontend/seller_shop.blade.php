@@ -128,7 +128,7 @@
     <section class="bg-white">
         <div class="container">
             <div class="row sticky-top mt-4">
-                <div class="col">
+                <div class="col-md-8 col-sm-12">
                     <div class="seller-shop-menu">
                         <ul class="inline-links">
                             <li @if(!isset($type)) class="active" @endif><a href="{{ route('shop.visit', $shop->slug) }}">{{__('Store Home')}}</a></li>
@@ -137,6 +137,25 @@
                         </ul>
                     </div>
                 </div>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="sort-by-box px-1">
+                            <div class="form-group">
+                                @php
+                                    $url = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+                                    if(request()->segment(4) != 'all_products'){
+                                        $url = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH).'/all_products';
+                                    }
+                                    $sort_by = (isset($_GET['sort']))?$_GET['sort']:'newest'
+                                @endphp
+                                <select class="form-control sortSelect" data-minimum-results-for-search="Infinity" name="sort_by">
+                                    <option value="{{$url}}" @isset($sort_by) @if ($sort_by == 'newest') selected @endif @endisset>{{__('Newest')}}</option>
+                                    <option value="{{$url}}?sort=oldest" @isset($sort_by) @if ($sort_by == 'oldest') selected @endif @endisset>{{__('Oldest')}}</option>
+                                    <option value="{{$url}}?sort=low_to_high" @isset($sort_by) @if ($sort_by == 'low_to_high') selected @endif @endisset>{{__('Price low to high')}}</option>
+                                    <option value="{{$url}}?sort=high_to_low" @isset($sort_by) @if ($sort_by == 'high_to_low') selected @endif @endisset>{{__('Price high to low')}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
     </section>
@@ -322,15 +341,37 @@
                         <div class="right-side-wrapper">
                             <div class="row">
                                 @php
+                                $params = isset($_GET['sort'])?$_GET['sort']:'';
+                                // dd($params);
                                     if (!isset($type)){
-                                        $products = \App\Product::where('user_id', $shop->user->id)->where('published', 1)->orderBy('created_at', 'desc')->paginate(24);
+                                        $products = \App\Product::where('user_id', $shop->user->id)->where('published', 1);
                                     }
                                     elseif ($type == 'top_selling'){
-                                        $products = \App\Product::where('user_id', $shop->user->id)->where('published', 1)->orderBy('num_of_sale', 'desc')->paginate(24);
+                                        $products = \App\Product::where('user_id', $shop->user->id)->where('published', 1);
                                     }
                                     elseif ($type == 'all_products'){
-                                        $products = \App\Product::where('user_id', $shop->user->id)->where('published', 1)->paginate(24);
+                                        $products = \App\Product::where('user_id', $shop->user->id)->where('published', 1);
                                     }
+                                    if($params == 'oldest'){
+                                        $products = $products->orderBy('created_at', 'asc');
+                                    }elseif($params == 'low_to_high'){
+                                        $products->selectRaw('*,case 
+                                                        when discount_type = "amount" then (unit_price - discount)
+                                                        when discount_type = "percent" then (unit_price - (unit_price * (discount/100)))
+                                                        end as unit_price2');
+                                        $products->orderBy('unit_price2', 'asc');
+                                    }elseif($params == 'high_to_low'){
+                                        $products->selectRaw('*,case 
+                                                        when discount_type = "amount" then (unit_price - discount)
+                                                        when discount_type = "percent" then (unit_price - (unit_price * (discount/100)))
+                                                        end as unit_price2');
+                                        $products->orderBy('unit_price2', 'desc');
+
+                                    }else{
+                                        $products = $products->orderBy('created_at', 'desc');
+                                    }
+                                    // ->orderBy('num_of_sale', 'desc')
+                                    $products = $products->paginate(24)
                                 @endphp
                                 @foreach ($products as $key => $product)
                                 <div class="col-lg-2 col-md-4 col-sm-12" id="productlist">
@@ -444,7 +485,11 @@
 @section('script')
     
 
-<script>
+<script>        
+    $(document).on('change', '.sortSelect', function() {
+        // console.log($(this).val());
+        window.location.replace($(this).val());
+    });
             $(".seller_shop").slick({
             infinite: true,
             autoplay: true,

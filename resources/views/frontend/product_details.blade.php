@@ -397,12 +397,14 @@ td {
                                                 <div class="image-select">
                                                     <h5>Color</h5>
                                                     <div class="my-color ml-5">
-                                                        @foreach (json_decode($detailedProduct->color_images) as $key => $color)
-                                                        <label class="radio m-0 change-image" data-colorPointTo = "color-image-{{ $color->name }}" style="background: {{ $color->code }};" for="{{ $detailedProduct->id }}-color-{{ $key }}" data-toggle="tooltip" >
-                                                            <input type="radio" id="{{ $detailedProduct->id }}-color-{{ $key }}" name="color" value="{{ $color->code }}" @if($key == 0) checked @endif>
-                                                            <span style="background:{{$color->code}}; border:{{$color->code}}"></span> 
-                                                        </label>
-                                                        @endforeach
+                                                        @if ($detailedProduct->color_images != null)
+                                                            @foreach (json_decode($detailedProduct->color_images) as $key => $color)
+                                                            <label class="radio m-0 change-image" data-colorPointTo = "color-image-{{ $color->name }}" style="background: {{ $color->code }};" for="{{ $detailedProduct->id }}-color-{{ $key }}" data-toggle="tooltip" >
+                                                                <input type="radio" id="{{ $detailedProduct->id }}-color-{{ $key }}" name="color" value="{{ $color->code }}" @if($key == 0) checked @endif>
+                                                                <span style="background:{{$color->code}}; border:{{$color->code}}"></span> 
+                                                            </label>
+                                                            @endforeach
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>

@@ -92,7 +92,7 @@
                                 </a>
                             </td>
                             @if($type == 'Seller')
-                                <td>{{ $product->user->name }}</td>
+                                <td>{{ (!empty($product->user))?$product->user->name:'' }}</td>
                             @endif
                             <td>{{ $product->num_of_sale }} {{ __('times') }}</td>
                             @php

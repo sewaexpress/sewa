@@ -36,7 +36,11 @@ Allow users to add or edit their profile photos.
     api -- api/usercontroller/updatename -- new param -- photo
     homecontroller -- customer_update_profile
 
+pop up ko api
+https://sewaexpress.com/api/v1/pops
 
+address edit garni api
+https://sewaexpress.com/api/v1/addresses/update/1
 
 
 "Sort by" features also require from seller store.
