@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Color;
 use App\Language;
 use App\Product;
 use App\ProductStock;
@@ -20,7 +21,27 @@ class ProductController extends Controller
      */
     public function admin_products(Request $request)
     {
+        // $products = Product::get();
 
+        // foreach($products as $key => $product){
+        //     $colors = json_decode($product->colors);
+        //     $data = [];
+        //     foreach($colors as $a => $color){
+        //         $color_details = Color::where('code',$color)->first();
+        //         $temp = [
+        //             'name' => $color_details->name,
+        //             'code' => $color,
+        //             'image' => '',
+        //         ];
+        //         array_push($data,$temp);
+        //     }
+        //     Product::where('id',$product->id)->update(
+        //         [
+        //             'color_images' => json_encode($data)
+        //         ]
+        //     );
+        // }
+        // dd($data);
         $type = 'In House';
         $col_name = null;
         $query = null;
@@ -80,17 +101,18 @@ class ProductController extends Controller
 
         return view('products.index', compact('products', 'type', 'col_name', 'query', 'seller_id', 'sort_search'));
     }
-    public function moveProducts(Request $request){
+    public function moveProducts(Request $request)
+    {
 
-        $products = explode(',',$request->product_ids);
+        $products = explode(',', $request->product_ids);
 
-        foreach($products as $a => $b){            
-            Product::where('id',$b)->update([
+        foreach ($products as $a => $b) {
+            Product::where('id', $b)->update([
                 'added_by' => 'seller',
                 'user_id' => $request->seller_id
             ]);
         }
-        
+
         flash(__('Products Moved'))->success();
         return back();
         // dd($request->all());
@@ -121,10 +143,10 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->specs = $request->specs;
 
-        
-        if(isset($request->vendor_id) && $request->vendor_id == 'in-house'){
+
+        if (isset($request->vendor_id) && $request->vendor_id == 'in-house') {
             $added_by = 'admin';
-        }else{
+        } else {
             $added_by = 'seller';
         }
 
@@ -133,15 +155,14 @@ class ProductController extends Controller
         if (Auth::user()->user_type == 'seller') {
             $product->user_id = Auth::user()->id;
         } else {
-            if(isset($request->vendor_id) && $request->vendor_id == 'in-house'){
+            if (isset($request->vendor_id) && $request->vendor_id == 'in-house') {
                 $product->user_id = \App\User::where('user_type', 'admin')->first()->id;
-            }else{  
+            } else {
                 $product->user_id = $request->vendor_id;
                 // $added_by = 'seller';
             }
-           
         }
-        
+
         $product->category_id = $request->category_id;
         $product->subcategory_id = $request->subcategory_id;
         $product->subsubcategory_id = $request->subsubcategory_id;
@@ -162,14 +183,14 @@ class ProductController extends Controller
         $product->warranty_time = $request->warranty_time;
 
         $photos = array();
-        $thumb=array();
+        $thumb = array();
         if ($request->hasFile('photos')) {
             foreach ($request->photos as $key => $photo) {
                 $path = $photo->store('uploads/products/photos');
                 $thumbnail_path = $photo->store('uploads/products/thumbnail');
-                Image::make(public_path($path))->resize(750,750)->save();
+                Image::make(public_path($path))->resize(750, 750)->save();
 
-                Image::make(public_path($thumbnail_path))->resize(100,100)->save();
+                Image::make(public_path($thumbnail_path))->resize(100, 100)->save();
 
                 array_push($photos, $path);
                 array_push($thumb, $thumbnail_path);
@@ -178,8 +199,24 @@ class ProductController extends Controller
             }
             $product->photos = json_encode($photos);
             $product->thumbnail_img = json_encode($thumb);
-
-
+        }
+        $color_images = [];
+        // dd($request->color_image);
+        if (isset($request->color_image) && !empty($request->color_image)) {
+            foreach ($request->color_image as $a => $b) {
+                if (isset($b['new-image'])) {
+                    $path = $b['new-image']->store('uploads/products/photos');
+                    Image::make(public_path($path))->resize(750, 750)->save();
+                    $b = [
+                        'name' => $b['name'],
+                        'code' => $b['code'],
+                        'image' => $path
+                    ];
+                    $color_images[] = $b;
+                } else {
+                    $color_images[] = $b;
+                }
+            }
         }
 
         // if($request->hasFile('thumbnail_img')){
@@ -187,9 +224,37 @@ class ProductController extends Controller
         //     // ImageOptimizer::optimize(base_path('public/').$product->thumbnail_img);
         // }
 
-        if($request->hasFile('featured_img')){
-            $product->featured_img = $request->featured_img->store('uploads/products/featured');
-            $product->thumbnail_img = $request->featured_img->store('uploads/products/thumbnail');
+        $product->color_images = json_encode($color_images);
+
+        if ($request->hasFile('featured_img')) {
+
+            // $product->thumbnail_img = $request->featured_img->store('uploads/products/thumbnail');
+            
+            $timestamp = strtotime(date('Y-m-d H:i:s'));
+            switch (exif_imagetype($request->featured_img)) {
+                case IMAGETYPE_JPEG:
+                    $image = imagecreatefromjpeg($request->featured_img);
+                    break;
+                case IMAGETYPE_PNG:
+                    $image = imagecreatefrompng($request->featured_img);
+                    break;
+                default:
+                    $image = $request->featured_img;
+                    break;
+            }
+            $compression_level = 20;
+            $image_width = imagesx($image); // Get the width of the original image
+            $image_height = imagesy($image); // Get the height of the original image
+            $new_image = imagecreatetruecolor($image_width, $image_height); // Create a new image with the same dimensions as the original image
+            imagecopyresampled($new_image, $image, 0, 0, 0, 0, $image_width, $image_height, $image_width, $image_height); // Copy the original image to the new image, maintaining the resolution
+            imagejpeg($new_image, 'uploads/products/thumbnail/'.$timestamp.'.jpg', $compression_level); // Save the new image with a compression level of 75 (higher numbers mean more compression, but also lower quality)
+            imagejpeg($new_image, 'uploads/products/featured/'.$timestamp.'.jpg', $compression_level);
+            $product->thumbnail_img = 'uploads/products/thumbnail/'.$timestamp.'.jpg';
+            
+
+            $product->featured_img = 'uploads/products/featured/'.$timestamp.'.jpg';
+            // $product->featured_img = $request->featured_img->store('uploads/products/featured');
+
             $product->meta_img = $request->featured_img->store('uploads/products/meta');
             //ImageOptimizer::optimize(base_path('public/').$product->featured_img);
         }
@@ -327,15 +392,16 @@ class ProductController extends Controller
         // }
 
         $product->save();
-
+        $id = encrypt($product->id);
         flash(__('Product has been inserted successfully'))->success();
         if (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff') {
-            if(isset($request->vendor_id) && $request->vendor_id == 'in-house'){
-                return redirect()->route('products.admin');
-            }else{
-                return redirect()->route('products.seller');
+            if (isset($request->vendor_id) && $request->vendor_id == 'in-house') {
+                return redirect()->route('products.admin.edit', ['id' => $id]);
+                // return redirect()->route('products.admin');
+            } else {
+                return redirect()->route('products.seller.edit', ['id' => $id]);
+                // return redirect()->route('products.seller');
             }
-           
         } else {
             if (\App\Addon::where('unique_identifier', 'seller_subscription')->first() != null && \App\Addon::where('unique_identifier', 'seller_subscription')->first()->activated) {
                 $seller = Auth::user()->seller;
@@ -394,6 +460,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         // dd($request->all());
         $refund_request_addon = \App\Addon::where('unique_identifier', 'refund_request')->first();
         $product = Product::findOrFail($id);
@@ -413,31 +480,50 @@ class ProductController extends Controller
                 $product->refundable = 0;
             }
         }
-        $thumb = [];        
+        $thumb = [];
         if ($request->has('previous_photos')) {
             $photos = $request->previous_photos;
             $thumb = $request->previous_thumbnail_img;
-        }
-        else{
+        } else {
             $photos = array();
         }
-// dd($thumb);
+        // dd($thumb);
         if ($request->hasFile('photos')) {
             foreach ($request->photos as $key => $photo) {
                 $path = $photo->store('uploads/products/photos');
                 $thumbnail_path = $photo->store('uploads/products/thumbnail');
 
-                Image::make(public_path($path))->resize(750,750)->save();
-                Image::make(public_path($thumbnail_path))->resize(100,100)->save();
+                Image::make(public_path($path))->resize(750, 750)->save();
+                Image::make(public_path($thumbnail_path))->resize(100, 100)->save();
 
 
                 array_push($photos, $path);
-                // array_push($thumb, $thumbnail_path);
+                array_push($thumb, $thumbnail_path);
                 //ImageOptimizer::optimize(base_path('public/').$path);
             }
         }
+        $color_images = [];
+        // dd($request->color_image);
+        if (isset($request->color_image) && !empty($request->color_image)) {
+            foreach ($request->color_image as $a => $b) {
+                if (isset($b['new-image'])) {
+                    $path = $b['new-image']->store('uploads/products/photos');
+                    Image::make(public_path($path))->resize(750, 750)->save();
+                    $b = [
+                        'name' => $b['name'],
+                        'code' => $b['code'],
+                        'image' => $path
+                    ];
+                    $color_images[] = $b;
+                } else {
+                    $color_images[] = $b;
+                }
+            }
+        }
+
+        $product->color_images = json_encode($color_images);
         $product->photos = json_encode($photos);
-        $product->thumbnail_img = json_encode($thumb);
+        // $product->thumbnail_img = json_encode($thumb);
         $product->made_in_nepal = $request->made_in_nepal != null ? 1 : 0;
         $product->warranty = $request->warranty != null ? 1 : 0;
         $product->warranty_time = $request->warranty_time;
@@ -450,8 +536,37 @@ class ProductController extends Controller
 
         $product->featured_img = $request->previous_featured_img;
         if ($request->hasFile('featured_img')) {
-            $product->featured_img = $request->featured_img->store('uploads/products/featured');
-            $product->thumbnail_img = $request->featured_img->store('uploads/products/thumbnail');
+            // $product->featured_img = $request->featured_img->store('uploads/products/featured');
+
+            $timestamp = strtotime(date('Y-m-d H:i:s'));
+            switch (exif_imagetype($request->featured_img)) {
+                case IMAGETYPE_JPEG:
+                    $image = imagecreatefromjpeg($request->featured_img);
+                    break;
+                case IMAGETYPE_PNG:
+                    $image = imagecreatefrompng($request->featured_img);
+                    break;
+                default:
+                    $image = $request->featured_img;
+                    break;
+            }
+            $compression_level = 20;
+            $image_width = imagesx($image); // Get the width of the original image
+            $image_height = imagesy($image); // Get the height of the original image
+            $new_image = imagecreatetruecolor($image_width, $image_height); // Create a new image with the same dimensions as the original image
+            imagecopyresampled($new_image, $image, 0, 0, 0, 0, $image_width, $image_height, $image_width, $image_height); // Copy the original image to the new image, maintaining the resolution
+            imagejpeg($new_image, 'uploads/products/thumbnail/'.$timestamp.'.jpg', $compression_level); // Save the new image with a compression level of 75 (higher numbers mean more compression, but also lower quality)
+            imagejpeg($new_image, 'uploads/products/featured/'.$timestamp.'.jpg', $compression_level);
+            $product->thumbnail_img = 'uploads/products/thumbnail/'.$timestamp.'.jpg';
+            
+
+            $product->featured_img = 'uploads/products/featured/'.$timestamp.'.jpg';
+
+            // $photo = $request->featured_img;
+            // $thumbnail_path = $photo->store('uploads/products/thumbnail');
+            // Image::make(public_path($thumbnail_path))->resize(100, 100)->save();
+            $product->thumbnail_img = 'uploads/products/thumbnail/'.$timestamp.'.jpg';
+
             $product->meta_img = $request->featured_img->store('uploads/products/meta');
             //ImageOptimizer::optimize(base_path('public/').$product->featured_img);
         }
@@ -554,7 +669,7 @@ class ProductController extends Controller
                 array_push($options, explode(',', $my_str));
             }
         }
-        $product_stock=ProductStock::where('product_id', $product->id)->delete();
+        $product_stock = ProductStock::where('product_id', $product->id)->delete();
         $combinations = combinations($options);
         if (count($combinations[0]) > 0) {
             $product->variant_product = 1;
@@ -587,9 +702,9 @@ class ProductController extends Controller
                 $product_stock->save();
             }
         }
-        if(isset($request->vendor_id) && $request->vendor_id == 'in-house'){
+        if (isset($request->vendor_id) && $request->vendor_id == 'in-house') {
             $added_by = 'admin';
-        }else{
+        } else {
             $added_by = 'seller';
         }
 
@@ -598,23 +713,24 @@ class ProductController extends Controller
         if (Auth::user()->user_type == 'seller') {
             $product->user_id = Auth::user()->id;
         } else {
-            if(isset($request->vendor_id) && $request->vendor_id == 'in-house'){
+            if (isset($request->vendor_id) && $request->vendor_id == 'in-house') {
                 $product->user_id = \App\User::where('user_type', 'admin')->first()->id;
-            }else{
+            } else {
                 $product->user_id = $request->vendor_id;
                 // $added_by = 'seller';
             }
-           
         }
         $product->save();
-
+        $id = encrypt($product->id);
         flash(__('Product has been updated successfully'))->success();
-        
+
         if (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff') {
-            if(isset($request->vendor_id) && $request->vendor_id == 'in-house'){
-                return redirect()->route('products.admin');
-            }else{
-                return redirect()->route('products.seller');
+            if (isset($request->vendor_id) && $request->vendor_id == 'in-house') {
+                return redirect()->route('products.admin.edit', ['id' => $id]);
+                // return redirect()->route('products.admin');
+            } else {
+                return redirect()->route('products.seller.edit', ['id' => $id]);
+                // return redirect()->route('products.seller');
             }
         } else {
             return redirect()->route('seller.products');
@@ -842,5 +958,4 @@ class ProductController extends Controller
         $products = Product::where('category_id', $request->category_id)->get();
         return $products;
     }
-
 }

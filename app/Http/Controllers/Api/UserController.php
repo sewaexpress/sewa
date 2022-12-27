@@ -16,8 +16,14 @@ class UserController extends Controller
     public function updateName(Request $request)
     {
         $user = User::findOrFail($request->user_id);
+        if($request->hasFile('photo')){
+            $file = $request->photo->store('uploads/users');
+        }else{
+            $file = $user->avatar_original;
+        }
         $user->update([
             'name' => $request->name,
+            'avatar_original' => $file,
             'country' => $request->country,
             'phone' => $request->phone,
             'address' => $request->address,

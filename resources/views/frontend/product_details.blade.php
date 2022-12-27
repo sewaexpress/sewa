@@ -147,34 +147,55 @@ td {
        </div>
     </section>
     <!-- Breadcrumbs Ends -->
-
     <!-- Product Detail  -->
     <section id="product-detail-wrapper" class="py-3">
         <div class="container">
             <div class="row">
                 <div class="col-lg-5 col-md-12 col-12">
                     <div class="product-carousel">
-                        @if(is_array(json_decode($detailedProduct->photos)) && count(json_decode($detailedProduct->photos)) > 0)
+                        
                         <!-- Swiper and EasyZoom plugins start -->
                         <div class="swiper-container gallery-top">
                             <div class="swiper-wrapper">
-                                @foreach (json_decode($detailedProduct->photos) as $key => $photo)
-
-                                <div class="swiper-slide">
-                                    @if (!empty($photo))
-                                        @if (file_exists($photo))
-                                            <img src="{{ asset($photo) }}"
-                                            data-zoom="{{ asset($photo) }}" class="img-responsive asdf">
-                                        @else
-                                            <img src="{{asset('frontend/images/placeholder.jpg')}}"
-                                            data-zoom="{{asset('frontend/images/placeholder.jpg')}}" class="img-responsive asdf">
-                                        @endif
-                                    @else
-                                        <img src="{{asset('frontend/images/placeholder.jpg')}}"
-                                        data-zoom="{{asset('frontend/images/placeholder.jpg')}}" class="img-responsive asdf">
-                                    @endif
-                                </div>
-                                @endforeach
+                                @php
+                                    $count = 0;
+                                @endphp
+                                @if(is_array(json_decode($detailedProduct->photos)) && count(json_decode($detailedProduct->photos)) > 0)
+                                    @foreach (json_decode($detailedProduct->photos) as $key => $photo)
+                                        <div class="swiper-slide" data-indexVal="{{$count}}">
+                                            @if (!empty($photo))
+                                                @if (file_exists($photo))
+                                                    <img src="{{ asset($photo) }}" data-zoom="{{ asset($photo) }}" class="img-responsive asdf">
+                                                @else
+                                                    <img src="{{asset('frontend/images/placeholder.jpg')}}"
+                                                    data-zoom="{{asset('frontend/images/placeholder.jpg')}}" class="img-responsive asdf">
+                                                @endif
+                                            @else
+                                                <img src="{{asset('frontend/images/placeholder.jpg')}}"
+                                                data-zoom="{{asset('frontend/images/placeholder.jpg')}}" class="img-responsive asdf">
+                                            @endif
+                                        </div>
+                                        @php $count ++; @endphp
+                                    @endforeach
+                                @endif
+                                @if(is_array(json_decode($detailedProduct->color_images)) && count(json_decode($detailedProduct->color_images)) > 0)
+                                    @foreach (json_decode($detailedProduct->color_images,true) as $key => $photo)
+                                        <div class="swiper-slide" data-color="color-image-{{$photo['name']}}" data-indexVal="{{$count}}">
+                                            @if (!empty($photo))
+                                                @if (file_exists($photo['image']))
+                                                    <img src="{{ asset($photo['image']) }}" data-zoom="{{ asset($photo['image']) }}" class="img-responsive asdf">
+                                                @else
+                                                    <img src="{{asset('frontend/images/placeholder.jpg')}}"
+                                                    data-zoom="{{asset('frontend/images/placeholder.jpg')}}" class="img-responsive asdf">
+                                                @endif
+                                            @else
+                                                <img src="{{asset('frontend/images/placeholder.jpg')}}"
+                                                data-zoom="{{asset('frontend/images/placeholder.jpg')}}" class="img-responsive asdf">
+                                            @endif
+                                        </div>
+                                        @php $count ++; @endphp
+                                    @endforeach
+                                @endif
                             </div>
                             <!-- Add Arrows -->
                             <div class="swiper-button-next swiper-button-white"></div>
@@ -183,28 +204,47 @@ td {
 
                         <div class="swiper-container gallery-thumbs">
                             <div class="swiper-wrapper">
+                                @php
+                                    $count = 0;
+                                @endphp
+                                @if(is_array(json_decode($detailedProduct->photos)) && count(json_decode($detailedProduct->photos)) > 0)
                                 @foreach (json_decode($detailedProduct->photos) as $key => $photo)
                                     @if (!empty($photo))
                                         @if (file_exists($photo))
-                                            <div class="swiper-slide" style="background-image:url('{{ asset($photo) }}')">
+                                            <div class="swiper-slide" data-indexVal="{{$count}}" style="background-image:url('{{ asset($photo) }}')">
                                             </div>
                                         @else
-                                        <div class="swiper-slide" style="background-image:url('{{ asset("frontend/images/placeholder.jpg") }}')">
-                                        </div>
-                                        @endif
-                                    
+                                            <div class="swiper-slide" data-indexVal="{{$count}}" style="background-image:url('{{ asset("frontend/images/placeholder.jpg") }}')">
+                                            </div>
+                                        @endif                                    
                                     @else
-                                    <div class="swiper-slide"
-                                    style="background-image:url('{{ asset("frontend/images/placeholder.jpg") }}')">
+                                        <div class="swiper-slide"  data-indexVal="{{$count}}" style="background-image:url('{{ asset("frontend/images/placeholder.jpg") }}')">
                                     @endif
+                                    @php $count ++; @endphp
                                 @endforeach
+                                @endif
+                                @if(is_array(json_decode($detailedProduct->color_images)) && count(json_decode($detailedProduct->color_images)) > 0)
+                                    @foreach (json_decode($detailedProduct->color_images,true) as $key => $photo)
+                                        @if (!empty($photo['image']))
+                                            @if (file_exists($photo['image']))
+                                                <div class="swiper-slide color-image-{{$photo['name']}}" data-indexVal="{{$count}}" style="background-image:url('{{ asset($photo['image']) }}')">
+                                                </div>
+                                            @else
+                                            <div class="swiper-slide color-image-{{$photo['name']}}" data-indexVal="{{$count}}" style="background-image:url('{{ asset("frontend/images/placeholder.jpg") }}')">
+                                            </div>
+                                            @endif
+                                        @endif
+                                        @php $count ++; @endphp
+
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
 
                         <div class="zoom">
                         </div>
                         <!-- Swiper and EasyZoom plugins end -->
-                        @endif
+                        
                     </div>
                 </div>
                 <div class="col-lg-7 col-md-12 col-12 mx-auto">
@@ -337,21 +377,36 @@ td {
                                     @endphp
                                     <div class="form-row">
         
-                                        @if (count(json_decode($detailedProduct->colors)) > 0)
-                                        <div class="form-group col-lg-12 col-md-6 mb-0">
-                                            <div class="image-select">
-                                                <h5>Color</h5>
-                                                <div class="my-color ml-5">
-                                                    @foreach (json_decode($detailedProduct->colors) as $key => $color)
-                                                    <label class="radio m-0" style="background: {{ $color }};" for="{{ $detailedProduct->id }}-color-{{ $key }}" data-toggle="tooltip">
-                                                        <input type="radio" id="{{ $detailedProduct->id }}-color-{{ $key }}" name="color" value="{{ $color }}" @if($key == 0) checked @endif>
-                                                        <span style="background:{{$color}}; border:{{$color}}"></span> 
-                                                    </label>
-                                                    @endforeach
+                                        {{-- @if (count(json_decode($detailedProduct->colors)) > 0)
+                                            <div class="form-group col-lg-12 col-md-6 mb-0">
+                                                <div class="image-select">
+                                                    <h5>Color</h5>
+                                                    <div class="my-color ml-5">
+                                                        @foreach (json_decode($detailedProduct->colors) as $key => $color)
+                                                        <label class="radio m-0" style="background: {{ $color }};" for="{{ $detailedProduct->id }}-color-{{ $key }}" data-toggle="tooltip">
+                                                            <input type="radio" id="{{ $detailedProduct->id }}-color-{{ $key }}" name="color" value="{{ $color }}" @if($key == 0) checked @endif>
+                                                            <span style="background:{{$color}}; border:{{$color}}"></span> 
+                                                        </label>
+                                                        @endforeach
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        @endif
+                                        @endif --}}
+                                        {{-- @if (count(json_decode($detailedProduct->colors_images,true)) > 0) --}}
+                                            <div class="form-group col-lg-12 col-md-6 mb-0">
+                                                <div class="image-select">
+                                                    <h5>Color</h5>
+                                                    <div class="my-color ml-5">
+                                                        @foreach (json_decode($detailedProduct->color_images) as $key => $color)
+                                                        <label class="radio m-0 change-image" data-colorPointTo = "color-image-{{ $color->name }}" style="background: {{ $color->code }};" for="{{ $detailedProduct->id }}-color-{{ $key }}" data-toggle="tooltip" >
+                                                            <input type="radio" id="{{ $detailedProduct->id }}-color-{{ $key }}" name="color" value="{{ $color->code }}" @if($key == 0) checked @endif>
+                                                            <span style="background:{{$color->code}}; border:{{$color->code}}"></span> 
+                                                        </label>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {{-- @endif --}}
         
                                         @if ($detailedProduct->choice_options != null)
                                         {{-- {{dd($detailedProduct->choice_options)}} --}}
@@ -434,30 +489,46 @@ td {
         
                                     <div class="d-table width-100 mt-3">
                                         <div class="d-table-cell">
-                                            <!-- Buy Now button -->
-                                            @if ($qty > 0)
-                                                @if(Auth::check())                                                    
-                                                    <button type="button" class="btn-custom ml-2" onclick="buyNow()">
-                                                        {{__('Buy Now')}}
-                                                    </button>
-                                                    <button type="button" class="btn-custom" onclick="addToCart()">
-                                                        <span class=" d-md-inline-block"> {{__('Add to cart')}}</span>
-                                                    </button>
-                                                @else
-                                                                                                    
-                                                    <button type="button" class="btn-custom ml-2" onclick="showCheckoutModal()">
-                                                        {{__('Buy Now')}}
-                                                    </button>
-                                                    <button type="button" class="btn-custom" onclick="showCheckoutModal()">
-                                                        <span class=" d-md-inline-block"> {{__('Add to cart')}}</span>
-                                                    </button>
-                                                    {{-- <button class="btn btn-styled btn-base-1" onclick="showCheckoutModal()" style="background: var(--theme_color)">{{__('Continue to Shipping')}}</button> --}}
-                                                @endif
-                                            @else
-                                                <button type="button" class="btn btn-effect btn-base-3 btn-icon-left strong-700" disabled>
-                                                     {{__('Out of Stock')}}
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <!-- Buy Now button -->
+                                                    @if ($qty > 0)
+                                                        @if(Auth::check())   
+                                                            @if ((Auth::user()->user_type != 'admin' && (Auth::user()->user_type != 'seller')))   
+                                                                <button type="button" class="btn-custom ml-2" onclick="buyNow()">
+                                                                    {{__('Buy Now')}}
+                                                                </button>
+                                                                <button type="button" class="btn-custom" onclick="addToCart()">
+                                                                    <span class=" d-md-inline-block"> {{__('Add to cart')}}</span>
+                                                                </button>
+                                                                
+                                                            @endif                 
+                                                        @else                                 
+                                                            <button type="button" class="btn-custom ml-2" onclick="showCheckoutModal()">
+                                                                {{__('Buy Now')}}
+                                                            </button>
+                                                            <button type="button" class="btn-custom" onclick="showCheckoutModal()">
+                                                                <span class=" d-md-inline-block"> {{__('Add to cart')}}</span>
+                                                            </button>
+                                                            {{-- <button class="btn btn-styled btn-base-1" onclick="showCheckoutModal()" style="background: var(--theme_color)">{{__('Continue to Shipping')}}</button> --}}
+                                                        @endif                                                    
+                                                    @else
+                                                        <button type="button" class="btn btn-effect btn-base-3 btn-icon-left strong-700" disabled>
+                                                             {{__('Out of Stock')}}
+                                                        </button>
+                                                    @endif         
+
+                                                </div>
+                                                <div class="col-12 mt-2">           
+                                                <button type="button" class="btn-custom ml-2" onclick="addToCompare({{$detailedProduct->id}})">
+                                                    {{__('Compare')}}
                                                 </button>
-                                            @endif
+                                                <button type="button" class="btn-custom" onclick="addToWishList({{$detailedProduct->id}})">
+                                                    <span class=" d-md-inline-block"> {{__('Wishlist')}}</span>
+                                                </button>  
+                                                    
+                                                </div>
+                                            </div>             
                                         </div>
                                     </div>
         

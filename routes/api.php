@@ -68,7 +68,7 @@ Route::prefix('v1')->group(function () {
     Route::get('products/top-from-seller/{id}', 'Api\ProductController@topFromSeller')->name('products.topFromSeller');
     Route::get('products/search', 'Api\ProductController@search');
     Route::get('shop/search', 'Api\ProductController@searchShop');
-Route::post('products/variant/price', 'Api\ProductController@variantPrice');
+    Route::post('products/variant/price', 'Api\ProductController@variantPrice');
     Route::get('products/home', 'Api\ProductController@home');
     Route::apiResource('products', 'Api\ProductController')->except(['store', 'update', 'destroy']);
 

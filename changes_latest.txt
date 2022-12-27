@@ -1,0 +1,39 @@
+phone number validation
+
+amount calculation garera dekhauni
+    admin side only
+
+color images
+    admin side only
+    vendor side remaining //
+    api ma sent in product listing and detail collection
+
+image should be compressed automatically
+    supports jpg && png images
+    featured image and thumbnail image are compressed
+    featured image is used as thumbnail image
+    in admin side only
+    vendor side remaining //
+
+api -- video halni thau
+    sent in api as video_link && video_provider
+
+seller le product kinna napauney
+    product details ma add to cart ra buy button hidden
+    add to cart ko modal ma button hidden and message
+
+Allow users to add or edit their profile photos.
+    api -- api/usercontroller/updatename -- new param -- photo
+    homecontroller -- customer_update_profile
+
+
+
+
+"Sort by" features also require from seller store.
+    seller_shop.blade.php
+
+Need to customize search results format
+    search_content.blade.php
+
+
+

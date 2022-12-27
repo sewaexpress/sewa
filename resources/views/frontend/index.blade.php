@@ -315,7 +315,7 @@ $flash_deal = \App\FlashDeal::where('status', 1)->where('featured', 1)->first();
                                      <a href="{{ route('product', $product->slug) }}" class="">{{ __($product->name) }}</a>
                                      </h6>
                                      <div class="category">
-                                     <a class="m-0">{{ $product->category->name }}</a>
+                                     <a class="m-0">{{ (!empty($product->category))?$product->category->name:'' }}</a>
                                      </div>
                                  </div>
                                  <div class="price-cart text-center py-2 min-height-20">
@@ -476,7 +476,7 @@ $flash_deal = \App\FlashDeal::where('status', 1)->where('featured', 1)->first();
                                         <a href="{{ route('product', $product->slug) }}" class="">{{ __($product->name) }}</a>
                                     </h6>
                                     <div class="category">
-                                        <a class="m-0">{{ $product->category->name }}</a>
+                                        <a class="m-0">{{ (!empty($product->category))?$product->category->name:'' }}</a>
                                     </div>
                                 </div>
                                 <div class="price-cart text-center py-2 min-height-20">

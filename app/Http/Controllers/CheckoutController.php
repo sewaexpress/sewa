@@ -312,7 +312,7 @@ class CheckoutController extends Controller
         $request->session()->put('cart', $cart);
         
         if (Auth::check()) {
-            if(Auth::user()->user_type == 'admin'){
+            if(Auth::user()->user_type == 'admin' || (Auth::user()->user_type == 'seller'){
                 flash(__('Not Allowed for Admin'))->error();
                 return redirect()->back()->withInput()->with('error', 'Not Allowed for Admin');
             }

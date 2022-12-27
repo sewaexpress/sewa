@@ -795,6 +795,19 @@
                     swiper: galleryThumbs,
                 },
             });
+            $('.change-image').on('click',function(){
+                // Get the index of the active slide
+                var colorPointTo = $(this).data('colorpointto');
+                // console.log(colorPointTo);
+                var colorIndex = $('.'+colorPointTo).data('indexval')
+                //   const activeIndex = galleryThumbs.activeIndex;
+                // console.log(colorIndex);
+                // console.log(galleryThumbs);
+                // Set the next slide as  the active slide
+                //   galleryThumbs.slideTo(activeIndex + 1);
+                galleryTop.slideTo(colorIndex);
+                // galleryThumbs.slideTo(1);
+            });
 
             var paneContainer = document.querySelector(".zoom");
 

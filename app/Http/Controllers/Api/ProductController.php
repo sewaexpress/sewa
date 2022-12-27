@@ -29,7 +29,7 @@ class ProductController extends Controller
     {
         
         if(Auth::check()){
-            return 'hello';
+            // return 'hello';
             if(Recommend::where('product_id',$id)->where('user_id',Auth::user()->id)->count() == 0)
             Recommend::create([
                 'product_id' => $id,
