@@ -426,7 +426,7 @@
                                             <label>{{__('Unit Price')}} <span class="required-star">*</span></label>
                                         </div>
                                         <div class="col-md-10">
-                                            <input type="number" min="0" step="0.01" class="form-control mb-3" name="unit_price" placeholder="{{__('Unit Price')}} ({{__('Base Price')}})" value="{{$product->unit_price}}">
+                                            <input type="number" min="0" step="0.01" class="form-control mb-3 unit_price" name="unit_price" placeholder="{{__('Unit Price')}} ({{__('Base Price')}})" value="{{$product->unit_price}}">
                                         </div>
                                     </div>
                                     <div class="row">
@@ -458,11 +458,11 @@
                                             <label>{{__('Discount')}}</label>
                                         </div>
                                         <div class="col-8">
-                                            <input type="number" min="0" step="0.01" class="form-control mb-3" name="discount" placeholder="{{__('Discount')}}" value="{{$product->discount}}">
+                                            <input type="number" min="0" step="0.01" class="form-control mb-3 discount" name="discount" placeholder="{{__('Discount')}}" value="{{$product->discount}}">
                                         </div>
                                         <div class="col-md-2 col-4">
                                             <div class="mb-3">
-                                                <select class="form-control selectpicker" name="discount_type" data-minimum-results-for-search="Infinity">
+                                                <select class="form-control selectpicker discount-type" name="discount_type" data-minimum-results-for-search="Infinity">
                                                     <option value="amount" <?php if($product->discount_type == 'amount') echo "selected";?> >$</option>
             	                                	<option value="percent" <?php if($product->discount_type == 'percent') echo "selected";?> >%</option>
                                                 </select>
@@ -475,6 +475,15 @@
                                         </div>
                                         <div class="col-md-10">
                                             <input type="number" min="0" step="1" class="form-control mb-3" name="current_stock" placeholder="{{__('Quantity')}}" value="{{$product->current_stock}}">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <label>{{__('Product Price')}} </label>
+                                        </div>
+                                        <div class="col-md-10">
+                                            <input type="number" value="0" readonly placeholder="{{__('Product Price')}}" class="form-control mb-3 product_price" >
+                                            {{-- <input type="number" min="0" step="1" class="form-control mb-3" name="current_stock" placeholder="{{__('Quantity')}}" value="{{$product->current_stock}}"> --}}
                                         </div>
                                     </div>
                                     <div class="row">
@@ -679,6 +688,52 @@
         var subcategory_id = null;
         var subsubcategory_id = null;
 
+        
+        $('input[name="unit_price"]').on('keyup', function() {
+            update_sku();
+        });
+        
+        $('.discount-type ').on('change',function(){
+            // console.log('ASDF');
+            var unitPrice = $('.unit_price').val();
+            var discount = $('.discount').val();
+            var discountType = $('.discount-type').val();
+
+            var actualPrice = 0;
+
+            if(discountType == 'amount'){
+                actualPrice = unitPrice - discount;
+            }else{
+                if(discount != 0){
+                    discount  = ((discount * unitPrice) / 100);
+                }else{
+                    discount = 0;
+                }
+                actualPrice = unitPrice - discount;
+            }
+            $('.product_price').val(actualPrice);
+        });
+        
+        $('.discount').on('keyup',function(){
+            // console.log('ASDF');
+            var unitPrice = $('.unit_price').val();
+            var discount = $('.discount').val();
+            var discountType = $('.discount-type').val();
+
+            var actualPrice = 0;
+
+            if(discountType == 'amount'){
+                actualPrice = unitPrice - discount;
+            }else{
+                if(discount != 0){
+                    discount  = ((discount * unitPrice) / 100);
+                }else{
+                    discount = 0;
+                }
+                actualPrice = unitPrice - discount;
+            }
+            $('.product_price').val(actualPrice);
+        });
         $(document).ready(function(){
             $('#subcategory_list').hide();
             $('#subsubcategory_list').hide();
@@ -864,6 +919,24 @@
     	}
 
     	function update_sku(){
+		var unitPrice = $('.unit_price').val();
+		var discount = $('.discount').val();
+		var discountType = $('.discount-type').val();
+
+        var actualPrice = 0;
+
+        if(discountType == 'amount'){
+            actualPrice = unitPrice - discount;
+        }else{
+            if(discount != 0){
+                discount  = ((discount * unitPrice) / 100);
+            }else{
+                discount = 0;
+            }
+            actualPrice = unitPrice - discount;
+        }
+        $('.product_price').val(actualPrice);
+
             $.ajax({
     		   type:"POST",
     		   url:'{{ route('products.sku_combination_edit') }}',

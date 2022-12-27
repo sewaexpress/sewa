@@ -209,7 +209,7 @@
                                         <label id="file-input">
                                         <img class="img_select img-fluid" src="{{ asset('frontend/images/icons/cards/cod.jpg')}}" 
                                             >
-                                        <input class="hidden" type="radio" id="file-input" name="payment_option" value="cash_on_delivery">
+                                        <input class="hidden" type="radio" id="file-input1" name="payment_option" value="cash_on_delivery">
                                         </label>
 
                                     </div>
@@ -225,7 +225,7 @@
                            <div class="image_payment text-center" data-toggle="tooltip" data-placement="top" title="Visa / Master Card">
                                <label id="file-input">
                                <img alt="visa-master" class="visa-master img_select img-fluid" src="{{ asset('uploads/visa-master.jpg')}}" >
-                               <input class="hidden" type="radio" id="file-input" name="payment_option" value="nic">
+                               <input class="hidden" type="radio" id="file-input2" name="payment_option" value="nic">
                                </label>
 
                            </div>
@@ -235,13 +235,21 @@
                        @endphp
                        @if((\App\BusinessSetting::where('type', 'esewa_payment')->count() > 0) && ($esewa->value == 1))
                             <div class="col-xl-6 col-md-6 m-auto">
-                                <label class="payment_option mb-4" data-toggle="tooltip" data-title="esewa">
+                                <div class="image_payment text-center" data-toggle="tooltip" data-placement="top" title="esewa">
+                                    <label id="file-input">
+                                    <img alt="visa-master" class="visa-master img_select img-fluid" src="{{ asset('uploads/esewa.jpg')}}" >
+                                    <input class="hidden" type="radio" id="file-input2" name="payment_option" value="esewa">
+                                    </label>
+     
+                                </div>
+
                                     {{-- <button id="payment-button">Pay with esewa</button> --}}
-                                    <input type="radio" id="" name="payment_option" value="esewa">
+                                {{-- <label class="payment_option mb-4" data-toggle="tooltip" data-title="esewa">
+                                    <input type="radio" id="file-input3" name="payment_option" value="esewa">
                                     <span>
                                         <img loading="lazy" src="{{ asset('uploads/esewa.jpg')}}" class="img-fluid">
                                     </span>
-                                </label>
+                                </label> --}}
                             </div>
                         @endif
                     </div>
