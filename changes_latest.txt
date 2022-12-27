@@ -1,4 +1,10 @@
 phone number validation
+Email Address validation
+Edit garda page refresh garera tei thau ma aauney
+“Wishlist” add button has disappeared. Add to “Wishlist” button
+The "compare" button need to appears in product details page
+
+
 
 amount calculation garera dekhauni
     admin side only

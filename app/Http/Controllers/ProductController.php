@@ -21,27 +21,27 @@ class ProductController extends Controller
      */
     public function admin_products(Request $request)
     {
-        // $products = Product::get();
+        $products = Product::get();
 
-        // foreach($products as $key => $product){
-        //     $colors = json_decode($product->colors);
-        //     $data = [];
-        //     foreach($colors as $a => $color){
-        //         $color_details = Color::where('code',$color)->first();
-        //         $temp = [
-        //             'name' => $color_details->name,
-        //             'code' => $color,
-        //             'image' => '',
-        //         ];
-        //         array_push($data,$temp);
-        //     }
-        //     Product::where('id',$product->id)->update(
-        //         [
-        //             'color_images' => json_encode($data)
-        //         ]
-        //     );
-        // }
-        // dd($data);
+        foreach($products as $key => $product){
+            $colors = json_decode($product->colors);
+            $data = [];
+            foreach($colors as $a => $color){
+                $color_details = Color::where('code',$color)->first();
+                $temp = [
+                    'name' => $color_details->name,
+                    'code' => $color,
+                    'image' => '',
+                ];
+                array_push($data,$temp);
+            }
+            Product::where('id',$product->id)->update(
+                [
+                    'color_images' => json_encode($data)
+                ]
+            );
+        }
+        dd($data);
         $type = 'In House';
         $col_name = null;
         $query = null;
