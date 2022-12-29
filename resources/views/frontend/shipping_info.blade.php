@@ -314,7 +314,7 @@
                            <label>{{__('Phone')}}</label>
                         </div>
                         <div class="col-md-10">
-                           <input type="number" class="form-control mb-3" placeholder="{{__('9801234567')}}" name="phone" value="" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+                           <input id="phone" type="number" class="form-control mb-3" placeholder="{{__('9801234567')}}" name="phone" value="" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                         </div>
                   </div>
                </div>
@@ -331,6 +331,29 @@
 
 @section('script')
 <script type="text/javascript">
+    $('#phone').on('keypress', function(e) {
+        var $this = $(this);
+        var regex = new RegExp("^[0-9\b]+$");
+        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+        // for 10 digit number only
+        if ($this.val().length > 9) {
+            e.preventDefault();
+            return false;
+        }
+        if (e.charCode < 57 && e.charCode > 47) {
+            if ($this.val().length == 0) {
+                e.preventDefault();
+                return false;
+            } else {
+                return true;
+            }
+        }
+        if (regex.test(str)) {
+            return true;
+        }
+        e.preventDefault();
+        return false;
+    });
     function add_new_address(){
         $('#new-address-modal').modal('show');
     }

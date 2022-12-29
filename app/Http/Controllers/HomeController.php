@@ -153,8 +153,8 @@ class HomeController extends Controller
         $user->postal_code = $request->postal_code;
         $user->phone = $request->phone;
 // dd($_POST);
-        if($request->old_password != null){
-            if($request->new_password != '' && $request->new_password != null && ($request->new_password == $request->confirm_password)){
+        if($request->old_password != null && $request->new_password != '' && $request->new_password != null){
+            if(($request->new_password == $request->confirm_password)){
                 if (Hash::check($request->old_password, $user->password)) { 
                     $user->password = Hash::make($request->new_password);
                 }else{               
