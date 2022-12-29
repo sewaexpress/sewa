@@ -60,16 +60,13 @@
                        <div class="shopping-cart">
                           <div class="shopping-cart-table">
                             @if(Session::has('compare'))
-                                @if(count(Session::get('compare')) > 0)
+                                @if(count($products) > 0)
                                     <div class="table-responsive-lg">
                                         <table class="table">
                                         <thead>
                                             <tr class='lext-left'>
                                                 <th class="cart-description item text-left font-weight-bold text-primary">Name</th>
-                                                @foreach (Session::get('compare') as $key => $item)
-                                                    @php
-                                                        $product = \App\Product::find($item);
-                                                    @endphp
+                                                @foreach ($products as $key => $product)
                                                     <th class="cart-product-name item text-left font-weight-bold">
                                                         <a href="{{ route('product', $product->slug) }}">{{ $product->name }}</a>
                                                     </th>
@@ -85,11 +82,7 @@
                                                 <td class="cart-image text-left text-dark">
                                                     <strong>Image</strong>
                                                 </td>
-                                                @foreach (Session::get('compare') as $key => $item)                                                 
-                                                @php
-                                                    $product = \App\Product::find($item);
-                                                    $filepath = $product->featured_img;
-                                                @endphp
+                                                @foreach ($products as $key => $product)
                                                     <td class="cart-image text-left text-dark">
                                                         <a class="entry-thumbnail text-left" href="{{ route('product', $product->slug) }}">   
 
@@ -98,7 +91,10 @@
                                                         @else   
                                                             @if (!empty($product->photos) && count(json_decode($product->photos)) > 0 && file_exists(json_decode($product->photos)[0]))
                                                                 <img class="pic-1 img-fit lazyload" src="{{ asset(json_decode($product->photos)[0]) }}" alt="{{ __($product->name) }}">
-                                                            @else           
+                                                            @else                                                            
+                                                                @php
+                                                                    $filepath = $product->featured_img;
+                                                                @endphp
                                                                 @if(!empty($filepath))
                                                                     @if (file_exists(public_path($filepath)))
                                                                         <img src="{{ asset($filepath) }}" alt="{{ $product->name }}" alt="{{ $product->name }}" class="img-fluid pic-1">
@@ -131,7 +127,7 @@
                                                     @endif --}}
 
                                                         {{-- @php
-                                                            $product = \App\Product::find($item);
+                                                            $product = \App\Product::find($product);
                                                             $filepath = $product->featured_img;
                                                         @endphp
                                                         @if(isset($filepath))
@@ -151,10 +147,7 @@
                                                 <td class="cart-image text-left text-dark">
                                                     <strong> Price</strong>
                                                 </td>
-                                                @foreach (Session::get('compare') as $key => $item)
-                                                    @php
-                                                        $product = \App\Product::find($item);
-                                                    @endphp
+                                                @foreach ($products as $key => $product)
                                                     <td class="cart-image text-left text-dark">{{ single_price($product->unit_price) }}</td>
                                                 @endforeach
                                                 {{-- <td class="cart-image text-left">
@@ -168,10 +161,7 @@
                                                 <td class="cart-image text-left text-dark">
                                                     <strong> Brand</strong>
                                                 </td>
-                                                @foreach (Session::get('compare') as $key => $item)
-                                                    @php
-                                                        $product = \App\Product::find($item);
-                                                    @endphp
+                                                @foreach ($products as $key => $product)
                                                     <td class="cart-image text-left text-dark" >
                                                         @if ($product->brand != null)
                                                             {{ $product->brand->name }}
@@ -187,15 +177,11 @@
                                                     SMC
                                                 </td> --}}
                                             </tr>
-
                                             <tr class='lext-left'>
                                                 <td class="cart-image text-left text-dark">
                                                     <strong>Category</strong>
                                                 </td>
-                                                @foreach (Session::get('compare') as $key => $item)
-                                                    @php
-                                                        $product = \App\Product::find($item);
-                                                    @endphp
+                                                @foreach ($products as $key => $product)
                                                     <td class="cart-image text-left text-dark">
                                                         @if ($product->subsubcategory != null)
                                                             {{ $product->subsubcategory->name }}
@@ -215,15 +201,11 @@
                                                     Green Tea
                                                 </td> --}}
                                             </tr>
-
                                             <tr class='lext-left'>
                                                 <td class="cart-image text-left text-dark">
                                                     <strong> Description</strong>
                                                 </td>
-                                                @foreach (Session::get('compare') as $key => $item)
-                                                    @php
-                                                        $product = \App\Product::find($item);
-                                                    @endphp
+                                                @foreach ($products as $key => $product)
                                                     <td class="cart-image text-left text-dark"><?php echo $product->description; ?></td>
                                                 @endforeach
                                                 {{-- <td class="cart-image text-left">
@@ -235,68 +217,11 @@
                                                     used to demonstrate the visual form of a document or a typeface without
                                                 </td> --}}
                                             </tr>
-
-                                            
-                                            <tr class='lext-left'>
-                                                <td class="cart-image text-left text-dark">
-                                                    <strong> Colors Available</strong>
-                                                </td>
-                                                
-                                                @foreach (Session::get('compare') as $key => $item)
-                                                    <td class="cart-image text-left text-dark">
-                                                            @php
-                                                                $product = \App\Product::find($item);
-                                                                $colors = json_decode($product->color_images);
-                                                            @endphp
-                                                            @if (!empty($colors))
-                                                                @foreach ($colors as $item)  
-                                                                    <?php echo $item->name; ?>
-                                                                    <label class="radio m-0" style="background: {{ $item->code }};" >
-                                                                        <input type="radio" disabled>
-                                                                        <span style="background:{{$item->code}}; border:{{$item->code}}"></span> 
-                                                                    </label>
-                                                                    <br>
-                                                                @endforeach   
-                                                            @else
-                                                                No Variations Available                                                     
-                                                            @endif   
-                                                    </td>    
-                                                @endforeach
-                                                {{-- @foreach (Session::get('compare') as $key => $item)
-                                                    @php
-                                                        $product = \App\Product::find($item);
-                                                        $colors = json_decode($product->color_images);
-                                                    @endphp
-
-                                                    @if (!empty($colors))
-                                                        @foreach ($colors as $item)
-                                                            <td class="cart-image text-left text-dark">
-                                                                <label class="radio m-0" style="background: {{ $item->code }};" >
-                                                                    <input type="radio" disabled>
-                                                                    <span style="background:{{$item->code}}; border:{{$item->code}}"></span> 
-                                                                </label>
-                                                            </td>                                                            
-                                                        @endforeach                                                        
-                                                    @endif
-                                                @endforeach --}}
-                                                {{-- <td class="cart-image text-left">
-                                                    In publishing and graphic design, Lorem ipsum is a placeholder text commonly
-                                                    used to demonstrate the visual form of a document or a typeface without
-                                                </td>
-                                                <td class="cart-image text-left">
-                                                    In publishing and graphic design, Lorem ipsum is a placeholder text commonly
-                                                    used to demonstrate the visual form of a document or a typeface without
-                                                </td> --}}
-                                            </tr>
-
                                             <tr class='lext-left'>
                                                 <td class="cart-image text-left"></td>
-                                                @foreach (Session::get('compare') as $key => $item)
-                                                    @php
-                                                        $product = \App\Product::find($item);
-                                                    @endphp
+                                                @foreach ($products as $key => $product)
                                                     <td class="cart-image text-left">
-                                                        <button type="button" class="btn-custom" onclick="showAddToCartModal({{ $item }})">
+                                                        <button type="button" class="btn-custom" onclick="showAddToCartModal({{ $product }})">
                                                             {{-- <i class="icon ion-android-cart"></i> --}}
                                                             {{__('Add to cart')}}
                                                         </button>

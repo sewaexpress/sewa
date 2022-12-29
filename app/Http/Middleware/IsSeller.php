@@ -20,6 +20,8 @@ class IsSeller
             return $next($request);
         }
         else{
+            // return redirect()->route('shops.create');
+            // return $next($request);
             abort(404);
         }
     }

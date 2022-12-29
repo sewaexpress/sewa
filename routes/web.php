@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::post('/seller/login', 'SellerAuthController@login')->name('seller.login');
 
 //demo
 Route::get('/demo/cron_1', 'DemoController@cron_1');

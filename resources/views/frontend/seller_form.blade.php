@@ -28,7 +28,11 @@
                         </div>
                         <form id="register-form" class="" action="{{ route('shops.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
+
+                            @if(!(Auth::check()))   
                             If you are already registerd, <a href="#" data-toggle="modal" data-target="#GuestCheckout">Login</a> here
+
+                            @endif
 
                             @if (!Auth::check())
                                 <div class="form-box bg-white mt-4">
@@ -237,8 +241,12 @@
                                         <div class="col-md-10">
                                         
                                         <div class="mt-2">                                                                                            
-                                            <input type="checkbox" class="" placeholder="{{__('Pan')}}" name="read" required>
-                                            <label>{{__('I have read and agreed to the ')}} <a href="javascript:void(0);" class="view-seller-policy" data-bs-toggle="modal" data-bs-target="#exampleModal222">seller policy</a> <span class="required-star">*</span></label>
+                                            
+                                            <label>
+                                                <input type="checkbox" class="" placeholder="{{__('Pan')}}" name="read" required>
+                                                {{__('I have read and agreed to the ')}} 
+                                                <a href="javascript:void(0);" class="view-seller-policy" data-bs-toggle="modal" data-bs-target="#exampleModal222">seller policy</a> <span class="required-star">*</span>
+                                            </label>
                                         
                                         </div>
                                         </div>
@@ -247,7 +255,7 @@
                             </div>
                             <div class="text-right mt-4">
 
-                                <button id="submit" type="submit" class="btn btn-styled btn-base-1">{{__('Save')}}</button>
+                                <button id="submit" type="submit" class="btn btn-styled btn-base-1">{{__('Register')}}</button>
                             </div>
                         </form>
                     </div>
@@ -285,6 +293,7 @@
             <div class="modal-body">
                 <div class="p-3">
                     <form class="form-default" role="form" action="{{ route('login') }}" method="POST">
+                        {{-- <form class="form-default" role="form" action="{{ route('seller.login') }}" method="POST"> --}}
                         @csrf
                         <div class="form-group">
                             <div class="input-group input-group--style-1">

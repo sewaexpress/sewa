@@ -45,9 +45,34 @@
              <ul class="mb-0">
                 <!-- Button trigger modal -->
                 <li class="d-flex align-items-center top_head_right">
-                  <a href="{{route('shops.create')}}" class="mr-2 text-light" >
-                     Sell on Sewa Express
-                  </a>
+                  
+                  @if(Auth::check())
+                     @if (Auth::user()->user_type == 'seller')                     
+                        <div class="dropdown user_login_mobile">
+                           <button class="text-light btn_account pb-0 btn bg-transparent dropdown-toggle pt-0 font-weight-normal" type="button" data-toggle="dropdown">
+                              <i class="fa fa-user-o" aria-hidden="true"></i> 
+                              {{Auth::user()->name}}
+                              <span class="caret"></span>
+                           </button>
+                           <ul class="my_account dropdown-menu pl-3">
+                              <li>
+                                  <a href="{{ route('dashboard') }}" class="font-weight-normal"><span class="pr-2"><i class="fa fa-user" aria-hidden="true"></i></span>
+                                      My Panel</a>
+                              </li>
+                              <li>
+                                  <a href="{{ route('logout') }}" class="font-weight-normal"><span class="pr-2"><i class="fa fa-user"
+                                          aria-hidden="true"></i></span>
+                                      Logout</a>
+                              </li>
+                           </ul>
+                        </div>
+                     @endif
+                  @else
+                     <a href="{{route('shops.create')}}" class="mr-2 text-light" >
+                        Sell on Sewa Express
+                     </a> 
+                  @endif
+
                   {{-- <button type="button" data-toggle="modal" data-target="#currency" style="background: transparent; border:none; color:white;">
                      Currency Converter
                   </button> --}}
@@ -77,43 +102,82 @@
                       </ul>
                    </div>
                    <!-- user login start  -->
-                   <div class="dropdown user_login_mobile">
-                      <button
-                         class="text-light btn_account pb-0 btn bg-transparent dropdown-toggle pt-0 font-weight-normal "
-                         type="button" data-toggle="dropdown">
+                  @if(Auth::check())
+                     @if (Auth::user()->user_type != 'seller')                     
+                        <div class="dropdown user_login_mobile">
+                           <button class="text-light btn_account pb-0 btn bg-transparent dropdown-toggle pt-0 font-weight-normal" type="button" data-toggle="dropdown">
+                              <i class="fa fa-user-o" aria-hidden="true"></i> 
+                              {{Auth::user()->name}}
+                              <span class="caret"></span>
+                           </button>
+                           <ul class="my_account dropdown-menu pl-3">
+                              <li>
+                                  <a href="{{ route('dashboard') }}" class="font-weight-normal"><span class="pr-2"><i class="fa fa-user" aria-hidden="true"></i></span>
+                                      My Panel</a>
+                              </li>
+                              <li>
+                                  <a href="{{ route('logout') }}" class="font-weight-normal"><span class="pr-2"><i class="fa fa-user"
+                                          aria-hidden="true"></i></span>
+                                      Logout</a>
+                              </li>
+                           </ul>
+                        </div>
+                     @endif
+                  @else
+                     <div class="dropdown user_login_mobile">
+                        <button class="text-light btn_account pb-0 btn bg-transparent dropdown-toggle pt-0 font-weight-normal" type="button" data-toggle="dropdown">
+                           <i class="fa fa-user-o" aria-hidden="true"></i> 
+                           My Account
+                           <span class="caret"></span>
+                        </button>
+                        <ul class="my_account dropdown-menu pl-3">
+                           <li>
+                              <a href="{{ route('user.login') }}" class="font-weight-normal"><span class="pr-2"><i class="fa fa-user" aria-hidden="true"></i></span>
+                                 Login
+                              </a>
+                           </li>
+                           <li>
+                              <a href="{{ route('user.registration') }}" class="font-weight-normal"><span class="pr-2"><i class="fa fa-sign-in" aria-hidden="true"></i></span>
+                                 Sign Up
+                              </a>
+                           </li>
+                        </ul>
+                     </div>
+                  @endif
+                   {{-- <div class="dropdown user_login_mobile">
+                      <button class="text-light btn_account pb-0 btn bg-transparent dropdown-toggle pt-0 font-weight-normal" type="button" data-toggle="dropdown">
                          <i class="fa fa-user-o" aria-hidden="true"></i> 
                          @auth
-                         {{Auth::user()->name}}
+                           {{Auth::user()->name}}
                          @else
-                         My Account
+                           My Account
                          @endauth
                          <span class="caret"></span>
                       </button>
                       <ul class="my_account dropdown-menu pl-3">
-                          @auth
-                          <li>
-                            <a href="{{ route('dashboard') }}" class="font-weight-normal"><span class="pr-2"><i class="fa fa-user"
-                                     aria-hidden="true"></i></span>
-                               My Panel</a>
-                         </li>
-                         <li>
-                            <a href="{{ route('logout') }}" class="font-weight-normal"><span class="pr-2"><i class="fa fa-user"
-                                     aria-hidden="true"></i></span>
-                               Logout</a>
-                         </li>
-                         @else
-                         <li>
-                            <a href="{{ route('user.login') }}" class="font-weight-normal"><span class="pr-2"><i class="fa fa-user"
-                                     aria-hidden="true"></i></span>
-                               Login</a>
-                         </li>
-                         <li>
-                            <a href="{{ route('user.registration') }}" class="font-weight-normal"><span class="pr-2"><i
-                                     class="fa fa-sign-in" aria-hidden="true"></i></span>Sign Up</a>
-                         </li>
-                         @endif
+                        @auth
+                           <li>
+                              <a href="{{ route('dashboard') }}" class="font-weight-normal"><span class="pr-2"><i class="fa fa-user" aria-hidden="true"></i></span>
+                                 My Panel</a>
+                           </li>
+                           <li>
+                              <a href="{{ route('logout') }}" class="font-weight-normal"><span class="pr-2"><i class="fa fa-user"
+                                       aria-hidden="true"></i></span>
+                                 Logout</a>
+                           </li>
+                        @else
+                           <li>
+                              <a href="{{ route('user.login') }}" class="font-weight-normal"><span class="pr-2"><i class="fa fa-user"
+                                       aria-hidden="true"></i></span>
+                                 Login</a>
+                           </li>
+                           <li>
+                              <a href="{{ route('user.registration') }}" class="font-weight-normal"><span class="pr-2"><i
+                                       class="fa fa-sign-in" aria-hidden="true"></i></span>Sign Up</a>
+                           </li>
+                        @endif
                       </ul>
-                   </div>
+                   </div> --}}
                    <div class="dropdown ml-2" id="lang-change">
                      @php
                          if(Session::has('locale')){

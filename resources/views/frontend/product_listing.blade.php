@@ -22,7 +22,7 @@
     @endphp
 @else
     @php
-        $meta_title = env('APP_NAME');
+        $meta_title = 'Sewa Search';
         $meta_description = \App\SeoSetting::first()->description;
     @endphp
 @endif

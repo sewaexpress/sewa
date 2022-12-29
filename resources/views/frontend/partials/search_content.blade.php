@@ -1,4 +1,4 @@
-<div class="keyword">
+{{-- <div class="keyword">
     @if (sizeof($keywords) > 0)
         <div class="title">{{__('Popular Suggestions')}}</div>
         <ul>
@@ -17,10 +17,10 @@
             @endforeach
         </ul>
     @endif
-</div>
+</div> --}}
 <div class="product">
     @if (count($products) > 0)
-        <div class="title">{{__('Products')}}</div>
+        {{-- <div class="title">{{__('Products')}}</div> --}}
         <ul>
             @foreach ($products as $key => $product)
                 <li>
@@ -37,7 +37,7 @@
                             @endif
                             </div>
                             <div class="w-100 overflow--hidden">
-                                <div class="product-name text-truncate">
+                                <div class="product-name text-truncate" style="text-align: left;height:30px">
                                     {{ __($product->name) }}
                                 </div>
                                 <div class="clearfix">
@@ -71,7 +71,7 @@
         </ul>
     @endif
 </div>
-@if(\App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
+{{-- @if(\App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
     <div class="product">
         @if (count($shops) > 0)
             <div class="title">{{__('Shops')}}</div>
@@ -113,4 +113,4 @@
             </ul>
         @endif
     </div>
-@endif
+@endif --}}

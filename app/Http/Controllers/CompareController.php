@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Category;
 use App\Product;
+use Illuminate\Support\Facades\Session;
 
 class CompareController extends Controller
 {
@@ -12,7 +13,14 @@ class CompareController extends Controller
     {
         // dd($request->session()->get('compare'));
         $categories = Category::all();
-        return view('frontend.view_compare', compact('categories'));
+        $products = [];
+
+        // foreach(Session::get('compare') as $a => $item){
+        //     $products[] = \App\Product::find($item);
+
+        // }
+        // dd(Session::get('compare'));
+        return view('frontend.view_compare', compact('categories','products'));
     }
 
     //clears the session data for compare
