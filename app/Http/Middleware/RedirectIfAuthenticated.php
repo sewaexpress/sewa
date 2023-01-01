@@ -17,16 +17,21 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        if (Auth::attempt(['email' => $email, 'password' => $password])) {
-            $user = Auth::user();
-            if ($user->user_type == 'customer') {
-                return redirect()->route('dashboard');
-            } else {
-                Auth::logout();
-                flash("You must be a customer.")->error();
-                return redirect()->route('user.login')->with('error', 'You must be a customer.');
+        if(isset($_POST['email']) && isset($_POST['password'])){
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            if (Auth::attempt(['email' => $email, 'password' => $password])) {
+                $user = Auth::user();
+                if ($user->user_type == 'customer') {
+                    return redirect()->route('dashboard');
+                }elseif(Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff'){
+                    return redirect()->route('admin.dashboard');
+                } else {
+                    Auth::logout();
+                    flash("You must be a customer.")->error();
+                    return redirect()->route('user.login')->with('error', 'You must be a customer.');
+                }
+    
             }
 
         }
