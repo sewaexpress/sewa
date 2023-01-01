@@ -36,8 +36,6 @@ Allow users to add or edit their profile photos.
     api -- api/usercontroller/updatename -- new param -- photo
     homecontroller -- customer_update_profile
 
-pop up ko api
-https://sewaexpress.com/api/v1/pops
 
 address edit garni api
 https://sewaexpress.com/api/v1/addresses/update/1
@@ -66,5 +64,8 @@ pop up in app
     Route::post('/app-pop-update', 'BannerController@appPopUpdate')->name('app-pop-update');
         
 
+pop up ko api
+    url is where to redirect -- flash deals or a category
+    https://sewaexpress.com/api/v1/pops 
 
 
