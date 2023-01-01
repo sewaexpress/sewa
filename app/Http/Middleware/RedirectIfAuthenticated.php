@@ -17,16 +17,29 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::check()) {
-            if (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff') {
-                return redirect()->route('admin.dashboard');
-            } elseif (session('link') != null) {
-                return redirect(session('link'));
-            } else {
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        if (Auth::attempt(['email' => $email, 'password' => $password])) {
+            $user = Auth::user();
+            if ($user->user_type == 'customer') {
                 return redirect()->route('dashboard');
+            } else {
+                Auth::logout();
+                flash("You must be a customer.")->error();
+                return redirect()->route('user.login')->with('error', 'You must be a customer.');
             }
 
         }
+        // if (Auth::check()) {
+            // if (Auth::user()->user_type == 'admin' || Auth::user()->user_type == 'staff') {
+            //     return redirect()->route('admin.dashboard');
+            // } elseif (session('link') != null) {
+            //     return redirect(session('link'));
+            // } else {
+            //     return redirect()->route('dashboard');
+            // }
+
+        // }
 
         return $next($request);
 

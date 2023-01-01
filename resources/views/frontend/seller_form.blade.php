@@ -281,6 +281,9 @@
           </div>
         </div>
     </div>
+    @if ($errors->any())
+    <div class="alert alert-danger">{{ $errors->first() }}</div>
+@endif
     <div class="modal fade" id="GuestCheckout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-zoom" role="document">
         <div class="modal-content">
@@ -292,8 +295,8 @@
             </div>
             <div class="modal-body">
                 <div class="p-3">
-                    <form class="form-default" role="form" action="{{ route('login') }}" method="POST">
-                        {{-- <form class="form-default" role="form" action="{{ route('seller.login') }}" method="POST"> --}}
+                    {{-- <form class="form-default" role="form" action="{{ route('login') }}" method="POST"> --}}
+                        <form class="form-default" role="form" action="{{ route('seller.login') }}" method="POST">
                         @csrf
                         <div class="form-group">
                             <div class="input-group input-group--style-1">

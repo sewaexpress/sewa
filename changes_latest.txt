@@ -49,5 +49,14 @@ https://sewaexpress.com/api/v1/addresses/update/1
 Need to customize search results format
     search_content.blade.php
 
+sell on sewa bata seller le matra login garna milney
+    seller auth Controller
+    middleware IsSeller
+    app/http/kernel 61  'seller' => IsSeller::class
+    config/auth 
+        guards 58 'seller' => ['driver' => 'passport','provider' => 'sellers',]
+        providers 81 'sellers' => ['driver' => 'eloquent','model' => App\User::class,]
+        
+
 
 
