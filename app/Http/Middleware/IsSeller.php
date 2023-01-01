@@ -16,19 +16,22 @@ class IsSeller
      */
     public function handle($request, Closure $next)
     {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        if (Auth::attempt(['email' => $email, 'password' => $password])) {
-            $user = Auth::user();
-            if ($user->user_type == 'seller') {
-                return redirect()->route('dashboard');
-            } else {
-                Auth::logout();
-                flash("You must be a seller.")->error();
-                return redirect()->route('shops.create')->with('error', 'You must be a seller.');
+        if(isset($_POST['email']) && isset($_POST['password'])){
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            if (Auth::attempt(['email' => $email, 'password' => $password])) {
+                $user = Auth::user();
+                if ($user->user_type == 'seller') {
+                    return redirect()->route('dashboard');
+                } else {
+                    Auth::logout();
+                    flash("You must be a seller.")->error();
+                    return redirect()->route('shops.create')->with('error', 'You must be a seller.');
+                }
+            }else{
+                return redirect()->route('shops.create')->with('error', 'Invalid Credentials');
             }
-        }else{
-            return redirect()->route('shops.create')->with('error', 'Invalid Credentials');
         }
+        return $next($request);
     }
 }
