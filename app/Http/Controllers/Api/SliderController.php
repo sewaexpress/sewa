@@ -14,9 +14,9 @@ class SliderController extends Controller
     public function pop(){
         $generalsetting = \App\GeneralSetting::first();
         $data = [
-            'status' => $generalsetting->pop_status,
-            'url' => $generalsetting->pop_url,
-            'image' => $generalsetting->pop_img,
+            'status' => $generalsetting->app_pop_status,
+            'url' => $generalsetting->app_pop_url,
+            'image' => $generalsetting->app_pop_image,
         ];
         return response()->json([
             'status'=>200,

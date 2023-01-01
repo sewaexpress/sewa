@@ -56,6 +56,14 @@ sell on sewa bata seller le matra login garna milney
     config/auth 
         guards 58 'seller' => ['driver' => 'passport','provider' => 'sellers',]
         providers 81 'sellers' => ['driver' => 'eloquent','model' => App\User::class,]
+
+
+
+pop up in app
+    ALTER TABLE `general_settings` ADD `app_pop_status` INT NOT NULL DEFAULT '0' AFTER `pop_url`, ADD `app_pop_url` VARCHAR(200) NULL AFTER `app_pop_status`, ADD `app_pop_image` VARCHAR(200) NULL AFTER `app_pop_url`;
+    
+    Route::get('/app-popup', 'BannerController@appPopEdit')->name('app.pop');
+    Route::post('/app-pop-update', 'BannerController@appPopUpdate')->name('app-pop-update');
         
 
 

@@ -659,24 +659,38 @@
                         @endif
 
                         @if(Auth::user()->user_type == 'admin' || in_array('10', json_decode(Auth::user()->staff->role->permissions)))
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-user"></i>
-                                <span class="menu-title">{{__('Staffs')}}</span>
-                                <i class="arrow"></i>
-                            </a>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-user"></i>
+                                    <span class="menu-title">{{__('Staffs')}}</span>
+                                    <i class="arrow"></i>
+                                </a>
 
-                            <!--Submenu-->
-                            <ul class="collapse">
-                                <li class="{{ areActiveRoutes(['staffs.index', 'staffs.create', 'staffs.edit'])}}">
-                                    <a class="nav-link" href="{{ route('staffs.index') }}">{{__('All staffs')}}</a>
-                                </li>
-                                <li class="{{ areActiveRoutes(['roles.index', 'roles.create', 'roles.edit'])}}">
-                                    <a class="nav-link" href="{{route('roles.index')}}">{{__('Staff permissions')}}</a>
-                                </li>
-                            </ul>
-                        </li>
-                      @endif
+                                <!--Submenu-->
+                                <ul class="collapse">
+                                    <li class="{{ areActiveRoutes(['staffs.index', 'staffs.create', 'staffs.edit'])}}">
+                                        <a class="nav-link" href="{{ route('staffs.index') }}">{{__('All staffs')}}</a>
+                                    </li>
+                                    <li class="{{ areActiveRoutes(['roles.index', 'roles.create', 'roles.edit'])}}">
+                                        <a class="nav-link" href="{{route('roles.index')}}">{{__('Staff permissions')}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-user"></i>
+                                    <span class="menu-title">{{__('Mobile App')}}</span>
+                                    <i class="arrow"></i>
+                                </a>
+
+                                <!--Submenu-->
+                                <ul class="collapse">
+                                    <li class="{{ areActiveRoutes(['staffs.index', 'staffs.create', 'staffs.edit'])}}">
+                                        <a class="nav-link" href="{{ route('app.pop') }}">{{__('Pop up Banner')}}</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
 
                             {{-- <li>
                                 <a href="#">

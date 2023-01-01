@@ -74,6 +74,28 @@ class BannerController extends Controller
         $generalsetting = \App\GeneralSetting::first();
         return view('banners.popedit', compact($generalsetting));
     }
+    public function appPopEdit(){
+        $generalsetting = \App\GeneralSetting::first();
+        return view('banners.appPopedit', compact($generalsetting));
+    }
+    
+    public function appPopUpdate(Request $request)
+    {
+        $generalsetting = \App\GeneralSetting::first();
+
+        // $banner = Banner::find($id);pop_status
+        $generalsetting->app_pop_image = $request->previous_photo;
+        $generalsetting->app_pop_url = $request->app_pop_url;
+        $generalsetting->app_pop_status = $request->app_pop_status;
+
+        // dd($request->hasFile('photo'));
+        if($request->hasFile('photo')){
+            $generalsetting->app_pop_image = $request->photo->store('uploads/banners');
+        }
+        $generalsetting->save();
+        flash(__('Pop up has been updated successfully'))->success();
+        return redirect()->route('app.pop');
+    }
     public function popupdate(Request $request)
     {
         $generalsetting = \App\GeneralSetting::first();

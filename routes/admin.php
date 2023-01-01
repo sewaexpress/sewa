@@ -174,6 +174,10 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function()
 	Route::post('/pop_update_status', 'BannerController@pop_update_status')->name('pop_update_status');
 
 
+    Route::get('/app-popup', 'BannerController@appPopEdit')->name('app.pop');
+    Route::post('/app-pop-update', 'BannerController@appPopUpdate')->name('app-pop-update');
+	
+
     Route::resource('staffs','StaffController');
     Route::get('/staffs/destroy/{id}', 'StaffController@destroy')->name('staffs.destroy');
 
