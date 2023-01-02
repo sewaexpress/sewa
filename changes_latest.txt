@@ -69,3 +69,4 @@ pop up ko api
     https://sewaexpress.com/api/v1/pops 
 
 
+ALTER TABLE `users` ADD `otp` INT NULL AFTER `password`, ADD `otp_expiry` DATETIME NULL AFTER `otp`;
