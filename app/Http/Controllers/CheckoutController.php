@@ -193,6 +193,10 @@ class CheckoutController extends Controller
                     $esewa = new EsewaController;
                     return $esewa->esewa();
                 }
+                elseif($request->payment_option == 'khalti'){
+                    $khalti = new KhaltiController;
+                    return $khalti->khalti();
+                }
                 else{
                     $order = Order::findOrFail($request->session()->get('order_id'));
                     $order->manual_payment = 1;

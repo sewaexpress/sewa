@@ -110,6 +110,8 @@ Route::group(['middleware' => ['checkout']], function(){
 	Route::post('/checkout/payment_select', 'CheckoutController@store_delivery_info')->name('checkout.store_delivery_info');
 });
 
+Route::post('/wallet_payment_done_khalti', 'WalletController@wallet_payment_done_khalti')->name('wallet_payment_done_khalti');
+
 Route::get('/nic-pay', 'CheckoutController@test')->name('nic');
 Route::post('/nic-callback', 'CheckoutController@nicCallback')->name('nic_callback');
 Route::get('/nic-cancel', 'CheckoutController@niccancel')->name('nic_callback');
