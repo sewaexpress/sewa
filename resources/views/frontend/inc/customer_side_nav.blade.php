@@ -58,10 +58,10 @@
            @endif
            <div class="name">{{ Auth::user()->name }}</div>
            @endif
-           @if (Auth::user()->email_verified_at == '')
+           {{-- @if (Auth::user()->email_verified_at == '')
            <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-md">Verify your Email</button>
 
-           @endif
+           @endif --}}
            
            <div class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-md">

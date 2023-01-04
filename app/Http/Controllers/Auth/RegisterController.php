@@ -124,35 +124,40 @@ class RegisterController extends Controller
             return back();
         }
         $this->validator($request->all())->validate();
-        $now = Carbon::parse('now');
-        $thirtyMinutesLater = $now->addMinutes(30);
-        $otp_code = strval(rand(10000, 99999));
-        $otp_expiry = $thirtyMinutesLater;
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
-            'otp' => $otp_code,
-            'otp_expiry' => $otp_expiry
-        ]);
-        $customer = new Customer;
-        $customer->user_id = $user->id;
-        $customer->save();
-        if(BusinessSetting::where('type', 'email_verification')->first()->value != 1){
-            $user->email_verified_at = date('Y-m-d H:m:s');
-            $user->save();
-            flash(__('Registration successfull.'))->success();
-        }
-        else {
-            $user->sendCustomVerificationEmail($otp_code);
-            flash(__('Registration successfull. Please verify your email.'))->success();
-        }
+        event(new Registered($user = $this->create($request->all())));
 
-        // event(new Registered($user = $this->create($request->all())));
         $this->guard()->login($user);
+
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
+            
+        // $now = Carbon::parse('now');
+        // $thirtyMinutesLater = $now->addMinutes(30);
+        // $otp_code = strval(rand(10000, 99999));
+        // $otp_expiry = $thirtyMinutesLater;
+        // $user = User::create([
+        //     'name' => $request->name,
+        //     'email' => $request->email,
+        //     'phone' => $request->phone,
+        //     'password' => Hash::make($request->password),
+        //     'otp' => $otp_code,
+        //     'otp_expiry' => $otp_expiry
+        // ]);
+        // $customer = new Customer;
+        // $customer->user_id = $user->id;
+        // $customer->save();
+        // if(BusinessSetting::where('type', 'email_verification')->first()->value != 1){
+        //     $user->email_verified_at = date('Y-m-d H:m:s');
+        //     $user->save();
+        //     flash(__('Registration successfull.'))->success();
+        // }
+        // else {
+        //     $user->sendCustomVerificationEmail($otp_code);
+        //     flash(__('Registration successfull. Please verify your email.'))->success();
+        // }
+        // $this->guard()->login($user);
+        // return $this->registered($request, $user)
+        //     ?: redirect($this->redirectPath());
     }
     protected function registered(Request $request, $user)
     {
