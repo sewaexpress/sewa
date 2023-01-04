@@ -6,6 +6,7 @@ use App\BusinessSetting;
 use App\OtpConfiguration;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\OTPVerificationController;
+use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -123,11 +124,17 @@ class RegisterController extends Controller
             return back();
         }
         $this->validator($request->all())->validate();
+        $now = Carbon::parse('now');
+        $thirtyMinutesLater = $now->addMinutes(30);
+        $otp_code = strval(rand(10000, 99999));
+        $otp_expiry = $thirtyMinutesLater;
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
+            'otp' => $otp_code,
+            'otp_expiry' => $otp_expiry
         ]);
         $customer = new Customer;
         $customer->user_id = $user->id;
@@ -138,7 +145,7 @@ class RegisterController extends Controller
             flash(__('Registration successfull.'))->success();
         }
         else {
-            $user->sendEmailVerificationNotification();
+            $user->sendCustomVerificationEmail($otp_code);
             flash(__('Registration successfull. Please verify your email.'))->success();
         }
 

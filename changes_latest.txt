@@ -69,4 +69,26 @@ pop up ko api
     https://sewaexpress.com/api/v1/pops 
 
 
-ALTER TABLE `users` ADD `otp` INT NULL AFTER `password`, ADD `otp_expiry` DATETIME NULL AFTER `otp`;
+Custom Email Verify
+    app/http/controllers/auth/RegisterController
+    app/user
+        use Illuminate\Auth\MustVerifyEmail;
+        use Notifiable, HasApiTokens, MustVerifyEmail;
+    app/notification/CustomVerifyEmail
+
+
+
+Otp
+    ALTER TABLE `users` ADD `otp` INT NULL AFTER `password`, ADD `otp_expiry` DATETIME NULL AFTER `otp`;
+    app/http/controllers/auth/RegisterController
+    web.php
+        Route::post('/verify/otp', 'HomeController@verifyOTP')->name('verify.otp');
+    customer_side_nav.blade.php
+    homecontroller -- public function verifyOTP(Request $request){
+    user.php
+    app/notification/CustomVerifyEmail   
+    api.php
+        Route::post('/verify/otp', 'Api\AuthController@verifyOTP')->middleware('auth:api');
+        app/http/controllers/api/authcontroller -- public function verifyOTP(Request $request){
+            
+

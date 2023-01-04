@@ -30,6 +30,7 @@ use App\Location;
 use App\Lucky;
 use App\Recommend;
 use App\State;
+use Carbon\Carbon;
 use ImageOptimizer;
 use Cookie;
 use Exception;
@@ -118,6 +119,38 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function verifyOTP(Request $request){
+        // dd($_POST);
+        $user = Auth::user();
+        $otpExpiry = $user->otp_expiry;
+        $otp = $request->otp;
+        $currentDateTime = Carbon::now();
+        $otpExpiry = Carbon::parse($otpExpiry);
+
+        if ($currentDateTime->gt($otpExpiry)) {
+            // OTP has expired
+            flash(__('OTP code has expired. Please request a new code.'))->error();
+            return back();
+        } else {
+            if ($otp == $user->otp) {
+                // OTP matches
+                $user->email_verified_at = Carbon::now();
+                $user->otp = null;
+                $user->otp_expiry = null;
+                $user->save();
+                flash(__('Congratulations, Your account has been verified'))->success();
+                return back();
+                // return redirect()->route('dashboard')->with('success', 'Congratulations, Your account has been verified');
+                // dd('1');
+            } else {
+                // OTP does not match
+                flash(__('Invalid OTP'))->error();
+                return back();
+                // dd('2');
+            }
+        // OTP has not expired
+        }
+    }
     public function dashboard()
     {
         // session()->forget('cart');

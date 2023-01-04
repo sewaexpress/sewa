@@ -1,6 +1,50 @@
 <div id="sidebar_men_block" class="sidebar sidebar--style-3 no-border stickyfill p-0">
    <div class="widget mb-0">
       <div class="widget-profile-box text-center p-3">
+        <style>
+            .modal-backdrop{
+                display: none;
+            }
+            .modal {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+            .code-input {
+                /* display: flex; */
+                text-align: center;
+                margin-bottom: 15px;
+            }
+
+            .code-input__digit {
+                display: inline-block;
+                width: 40px;
+                height: 40px;
+                border: 1px solid #cccccc;
+                border-radius: 4px;
+                text-align: center;
+                margin-right: 8px;
+            }
+            .title{
+                font-weight:600;
+                margin-top:20px;
+                font-size:24px
+            }
+            .otp-form{
+                margin-top: 15px;
+            }
+            .otp-form input{
+                display:inline-block;
+                width:50px;
+                height:50px;
+                text-align:center;
+            }
+            .submit-btn{
+                margin-bottom: 25px;
+            }
+
+        </style>
           @if(Auth::user())
           {{-- {{dd('hi')}} --}}
            @if (Auth::user()->avatar_original != null)
@@ -14,6 +58,35 @@
            @endif
            <div class="name">{{ Auth::user()->name }}</div>
            @endif
+           @if (Auth::user()->email_verified_at == '')
+           <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-md">Verify your Email</button>
+
+           @endif
+           
+           <div class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+              <div class="modal-content">
+                <div class="row">
+                    <div class="col-md-12 title">
+                        Verify OTP
+                      </div>
+                    <form class="col-md-12 otp-form" action="{{route('verify.otp')}}" method="post" id="form">
+                        @csrf
+                        <div class="code-input">
+                            <input required type="text" maxlength="1" pattern="\d*" class="code-input__digit">
+                            <input required type="text" maxlength="1" pattern="\d*" class="code-input__digit">
+                            <input required type="text" maxlength="1" pattern="\d*" class="code-input__digit">
+                            <input required type="text" maxlength="1" pattern="\d*" class="code-input__digit">
+                            <input required type="text" maxlength="1" pattern="\d*" class="code-input__digit">
+                            <input required type="hidden" name="otp" id="code" />
+                        </div>
+                        <button type="submit" class="btn btn-success submit-btn">Submit</button>
+                    </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
          {{-- <div class="image" style="background-image:url('http://durbarmart.nextnepal.org/public/uploads/ucQhvfz4EQXNeTbN8Eif0Cpq5LnOwvg8t7qKNKVs.jpeg')">
          </div>
          <div class="name mb-0">Mr. Seller <span class="ml-2"><i class="fa fa-check-circle" style="color:green"></i></span></div> --}}
@@ -165,3 +238,26 @@
       </div>
    </div>
 </div>
+
+@section('script')
+    <script>
+         $('.code-input__digit').keyup(function() {
+            if ($(this).val().length === 1) {
+            $(this).next('.code-input__digit').focus();
+            }
+        });
+         $('.submit-btn').on('click',function(event) {
+            // event.preventDefault();
+  event.stopPropagation();
+
+            let codeValue = '';
+            $('.code-input__digit').each(function() {
+                codeValue += $(this).val();
+            }); 
+            $('#code').val(codeValue);
+            // console.log('a');
+            // return false;
+            $(this).submit();
+        });
+    </script>
+@endsection

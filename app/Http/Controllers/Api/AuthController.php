@@ -12,6 +12,53 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    public function verifyOTP(Request $request){
+        // dd($_POST);
+        $validator= Validator::make($request->all(), [ 
+            'otp' => 'required|string',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status'=> 422,
+                'message' =>  $validator->errors()->first()
+            ], 201);
+        }
+        $user = Auth::user();
+        $otpExpiry = $user->otp_expiry;
+        $otp = $request->otp;
+        $currentDateTime = Carbon::now();
+        $otpExpiry = Carbon::parse($otpExpiry);
+
+        if ($currentDateTime->gt($otpExpiry)) {
+            // OTP has expired
+            return response()->json([
+                'status'=> 422,
+                'message' =>  'OTP code has expired. Please request a new code.'
+            ], 201);
+        } else {
+            if ($otp == $user->otp) {
+                // OTP matches
+                $user->email_verified_at = Carbon::now();
+                $user->otp = null;
+                $user->otp_expiry = null;
+                $user->save();
+                return response()->json([
+                    'status'=>200,
+                    'message' => 'Congratulations, Your account has been verified'
+                ], 200);
+                // return redirect()->route('dashboard')->with('success', 'Congratulations, Your account has been verified');
+                // dd('1');
+            } else {
+                // OTP does not match
+                return response()->json([
+                    'status'=> 422,
+                    'message' =>  'Invalid OTP'
+                ], 201);
+                // dd('2');
+            }
+        // OTP has not expired
+        }
+    }
     public function signup(Request $request)
     {
         $validator= Validator::make($request->all(), [ 
@@ -29,17 +76,24 @@ class AuthController extends Controller
         }
        
         try{
+            $now = Carbon::parse('now');
+            $thirtyMinutesLater = $now->addMinutes(30);
+            $otp_code = strval(rand(10000, 99999));
+            $otp_expiry = $thirtyMinutesLater;
+
             $user = new User;
             $user->name = $request->name;
             $user->email = $request->email;
             $user->phone = ($request->phone)?$request->phone:null;
             $user->password = bcrypt($request->password);
             $user->email_verified_at = Carbon::now();
+            $user->otp = $otp_code;
+            $user->otp_expiry = $otp_expiry;
             $user->save();
             $customer = new Customer;
             $customer->user_id = $user->id;
              $customer->save();
-             $user->sendEmailVerificationNotification();
+             $user->sendCustomVerificationEmail($otp_code);
             //  asdfasdfasdf
          }
          catch(\Exception $e){

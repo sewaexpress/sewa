@@ -123,6 +123,7 @@ Route::prefix('v1')->group(function () {
     Route::resource('addresses','Api\AddressController')->middleware('auth:api');
     Route::get('/addresses/destroy/{id}', 'Api\AddressController@destroy')->middleware('auth:api');
     Route::get('/addresses/set_default/{id}', 'Api\AddressController@set_default')->middleware('auth:api');
+    Route::post('/verify/otp', 'Api\AuthController@verifyOTP')->middleware('auth:api');
 
 });
 

@@ -110,6 +110,8 @@ Route::group(['middleware' => ['checkout']], function(){
 	Route::post('/checkout/payment_select', 'CheckoutController@store_delivery_info')->name('checkout.store_delivery_info');
 });
 
+Route::post('/wallet_payment_done_khalti', 'WalletController@wallet_payment_done_khalti')->name('wallet_payment_done_khalti');
+
 Route::get('/nic-pay', 'CheckoutController@test')->name('nic');
 Route::post('/nic-callback', 'CheckoutController@nicCallback')->name('nic_callback');
 Route::get('/nic-cancel', 'CheckoutController@niccancel')->name('nic_callback');
@@ -168,6 +170,8 @@ Route::group(['middleware' => ['user', 'verified']], function(){
 	Route::get('/profile', 'HomeController@profile')->name('profile');
 	Route::post('/customer/update-profile', 'HomeController@customer_update_profile')->name('customer.profile.update');
 	Route::post('/seller/update-profile', 'HomeController@seller_update_profile')->name('seller.profile.update');
+
+	Route::post('/verify/otp', 'HomeController@verifyOTP')->name('verify.otp');
 
 	Route::resource('purchase_history','PurchaseHistoryController');
 	Route::post('/purchase_history/details', 'PurchaseHistoryController@purchase_history_details')->name('purchase_history.details');

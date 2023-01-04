@@ -11,15 +11,15 @@ use Illuminate\Notifications\Messages\MailMessage;
 class CustomVerifyEmail extends VerifyEmail
 {
     use Queueable;
-
+    public $otp;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($otp)
     {
-        //
+        $this->otp = $otp;
     }
 
     /**
@@ -41,9 +41,14 @@ class CustomVerifyEmail extends VerifyEmail
      */
     public function toMail($notifiable)
     {
+        $verificationUrl = $this->verificationUrl($notifiable);
+        $otp_code = $this->otp;
+
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+                    ->subject('Verify Email Address')
+                    ->greeting('Hello!')
+                    ->line('Please use the code '.$otp_code.' to verify your email address.')
+                    ->action($otp_code, null)
                     ->line('Thank you for using our application!');
     }
 

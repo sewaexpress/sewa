@@ -20,7 +20,7 @@ class User extends Authenticatable
     * @var array
     */
     protected $fillable = [
-        'name', 'email','user_type', 'password', 'address', 'city', 'postal_code', 'phone', 'country', 'provider_id', 'email_verified_at', 'verification_code'
+        'otp','otp_expiry','name', 'email','user_type', 'password', 'address', 'city', 'postal_code', 'phone', 'country', 'provider_id', 'email_verified_at', 'verification_code'
     ];
 
     /**
@@ -31,6 +31,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    
+    public function sendCustomVerificationEmail($otp)
+    {
+        $this->notify(new \App\Notifications\CustomVerifyEmail($otp));
+    }
 
     public function wishlists()
     {
