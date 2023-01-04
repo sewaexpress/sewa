@@ -59,6 +59,69 @@ class AuthController extends Controller
         // OTP has not expired
         }
     }
+    public function signup2(Request $request)
+    {
+        $validator= Validator::make($request->all(), [ 
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|min:6'
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                // 'user'=>$user,
+                // 'token'=>$tokenResult,
+                'status'=> 422,
+                'message' =>  $validator->errors()->first()
+            ], 201);
+        }
+       
+        try{
+            $now = Carbon::parse('now');
+            $thirtyMinutesLater = $now->addMinutes(30);
+            $otp_code = strval(rand(10000, 99999));
+            $otp_expiry = $thirtyMinutesLater;
+
+            $user = new User;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->phone = ($request->phone)?$request->phone:null;
+            $user->password = bcrypt($request->password);
+            $user->email_verified_at = Carbon::now();
+            $user->otp = $otp_code;
+            $user->otp_expiry = $otp_expiry;
+            $user->save();
+            $customer = new Customer;
+            $customer->user_id = $user->id;
+             $customer->save();
+             
+             $user->sendCustomVerificationEmail($otp_code);
+            //  asdfasdfasdf
+         }
+         catch(\Exception $e){
+            return response()->json([
+                // 'user'=>$user,
+                // 'token'=>$tokenResult,
+                'status'=> 422,
+                'message' =>  $e->getMessage()
+            ], 201);
+         }
+        
+       
+        
+        // $tokenResult = $user->createToken('Personal Access Token');
+        // if ($validator->fails()) {
+        //     return response()->json($validator->errors(), 422);
+        // }
+        // else {
+            return response()->json([
+                // 'user'=>$user,
+                // 'token'=>$tokenResult,
+                'status'=>200,
+                'message' => 'Registration Successful. Please log in to your account'
+            ], 201);
+        // }
+
+    }
     public function signup(Request $request)
     {
         $validator= Validator::make($request->all(), [ 
@@ -93,7 +156,8 @@ class AuthController extends Controller
             $customer = new Customer;
             $customer->user_id = $user->id;
              $customer->save();
-             $user->sendCustomVerificationEmail($otp_code);
+             
+             $user->sendEmailVerificationNotification($otp_code);
             //  asdfasdfasdf
          }
          catch(\Exception $e){
