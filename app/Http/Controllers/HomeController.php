@@ -119,6 +119,24 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function resendOTP(Request $request){
+        $user = Auth::user();
+        try{
+            $now = Carbon::parse('now');
+            $thirtyMinutesLater = $now->addMinutes(30);
+            $otp_code = strval(rand(10000, 99999));
+            $otp_expiry = $thirtyMinutesLater;
+            $user->otp = $otp_code;
+            $user->otp_expiry = $otp_expiry;
+            $user->save();
+
+            $user->sendCustomVerificationEmail($otp_code);
+            return json_encode(['status' => 'true','message' => 'OTP code was sent to your email.']);
+        }catch(Exception $e){
+            return json_encode(['status' => 'false','message' => $e->getMessage()]);
+        }
+
+    }
     public function verifyOTP(Request $request){
         // dd($_POST);
         $user = Auth::user();

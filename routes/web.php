@@ -172,6 +172,7 @@ Route::group(['middleware' => ['user', 'verified']], function(){
 	Route::post('/seller/update-profile', 'HomeController@seller_update_profile')->name('seller.profile.update');
 
 	Route::post('/verify/otp', 'HomeController@verifyOTP')->name('verify.otp');
+	Route::post('/resend-otp', 'HomeController@resendOTP')->name('resend.otp');
 
 	Route::resource('purchase_history','PurchaseHistoryController');
 	Route::post('/purchase_history/details', 'PurchaseHistoryController@purchase_history_details')->name('purchase_history.details');

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Cookie;
+use Illuminate\Support\Facades\Session;
 use Nexmo;
 use Twilio\Rest\Client;
 class RegisterController extends Controller
@@ -33,7 +34,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/dashboard';
     /**
      * Create a new controller instance.
      *
@@ -152,12 +153,10 @@ class RegisterController extends Controller
             flash(__('Registration successfull.'))->success();
         }
         else {
-            if(BusinessSetting::where('type', 'otp_verification')->first()->value != 1){
-
-            }
             $user->sendCustomVerificationEmail($otp_code);
             flash(__('Registration successfull. Please verify your email.'))->success();
         }
+        Session::put('registered',1);
         $this->guard()->login($user);
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
@@ -168,7 +167,8 @@ class RegisterController extends Controller
             return redirect()->route('verification');
         }
         else {
-            return redirect()->route('home');
+            // return redirect()->route('home');
+            return redirect()->route('dashboard');
         }
     }
 }

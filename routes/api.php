@@ -19,6 +19,9 @@ Route::prefix('v1/auth')->group(function () {
 });
 // check
 Route::prefix('v1')->group(function () {
+    Route::post('/resend-otp', 'Api\AuthController@resendOTP')->middleware('auth:api');
+    Route::post('/verify/otp', 'Api\AuthController@verifyOTP')->middleware('auth:api');
+
     Route::get('pops', 'Api\SliderController@pop')->name('api.pop');
 
     Route::apiResource('banners', 'Api\BannerController')->only('index');
@@ -126,7 +129,6 @@ Route::prefix('v1')->group(function () {
     Route::resource('addresses','Api\AddressController')->middleware('auth:api');
     Route::get('/addresses/destroy/{id}', 'Api\AddressController@destroy')->middleware('auth:api');
     Route::get('/addresses/set_default/{id}', 'Api\AddressController@set_default')->middleware('auth:api');
-    Route::post('/verify/otp', 'Api\AuthController@verifyOTP')->middleware('auth:api');
 
 });
 

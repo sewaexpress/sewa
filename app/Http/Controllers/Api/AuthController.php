@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\User;
+use Exception;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -59,6 +60,32 @@ class AuthController extends Controller
         // OTP has not expired
         }
     }
+    
+    public function resendOTP(Request $request)
+    {
+        $user = Auth::user();
+        try{
+            $now = Carbon::parse('now');
+            $thirtyMinutesLater = $now->addMinutes(30);
+            $otp_code = strval(rand(10000, 99999));
+            $otp_expiry = $thirtyMinutesLater;
+            $user->otp = $otp_code;
+            $user->otp_expiry = $otp_expiry;
+            $user->save();
+
+            $user->sendCustomVerificationEmail($otp_code);
+            return response()->json([
+                'status'=>200,
+                'message' => 'OTP code was sent to your email'
+            ], 201);
+        }catch(Exception $e){
+            return response()->json([
+                'status'=> 422,
+                'message' =>  $e->getMessage()
+            ], 201);
+        }
+
+    }
     public function signup2(Request $request)
     {
         $validator= Validator::make($request->all(), [ 
@@ -68,8 +95,6 @@ class AuthController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json([
-                // 'user'=>$user,
-                // 'token'=>$tokenResult,
                 'status'=> 422,
                 'message' =>  $validator->errors()->first()
             ], 201);
@@ -95,31 +120,17 @@ class AuthController extends Controller
              $customer->save();
              
              $user->sendCustomVerificationEmail($otp_code);
-            //  asdfasdfasdf
          }
          catch(\Exception $e){
             return response()->json([
-                // 'user'=>$user,
-                // 'token'=>$tokenResult,
                 'status'=> 422,
                 'message' =>  $e->getMessage()
             ], 201);
          }
-        
-       
-        
-        // $tokenResult = $user->createToken('Personal Access Token');
-        // if ($validator->fails()) {
-        //     return response()->json($validator->errors(), 422);
-        // }
-        // else {
             return response()->json([
-                // 'user'=>$user,
-                // 'token'=>$tokenResult,
                 'status'=>200,
                 'message' => 'Registration Successful. Please log in to your account'
             ], 201);
-        // }
 
     }
     public function signup(Request $request)

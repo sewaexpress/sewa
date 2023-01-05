@@ -589,6 +589,33 @@
 
     </div><!-- END: body-wrap -->
 
+    <div class="modal fade otp-input-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+              <div class="modal-content">
+                <div class="row" style="text-align: center">
+                    <div class="col-md-12 title">
+                        Verify OTP
+                      </div>
+                    <form class="col-md-12 otp-form" action="{{route('verify.otp')}}" method="post" id="form">
+                        @csrf
+                        <div class="code-input">
+                            <input required type="number" maxlength="1" pattern="[0-9]*" class="code-input__digit">
+                            <input required type="number" maxlength="1" pattern="[0-9]*" class="code-input__digit">
+                            <input required type="number" maxlength="1" pattern="[0-9]*" class="code-input__digit">
+                            <input required type="number" maxlength="1" pattern="[0-9]*" class="code-input__digit">
+                            <input required type="number" maxlength="1" pattern="[0-9]*" class="code-input__digit">
+                            <input required type="hidden" name="otp" id="code" />
+                        </div>
+                        <button type="submit" class="btn btn-success submit-otp" style="background:var(--theme_color);margin-bottom:15px;">Submit</button>
+                    </form>
+                    <div class="col-md-12">
+                        <a class="resend-otp">Resend OTP Mail</a>
+                      </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
     <div class="modal fade" id="GuestCheckout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-zoom" role="document">
             <div class="modal-content">

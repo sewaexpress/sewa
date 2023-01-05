@@ -2,9 +2,9 @@
    <div class="widget mb-0">
       <div class="widget-profile-box text-center p-3">
         <style>
-            .modal-backdrop{
+            /* .modal-backdrop{
                 display: none;
-            }
+            } */
             .modal {
                 position: fixed;
                 top: 50%;
@@ -59,33 +59,9 @@
            <div class="name">{{ Auth::user()->name }}</div>
            @endif
            @if (Auth::user()->email_verified_at == '')
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target=".bd-example-modal-md">Verify your Email</button>
+                <button type="button" class="btn btn-danger otp-btn" data-toggle="modal" data-target=".otp-input-modal">Verify your Email</button>
            @endif
            
-           <div class="modal fade bd-example-modal-md" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-md">
-              <div class="modal-content">
-                <div class="row">
-                    <div class="col-md-12 title">
-                        Verify OTP
-                      </div>
-                    <form class="col-md-12 otp-form" action="{{route('verify.otp')}}" method="post" id="form">
-                        @csrf
-                        <div class="code-input">
-                            <input required type="text" maxlength="1" pattern="\d*" class="code-input__digit">
-                            <input required type="text" maxlength="1" pattern="\d*" class="code-input__digit">
-                            <input required type="text" maxlength="1" pattern="\d*" class="code-input__digit">
-                            <input required type="text" maxlength="1" pattern="\d*" class="code-input__digit">
-                            <input required type="text" maxlength="1" pattern="\d*" class="code-input__digit">
-                            <input required type="hidden" name="otp" id="code" />
-                        </div>
-                        <button type="submit" class="btn btn-success submit-btn">Submit</button>
-                    </form>
-
-                </div>
-              </div>
-            </div>
-          </div>
          {{-- <div class="image" style="background-image:url('http://durbarmart.nextnepal.org/public/uploads/ucQhvfz4EQXNeTbN8Eif0Cpq5LnOwvg8t7qKNKVs.jpeg')">
          </div>
          <div class="name mb-0">Mr. Seller <span class="ml-2"><i class="fa fa-check-circle" style="color:green"></i></span></div> --}}
@@ -237,17 +213,57 @@
       </div>
    </div>
 </div>
-
+@php
+    if(!empty(session()->get('registered')) && session()->get('registered') != null){
+        $registered = 1;
+        session()->forget('registered');
+    }else{
+        $registered = 0;
+    }
+    
+@endphp
 @section('script')
     <script>
+        var registerd = '{{$registered}}';
+        if(registerd == '1'){
+            $('.otp-btn').trigger('click');
+        }
          $('.code-input__digit').keyup(function() {
             if ($(this).val().length === 1) {
             $(this).next('.code-input__digit').focus();
             }
         });
-         $('.submit-btn').on('click',function(event) {
+        
+         $('.resend-otp').on('click',function(event) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            var ajaxurl = '/resend-otp';
+            $.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: {
+                },
+                dataType: 'json',
+                beforeSend: function() {},
+                success: function(data) {
+                    if (data.status != 'false') {
+                        showFrontendAlert('success',data.message);
+                    }else{
+                        showFrontendAlert('error',data.message);
+                    }
+
+                },
+                error: function(data) {
+                    showFrontendAlert('error',data.message);
+                }
+            });
+        });
+         $('.submit-otp').on('click',function(event) {
             // event.preventDefault();
-  event.stopPropagation();
+            event.stopPropagation();
 
             let codeValue = '';
             $('.code-input__digit').each(function() {
