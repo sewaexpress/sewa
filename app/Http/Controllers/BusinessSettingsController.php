@@ -52,6 +52,48 @@ class BusinessSettingsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function payment_method_update_khalti(Request $request)
+    {
+        
+        BusinessSetting::where('type', 'khalti_key')->update([
+            'value' => $request->khalti_key
+        ]);
+        BusinessSetting::where('type', 'khalti_secret')->update([
+            'value' => $request->khalti_secret
+        ]);
+        BusinessSetting::where('type', 'khalti_status')->update([
+            'value' => $request->khalti_status
+        ]);
+
+        flash("Settings updated successfully")->success();
+        return back();
+
+
+        // if(BusinessSetting::where('type','esewa_payment')->exists()){
+        //     $esewa=BusinessSetting::where('type','esewa_payment')->first();
+        // }else{
+        //     $esewa=new BusinessSetting();
+        // }
+        // $esewa->type=$request->payment_method;
+
+        // $data = [
+        //     'value' => 1,
+        //     'esewa_key' => $request->ESEWA_KEY,
+        //     'esewa_secret' => $request->ESEWA_SECRET
+        // ];
+
+        // $esewa->value=json_encode($data);
+        
+        // // $esewa->value=1;
+        // // $esewa->esewa_key=$request->ESEWA_KEY;
+        // // $esewa->esewa_secret=$request->ESEWA_SECRET;
+        // $esewa->save();
+
+        // flash("Settings updated successfully")->success();
+        // return back();
+
+    }
+
     public function payment_method_update(Request $request)
     {
         // foreach ($request->types as $key => $type) {

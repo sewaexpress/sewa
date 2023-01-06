@@ -231,7 +231,7 @@
                            </div>
                        </div>
                        @php
-                           $esewa=json_decode(\App\BusinessSetting::where('type', 'esewa_payment')->first()->value);
+                           $esewa = json_decode(\App\BusinessSetting::where('type', 'esewa_payment')->first()->value);
                        @endphp
                        @if((\App\BusinessSetting::where('type', 'esewa_payment')->count() > 0) && ($esewa->value == 1))
                             <div class="col-xl-6 col-md-6 m-auto">
@@ -253,7 +253,7 @@
                             </div>
                         @endif
                         
-                        {{-- @if((\App\BusinessSetting::where('type', 'khalti_payment')->count() > 0) && (\App\BusinessSetting::where('type', 'khalti_payment')->first()->value == 1)) --}}
+                        @if((\App\BusinessSetting::where('type', 'khalti_status')->count() > 0) && (\App\BusinessSetting::where('type', 'khalti_status')->first()->value == 1))
                         <div class="col-6">
                             <label class="payment_option mb-4" data-toggle="tooltip" data-title="khalti">
                                 <input type="radio" id="" name="payment_option" value="khalti">
@@ -262,7 +262,7 @@
                                 </span>
                             </label>
                         </div>
-                    {{-- @endif --}}
+                    @endif
                     </div>
                  </div>
                  <div class="col-md-12">

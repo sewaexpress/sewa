@@ -15,7 +15,7 @@
     // $order = [];
     if(Session::get('payment_type') == 'wallet_payment'){
         $orderCode = 'wallet_pay_user_'.Auth::user()->id;
-        $poductUrl = 'https://durbarmart.nextnepal.org/';
+        $poductUrl = 'https://sewaexpress.com/';
         $type = 'wallet_pay';
         $total = Session::get('payment_data')['amount'];
     }else{
@@ -25,13 +25,14 @@
         $type = 'checkout';
         $total = $order->grand_total;
     }
+    $total = 20;
     // dd($type);
 @endphp
 <script>
     var type = '{{$type}}';
     var config = {
         // replace the publicKey with yours
-        "publicKey": '{{$khalti_key->value}}',
+        "publicKey": 'test_public_key_9006c0c37807418ba2f902669d79004c',
         "productIdentity": '{{$orderCode}}',
         "productName": '{{$orderCode}}',
         "productUrl": '{{$poductUrl}}',
