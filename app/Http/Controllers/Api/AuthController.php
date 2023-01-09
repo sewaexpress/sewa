@@ -268,6 +268,7 @@ class AuthController extends Controller
                 'type' => $user->user_type,
                 'name' => $user->name,
                 'email' => $user->email,
+                'email_verified_at' => $user->email_verified_at,
                 'avatar' => $user->avatar,
                 'avatar_original' => $user->avatar_original,
                 'address' => $user->address,
