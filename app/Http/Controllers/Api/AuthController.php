@@ -111,7 +111,7 @@ class AuthController extends Controller
             $user->email = $request->email;
             $user->phone = ($request->phone)?$request->phone:null;
             $user->password = bcrypt($request->password);
-            $user->email_verified_at = Carbon::now();
+            // $user->email_verified_at = Carbon::now();
             $user->otp = $otp_code;
             $user->otp_expiry = $otp_expiry;
             $user->save();
@@ -268,6 +268,7 @@ class AuthController extends Controller
                 'type' => $user->user_type,
                 'name' => $user->name,
                 'email' => $user->email,
+                'is_verified' => (!empty($user->email_verified_at))?1:0,
                 'email_verified_at' => $user->email_verified_at,
                 'avatar' => $user->avatar,
                 'avatar_original' => $user->avatar_original,
