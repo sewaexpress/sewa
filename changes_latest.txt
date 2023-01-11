@@ -64,7 +64,7 @@ pop up in app
     Route::post('/app-pop-update', 'BannerController@appPopUpdate')->name('app-pop-update');
         
 
-pop up ko api
+pop up ko api -- separate view for app pop up control in web part
     url is where to redirect -- flash deals or a category
     https://sewaexpress.com/api/v1/pops 
 
@@ -92,3 +92,6 @@ Otp
         app/http/controllers/api/authcontroller -- public function verifyOTP(Request $request){
             
 
+khalti
+    INSERT INTO `business_settings` (`id`, `type`, `value`, `created_at`, `updated_at`) VALUES (NULL, 'khalti_status', '1', '2018-10-16 07:20:52', '2019-01-28 07:11:53'), (NULL, 'khalti_key', 'test_public_key_dc74e0fd57cb46cd93832aee0a390234', '2018-10-16 07:21:58', '2020-06-03 19:59:04'), (NULL, 'khalti_secret', 'live_secret_key_fc1207298be544b99fa3ad41c7d7b324', '2018-10-17 08:46:59', '2018-10-17 08:46:59');
+    

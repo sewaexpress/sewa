@@ -33,6 +33,36 @@
             </div>
         </div>
     </div>
+    
+{{-- <div class="row">
+    <h3 class="text-center">{{__('Classified Product Activate')}}</h3>
+    <div class="col-lg-4">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title text-center">{{__('Classified Product')}}</h3>
+            </div>
+            <div class="panel-body text-center">
+                <label class="switch">
+                    <input type="checkbox" onchange="updateSettings(this, 'classified_product')" {{ (\App\BusinessSetting::where('type', 'classified_product')->first()->value == 1)?"checked":'';}}?>>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div> --}}
+    {{-- <div class="col-lg-4">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title text-center">{{__('Wallet System Activation')}}</h3>
+            </div>
+            <div class="panel-body text-center">
+                <label class="switch">
+                    <input type="checkbox" onchange="updateSettings(this, 'wallet_system')" {{ (\App\BusinessSetting::where('type', 'wallet_system')->first()->value == 1)?"checked":'';}}?>>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div> --}}
     <div class="col-lg-4">
         <div class="panel">
             <div class="panel-heading">
@@ -48,8 +78,66 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-lg-4">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title text-center">{{__('Pickup Point Activation')}}</h3>
+            </div>
+            <div class="panel-body text-center">
+                <label class="switch">
+                    <input type="checkbox" onchange="updateSettings(this, 'pickup_point')" <?php if(\App\BusinessSetting::where('type', 'pickup_point')->first()->value == 1) echo "checked";?>>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title text-center">{{__('Conversation Activation')}}</h3>
+            </div>
+            <div class="panel-body text-center">
+                <label class="switch">
+                    <input type="checkbox" onchange="updateSettings(this, 'conversation_system')" <?php if(\App\BusinessSetting::where('type', 'conversation_system')->first()->value == 1) echo "checked";?>>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title text-center">{{__('Guest Checkout Activation')}}</h3>
+            </div>
+            <div class="panel-body text-center">
+                <label class="switch">
+                    <input type="checkbox" onchange="updateSettings(this, 'guest_checkout_active')" <?php if(\App\BusinessSetting::where('type', 'guest_checkout_active')->first()->value == 1) echo "checked";?>>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="row">
+    <div class="col-lg-4">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title text-center">{{__('Category-based Commission')}}</h3>
+            </div>
+            <div class="panel-body text-center">
+                <label class="switch">
+                    <input type="checkbox" onchange="updateSettings(this, 'category_wise_commission')" <?php if(\App\BusinessSetting::where('type', 'category_wise_commission')->first()->value == 1) echo "checked";?>>
+                    <span class="slider round"></span>
+                </label>
+                <div class="alert" style="color: #004085;background-color: #cce5ff;border-color: #b8daff;margin-bottom:0;margin-top:10px;">
+                    After activate this option Seller commision will be disabled and You need to set commission on each category otherwise Admin will not get any commision. <a href="{{ route('categories.index') }}">Set Commisssion Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-lg-4">
         <div class="panel">
             <div class="panel-heading">

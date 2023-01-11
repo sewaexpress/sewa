@@ -117,6 +117,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function()
 	Route::get('/facebook-chat', 'BusinessSettingsController@facebook_chat')->name('facebook_chat.index');
 	Route::post('/env_key_update', 'BusinessSettingsController@env_key_update')->name('env_key_update.update');
 	Route::post('/payment_method_update', 'BusinessSettingsController@payment_method_update')->name('payment_method.update');
+	Route::post('/payment_method_update_khalti', 'BusinessSettingsController@payment_method_update_khalti')->name('payment_method.updateKhalti');
 	Route::post('/google_analytics', 'BusinessSettingsController@google_analytics_update')->name('google_analytics.update');
 	Route::post('/facebook_chat', 'BusinessSettingsController@facebook_chat_update')->name('facebook_chat.update');
 	Route::post('/facebook_pixel', 'BusinessSettingsController@facebook_pixel_update')->name('facebook_pixel.update');

@@ -2,6 +2,130 @@
 
 @section('content')
 
+<div class="row">
+
+    @php
+        $esewa=\App\BusinessSetting::where('type','esewa_payment')->exists();
+        // $khalti=\App\BusinessSetting::where('type','khalti_status')->exists();
+        // dd($esewa);
+    @endphp
+    <div class="col-lg-6">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title text-center">{{__('Esewa Credential')}}</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" action="{{ route('payment_method.update') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="payment_method" value="esewa_payment">
+                    @if ($esewa)
+                    @php
+                        $esewa_credentials=json_decode(\App\BusinessSetting::where('type','esewa_payment')->first()->value);
+                    @endphp
+
+                        <div class="form-group">
+                            <div class="col-lg-3">
+                                <label class="control-label">{{__('ESEWA KEY')}}</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" name="ESEWA_KEY" value="{{$esewa_credentials->esewa_key}}" placeholder="ESEWA KEY" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-3">
+                                <label class="control-label">{{__('ESEWA SECRET')}}</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" name="ESEWA_SECRET" value="{{$esewa_credentials->esewa_secret}}" placeholder="ESEWA SECRET" required>
+                            </div>
+                        </div> 
+                    @else
+                        <div class="form-group">
+                            <div class="col-lg-3">
+                                <label class="control-label">{{__('ESEWA KEY')}}</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" name="ESEWA_KEY" value="" placeholder="ESEWA KEY" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-3">
+                                <label class="control-label">{{__('ESEWA SECRET')}}</label>
+                            </div>
+                            <div class="col-lg-6">
+                                <input type="text" class="form-control" name="ESEWA_SECRET" value="" placeholder="ESEWA SECRET" required>
+                            </div>
+                        </div> 
+                    @endif
+                    
+
+                    <div class="form-group">
+                        <div class="col-lg-12 text-right">
+                            <button class="btn btn-purple" type="submit">{{__('Save')}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="col-lg-6">
+        <div class="panel">
+            <div class="panel-heading">
+                <h3 class="panel-title text-center">{{__('Khalti Credential')}}</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" action="{{ route('payment_method.updateKhalti') }}" method="POST">
+                    @csrf
+                    @php
+                        $khalti_key=\App\BusinessSetting::where('type','khalti_key')->first();
+                        $khalti_secret=\App\BusinessSetting::where('type','khalti_secret')->first();
+                        $khalti_status=\App\BusinessSetting::where('type','khalti_status')->first();
+                    @endphp
+
+                        <div class="form-group">
+                            <div class="col-lg-3">
+                                <label class="control-label">{{__('KHALTI KEY')}}</label>
+                            </div>
+                            <div class="col-lg-8">
+                                <input type="text" class="form-control" name="khalti_key" value="{{$khalti_key->value}}" placeholder="KHALTI KEY" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-3">
+                                <label class="control-label">{{__('KHALTI SECRET')}}</label>
+                            </div>
+                            <div class="col-lg-8">
+                                <input type="text" class="form-control" name="khalti_secret" value="{{$khalti_secret->value}}" placeholder="KHALTI SECRET" required>
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <div class="col-lg-3">
+                                <label class="control-label">{{__('KHALTI STATUS')}}</label>
+                            </div>
+                            <div class="col-lg-8">
+                                <select name="khalti_status" class="form-control">
+                                    <option {{$khalti_status->value==1?'selected':''}} value="1">Active</option>
+                                    <option {{$khalti_status->value==0?'selected':''}} value="0">Deactive</option>
+                                </select>
+                                {{-- <input type="text" class="form-control" name="khalti_secret" value="{{$khalti_secret->value}}" placeholder="KHALTI SECRET" required> --}}
+                            </div>
+                        </div> 
+                    
+
+                    <div class="form-group">
+                        <div class="col-lg-12 text-right">
+                            <button class="btn btn-purple" type="submit">{{__('Save')}}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
 {{-- <div class="row">
     <div class="col-lg-6">
         <div class="panel">
@@ -317,73 +441,5 @@
     </div>
 </div> --}}
 
-<div class="row">
-
-    @php
-        $esewa=\App\BusinessSetting::where('type','esewa_payment')->exists();
-        // dd($esewa);
-    @endphp
-    <div class="col-lg-6">
-        <div class="panel">
-            <div class="panel-heading">
-                <h3 class="panel-title text-center">{{__('Esewa Credential')}}</h3>
-            </div>
-            <div class="panel-body">
-                <form class="form-horizontal" action="{{ route('payment_method.update') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="payment_method" value="esewa_payment">
-                    @if ($esewa)
-                    @php
-                        $esewa_credentials=json_decode(\App\BusinessSetting::where('type','esewa_payment')->first()->value);
-                    @endphp
-
-                        <div class="form-group">
-                            <div class="col-lg-3">
-                                <label class="control-label">{{__('ESEWA KEY')}}</label>
-                            </div>
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control" name="ESEWA_KEY" value="{{$esewa_credentials->esewa_key}}" placeholder="ESEWA KEY" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-3">
-                                <label class="control-label">{{__('ESEWA SECRET')}}</label>
-                            </div>
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control" name="ESEWA_SECRET" value="{{$esewa_credentials->esewa_secret}}" placeholder="ESEWA SECRET" required>
-                            </div>
-                        </div> 
-                    @else
-                        <div class="form-group">
-                            <div class="col-lg-3">
-                                <label class="control-label">{{__('ESEWA KEY')}}</label>
-                            </div>
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control" name="ESEWA_KEY" value="" placeholder="ESEWA KEY" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-lg-3">
-                                <label class="control-label">{{__('ESEWA SECRET')}}</label>
-                            </div>
-                            <div class="col-lg-6">
-                                <input type="text" class="form-control" name="ESEWA_SECRET" value="" placeholder="ESEWA SECRET" required>
-                            </div>
-                        </div> 
-                    @endif
-                    
-
-                    <div class="form-group">
-                        <div class="col-lg-12 text-right">
-                            <button class="btn btn-purple" type="submit">{{__('Save')}}</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-</div>
 
 @endsection

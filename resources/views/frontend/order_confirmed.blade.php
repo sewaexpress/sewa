@@ -2,7 +2,7 @@
 
 @section('content')
     @php
-        $status = $order->orderDetails->first()->delivery_status;
+        $status = !empty($order->orderDetails->first())?$order->orderDetails->first()->delivery_status:0;
     @endphp
     <div id="page-content">
            <!--======================================================= ORDER TOP LIST START ==-->

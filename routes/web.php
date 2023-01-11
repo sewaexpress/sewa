@@ -127,6 +127,7 @@ Route::post('/get_pick_ip_points', 'HomeController@get_pick_ip_points')->name('s
 Route::get('/checkout/payment_select', 'CheckoutController@get_payment_info')->name('checkout.payment_info');
 Route::post('/checkout/apply_coupon_code', 'CheckoutController@apply_coupon_code')->name('checkout.apply_coupon_code');
 Route::post('/checkout/remove_coupon_code', 'CheckoutController@remove_coupon_code')->name('checkout.remove_coupon_code');
+Route::post('/checkout_done_khalti', 'CheckoutController@checkout_done_khalti')->name('checkout_done_khalti');
 
 //Paypal START
 Route::get('/paypal/payment/done', 'PaypalController@getDone')->name('payment.done');
