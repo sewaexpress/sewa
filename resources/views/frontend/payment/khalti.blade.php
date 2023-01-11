@@ -27,7 +27,7 @@
         $type = 'checkout';
         $total = $order->grand_total;
     }
-    $total = 20;
+    // $total = 20;
     // dd($type);
 @endphp
 <script>
