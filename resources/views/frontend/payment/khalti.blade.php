@@ -11,6 +11,8 @@
     $khalti=\App\BusinessSetting::where('type','khalti_status')->where('value',1)->first();
     $khalti_key=\App\BusinessSetting::where('type','khalti_key')->first();
     $khalti_secret=\App\BusinessSetting::where('type','khalti_secret')->first();
+    // echo $khalti_key->value;
+    // die;
     // $type = '';
     // $order = [];
     if(Session::get('payment_type') == 'wallet_payment'){
@@ -32,7 +34,8 @@
     var type = '{{$type}}';
     var config = {
         // replace the publicKey with yours
-        "publicKey": 'test_public_key_9006c0c37807418ba2f902669d79004c',
+        // "publicKey": 'test_public_key_9006c0c37807418ba2f902669d79004c',
+        "publicKey": '{{$khalti_key->value}}',
         "productIdentity": '{{$orderCode}}',
         "productName": '{{$orderCode}}',
         "productUrl": '{{$poductUrl}}',
