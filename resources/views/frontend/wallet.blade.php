@@ -44,12 +44,12 @@
 
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            {{-- <div class="col-md-4">
                                 <div class="dashboard-widget text-center plus-widget mt-4 c-pointer" onclick="show_wallet_modal()">
                                     <i class="la la-plus"></i>
                                     <span class="d-block title heading-6 strong-400 c-base-1">{{ __('Recharge Wallet') }}</span>
                                 </div>
-                            </div>
+                            </div> --}}
 
                             @if (\App\Addon::where('unique_identifier', 'offline_payment')->first() != null && \App\Addon::where('unique_identifier', 'offline_payment')->first()->activated)
                                 <div class="col-md-4">
@@ -64,7 +64,7 @@
 
                         <div class="card no-border mt-5">
                             <div class="card-header py-3">
-                                <h4 class="mb-0 h6">{{__('Wallet recharge history')}}</h4>
+                                <h4 class="mb-0 h6">{{__('Wallet history')}}</h4>
                             </div>
                             <div class="card-body table-responsive">
                                 <table class="table table-sm mb-0">
@@ -202,6 +202,7 @@
 
 @section('script')
     <script type="text/javascript">
+    console.log('asad');
         function show_wallet_modal(){
             $('#wallet_modal').modal('show');
         }

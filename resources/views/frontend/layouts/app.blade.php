@@ -215,7 +215,7 @@
 <!-- End Facebook Pixel Code -->
  {{-- @endif  --}}
  <!-- Meta Pixel Code -->
-<script>
+{{-- <script>
     !function(f,b,e,v,n,t,s)
     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,
@@ -226,7 +226,7 @@
     'https://connect.facebook.net/en_US/fbevents.js');
     fbq('init', '518595586902025');
     fbq('track', 'PageView');
-  </script>
+  </script> --}}
   <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=518595586902025&ev=PageView&noscript=1"
   /></noscript>
@@ -805,6 +805,16 @@
     @endforeach
     <script>
         $(document).ready(function () {
+        function show_wallet_modal(){
+            $('#wallet_modal').modal('show');
+        }
+
+        function show_make_wallet_recharge_modal(){
+            $.post('{{ route('offline_wallet_recharge_modal') }}', {_token:'{{ csrf_token() }}'}, function(data){
+                $('#offline_wallet_recharge_modal_body').html(data);
+                $('#offline_wallet_recharge_modal').modal('show');
+            });
+        }
             // product Gallery and Zoom
             // activation carousel plugin
             var galleryThumbs = new Swiper(".gallery-thumbs", {
