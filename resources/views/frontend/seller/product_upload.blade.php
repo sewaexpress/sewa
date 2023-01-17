@@ -358,7 +358,7 @@
                                             <label>{{__('Purchase Price')}} <span class="required-star">*</span></label>
                                         </div>
                                         <div class="col-md-10">
-                                            <input type="number" min="0" value="0" step="0.01" class="form-control mb-3" name="purchase_price" placeholder="{{__('Purchase Price')}}" required>
+                                            <input type="number" min="0" value="0" step="0.01" class="form-control mb-3 purchase_price" name="purchase_price" placeholder="{{__('Purchase Price')}}" required>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -617,6 +617,7 @@
             update_sku();
         });
         
+       
         $('.discount-type ').on('change',function(){
             // console.log('ASDF');
             var unitPrice = $('.unit_price').val();
@@ -635,9 +636,8 @@
                 }
                 actualPrice = unitPrice - discount;
             }
-            $('.product_price').val(actualPrice);
+            $('.purchase_price').val(actualPrice);
         });
-        
         $('.discount').on('keyup',function(){
             // console.log('ASDF');
             var unitPrice = $('.unit_price').val();
@@ -656,7 +656,23 @@
                 }
                 actualPrice = unitPrice - discount;
             }
-            $('.product_price').val(actualPrice);
+            $('.purchase_price').val(actualPrice);
+        });
+        $(document).on("keyup", ".purchase_price", function() {
+            var unitPrice = $('.unit_price').val();
+            var purchasePrice = $('.purchase_price').val();
+            var discountType = $('.discount-type').val();
+            var discount = 100 - ((purchasePrice * 100) / unitPrice );
+            // console.log(discount);
+            // console.log(unitPrice * 100);
+            // console.log((purchasePrice / (unitPrice * 100)));
+            // console.log(100 - (purchasePrice / (unitPrice * 100)));
+
+            if(discountType == 'amount'){
+                discount = (discount * unitPrice) / 100;
+                // console.log(discount);
+            }
+            $('.discount').val(discount.toFixed(1));
         });
 
         $(document).ready(function(){

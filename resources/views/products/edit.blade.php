@@ -372,7 +372,7 @@
                     <div class="form-group">
                         <label class="col-lg-2 control-label">{{__('Purchase price')}}</label>
                         <div class="col-lg-7">
-                            <input type="number" min="0" step="0.01" placeholder="{{__('Purchase price')}}" name="purchase_price" class="form-control" value="{{$product->purchase_price}}" required>
+                            <input type="number" min="0" step="0.01" placeholder="{{__('Purchase price')}}" name="purchase_price" class="form-control purchase_price" value="{{$product->purchase_price}}" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -406,7 +406,7 @@
 
 						</div>
 					</div>
-					<div class="form-group">						
+					<div class="form-group hidden">						
 						<label class="col-lg-2 control-label">{{__('Product Price')}}</label>
 						<div class="col-lg-7">
 							<input type="number" value="0" readonly placeholder="{{__('Product Price')}}" class="form-control product_price" >
@@ -690,7 +690,7 @@
 			}
 			actualPrice = unitPrice - discount;
 		}
-		$('.product_price').val(actualPrice);
+		$('.purchase_price').val(actualPrice);
 	});
 	$('.discount').on('keyup',function(){
 		// console.log('ASDF');
@@ -710,27 +710,43 @@
 			}
 			actualPrice = unitPrice - discount;
 		}
-		$('.product_price').val(actualPrice);
+		$('.purchase_price').val(actualPrice);
 	});
-
-	function update_sku(){
+	$(document).on("keyup", ".purchase_price", function() {
 		var unitPrice = $('.unit_price').val();
-		var discount = $('.discount').val();
+		var purchasePrice = $('.purchase_price').val();
 		var discountType = $('.discount-type').val();
-
-		var actualPrice = 0;
+		var discount = 100 - ((purchasePrice * 100) / unitPrice );
+		// console.log(discount);
+		// console.log(unitPrice * 100);
+		// console.log((purchasePrice / (unitPrice * 100)));
+		// console.log(100 - (purchasePrice / (unitPrice * 100)));
 
 		if(discountType == 'amount'){
-			actualPrice = unitPrice - discount;
-		}else{
-			if(discount != 0){
-				discount  = ((discount * unitPrice) / 100);
-			}else{
-				discount = 0;
-			}
-			actualPrice = unitPrice - discount;
+			discount = (discount * unitPrice) / 100;
+			// console.log(discount);
 		}
-		$('.product_price').val(actualPrice);
+		$('.discount').val(discount.toFixed(1));
+	});
+	
+	function update_sku(){
+		// var unitPrice = $('.unit_price').val();
+		// var discount = $('.discount').val();
+		// var discountType = $('.discount-type').val();
+
+		// var actualPrice = 0;
+
+		// if(discountType == 'amount'){
+		// 	actualPrice = unitPrice - discount;
+		// }else{
+		// 	if(discount != 0){
+		// 		discount  = ((discount * unitPrice) / 100);
+		// 	}else{
+		// 		discount = 0;
+		// 	}
+		// 	actualPrice = unitPrice - discount;
+		// }
+		// $('.product_price').val(actualPrice);
 		
 		
 		$.ajax({

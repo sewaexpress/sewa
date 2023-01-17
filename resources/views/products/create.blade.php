@@ -305,7 +305,7 @@
 					<div class="form-group">
 						<label class="col-lg-2 control-label">{{__('Purchase price')}}</label>
 						<div class="col-lg-7">
-							<input type="number" min="0" value="0" step="0.01" placeholder="{{__('Purchase price')}}" name="purchase_price" class="form-control" required>
+							<input type="number" min="0" value="0" step="0.01" placeholder="{{__('Purchase price')}}" name="purchase_price" class="form-control purchase_price" required>
 						</div>
 					</div>
 					<div class="form-group">
@@ -598,65 +598,64 @@
 		$(em).closest('.form-group').remove();
 		update_sku();
 	}
-	
+
 	$('.discount-type ').on('change',function(){
-		// console.log('ASDF');
-		var unitPrice = $('.unit_price').val();
-		var discount = $('.discount').val();
-		var discountType = $('.discount-type').val();
+            // console.log('ASDF');
+            var unitPrice = $('.unit_price').val();
+            var discount = $('.discount').val();
+            var discountType = $('.discount-type').val();
 
-		var actualPrice = 0;
+            var actualPrice = 0;
 
-		if(discountType == 'amount'){
-			actualPrice = unitPrice - discount;
-		}else{
-			if(discount != 0){
-				discount  = ((discount * unitPrice) / 100);
-			}else{
-				discount = 0;
-			}
-			actualPrice = unitPrice - discount;
-		}
-		$('.product_price').val(actualPrice);
-	});
-	$('.discount').on('keyup',function(){
-		// console.log('ASDF');
-		var unitPrice = $('.unit_price').val();
-		var discount = $('.discount').val();
-		var discountType = $('.discount-type').val();
+            if(discountType == 'amount'){
+                actualPrice = unitPrice - discount;
+            }else{
+                if(discount != 0){
+                    discount  = ((discount * unitPrice) / 100);
+                }else{
+                    discount = 0;
+                }
+                actualPrice = unitPrice - discount;
+            }
+            $('.purchase_price').val(actualPrice);
+        });
+        $('.discount').on('keyup',function(){
+            // console.log('ASDF');
+            var unitPrice = $('.unit_price').val();
+            var discount = $('.discount').val();
+            var discountType = $('.discount-type').val();
 
-		var actualPrice = 0;
+            var actualPrice = 0;
 
-		if(discountType == 'amount'){
-			actualPrice = unitPrice - discount;
-		}else{
-			if(discount != 0){
-				discount  = ((discount * unitPrice) / 100);
-			}else{
-				discount = 0;
-			}
-			actualPrice = unitPrice - discount;
-		}
-		$('.product_price').val(actualPrice);
-	});
+            if(discountType == 'amount'){
+                actualPrice = unitPrice - discount;
+            }else{
+                if(discount != 0){
+                    discount  = ((discount * unitPrice) / 100);
+                }else{
+                    discount = 0;
+                }
+                actualPrice = unitPrice - discount;
+            }
+            $('.purchase_price').val(actualPrice);
+        });
+        $(document).on("keyup", ".purchase_price", function() {
+            var unitPrice = $('.unit_price').val();
+            var purchasePrice = $('.purchase_price').val();
+            var discountType = $('.discount-type').val();
+            var discount = 100 - ((purchasePrice * 100) / unitPrice );
+            // console.log(discount);
+            // console.log(unitPrice * 100);
+            // console.log((purchasePrice / (unitPrice * 100)));
+            // console.log(100 - (purchasePrice / (unitPrice * 100)));
+
+            if(discountType == 'amount'){
+                discount = (discount * unitPrice) / 100;
+                // console.log(discount);
+            }
+            $('.discount').val(discount.toFixed(1));
+        });
 	function update_sku(){
-		var unitPrice = $('.unit_price').val();
-		var discount = $('.discount').val();
-		var discountType = $('.discount-type').val();
-
-		var actualPrice = 0;
-
-		if(discountType == 'amount'){
-			actualPrice = unitPrice - discount;
-		}else{
-			if(discount != 0){
-				discount  = ((discount * unitPrice) / 100);
-			}else{
-				discount = 0;
-			}
-			actualPrice = unitPrice - discount;
-		}
-		$('.product_price').val(actualPrice);
 		// console.log(unitPrice);
 		// console.log(discount);
 		// console.log(discountType);
