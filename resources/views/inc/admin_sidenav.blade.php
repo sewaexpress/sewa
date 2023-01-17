@@ -474,6 +474,13 @@
                         @endif
 
                         @if(Auth::user()->user_type == 'admin' || in_array('2', json_decode(Auth::user()->staff->role->permissions)))
+                        <li class="{{ areActiveRoutes(['app_referral.index'])}}">
+                            <a class="nav-link" href="{{route('app_referral.index')}}">
+                                <i class="fa fa-phone"></i>
+                                <span class="menu-title">{{__(' App Refers')}}</span>
+                                {{-- <i class="arrow"></i> --}}
+                            </a>
+                        </li>
                         <li class="{{ areActiveRoutes(['locations.index','locations.create','locations.edit'])}}">
                             <a class="nav-link" href="{{route('locations.index')}}">
                                 <i class="fa fa-map-marker"></i>

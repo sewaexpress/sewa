@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\AppReferList;
 use Illuminate\Http\Request;
 use App\Currency;
 use App\BusinessSetting;
 use App\Category;
 use Artisan;
-
+use Illuminate\Support\Facades\DB;
 
 class BusinessSettingsController extends Controller
 {
@@ -340,7 +341,38 @@ class BusinessSettingsController extends Controller
     public function shipping_configuration(Request $request){
         return view('shipping_configuration.index');
     }
-
+    public function getReferrersList(Request $request){
+        $id = $request->cid;
+        $list = AppReferList::where('referrer_user_id',$id)->with('referred_to')->get()->toArray();
+        return view('apprefer_configuration/partial-list', compact('list'))->render();
+        // return $this->render('apprefer_configuration/partial-list', compact('list') );
+    }
+    
+    public function appReferral(Request $request){
+        $list = AppReferList::groupBy('referrer_user_id')->with('referred_by')->select('id','referrer_user_id','created_at', DB::raw('count(*) as count'))->get()->toArray();
+        // dd($data);
+        // $list = AppReferList::with('referred_by','referred_to')->get();
+        // if($list->isEmpty()){
+        //     $list = [];
+        // }else{
+        //     $list = $list->toArray();
+        // }
+        // dd($list);
+        return view('apprefer_configuration.index',compact('list'));
+    }
+    public function appReferralUpdate(Request $request){
+        if(BusinessSetting::where('type', $request->type)->count() > 0){
+            $business_settings = BusinessSetting::where('type', $request->type)->first();
+            $business_settings->value = $request[$request->type];
+            $business_settings->save();
+        }else{
+            $business_settings = BusinessSetting::create([
+                'type' => $request->type,
+                'value' => $request[$request->type],
+            ]);
+        }
+        return back();
+    }
     public function shipping_configuration_update(Request $request){
         $business_settings = BusinessSetting::where('type', $request->type)->first();
         $business_settings->value = $request[$request->type];

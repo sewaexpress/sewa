@@ -10,10 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+//Shipping Configuration
 
 Route::post('/get-states-by-country', 'HomeController@getStates')->name('getStates')->middleware(['auth']);
 Route::get('/admin', 'HomeController@admin_dashboard')->name('admin.dashboard')->middleware(['auth', 'admin']);
 Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function(){
+	Route::get('/app-referral', 'BusinessSettingsController@appReferral')->name('app_referral.index');
+	Route::post('/app-referral/update', 'BusinessSettingsController@appReferralUpdate')->name('app_referral.update');
+	Route::post('/get-referrers-list', 'BusinessSettingsController@getReferrersList')->name('get_referrers_list');
 
 		// This is route for testimonials
 		Route::get('/testimonial/view', function (){
