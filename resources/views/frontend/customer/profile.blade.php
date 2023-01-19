@@ -1,3 +1,4 @@
+
 @extends('frontend.layouts.app')
 
 @section('content')
@@ -150,7 +151,7 @@
                                                         $delivery_location = 'empty';
                                                         if($address->delivery_location){
                                                             $delivery_location1  = \App\Location::where('id', $address->delivery_location)->first();
-                                                            $delivery_location = $delivery_location1->name;
+                                                            $delivery_location = isset($delivery_location1->name)?$delivery_location1->name:'Empty';
                                                             $delivery_disctrict = $delivery_location1->district;
                                                             $district  = \App\State::where('id', $delivery_disctrict)->first();
                                                         }
@@ -248,7 +249,10 @@
                                 <div class="mb-3">
                                     <select class="form-control mb-3 selectpicker" data-placeholder="{{__('Select your country')}}" name="country" required>
                                         @foreach (\App\Country::where('status', 1)->get() as $key => $country)
+                                            @if (isset($country->name))
                                             <option value="{{ $country->name }}" {{($country->name == 'Nepal')?'selected':''}}>{{ $country->name }}</option>
+
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
