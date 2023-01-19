@@ -333,7 +333,7 @@
 @endsection
 
 @section('script')
-<script type="text/javascript">
+<script>
 
     $('#phone2').on('keypress', function(e) {
         var $this = $(this);
