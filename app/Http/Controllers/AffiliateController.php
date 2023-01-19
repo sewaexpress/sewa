@@ -236,7 +236,9 @@ class AffiliateController extends Controller
 
     public function user_index(){
         $affiliate_user = Auth::user()->affiliate_user;
-        $affiliate_payments = $affiliate_user->affiliate_payments();
+        // dd($affiliate_user);
+        $affiliate_payments = [];
+        // $affiliate_payments = $affiliate_user->affiliate_payments();
         return view('affiliate.frontend.index', compact('affiliate_payments'));
     }
 

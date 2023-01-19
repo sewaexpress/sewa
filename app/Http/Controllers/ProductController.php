@@ -480,7 +480,6 @@ class ProductController extends Controller
                 $product->refundable = 0;
             }
         }
-        $thumb = [];
         if ($request->has('previous_photos')) {
             $photos = $request->previous_photos;
             $thumb = $request->previous_thumbnail_img;
@@ -488,6 +487,7 @@ class ProductController extends Controller
             $photos = array();
         }
         // dd($thumb);
+        $thumb = array();
         if ($request->hasFile('photos')) {
             foreach ($request->photos as $key => $photo) {
                 $path = $photo->store('uploads/products/photos');

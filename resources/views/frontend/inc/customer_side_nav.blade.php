@@ -193,21 +193,29 @@
                    </a>
                </li>
            @endif --}}
-           @if(Auth::user())
-           @php
-               $support_ticket = DB::table('tickets')
-                           ->where('client_viewed', 0)
-                           ->where('user_id', Auth::user()->id)
-                           ->count();
-           @endphp
            <li>
-               <a href="{{ route('support_ticket.index') }}" class="{{ areActiveRoutesHome(['support_ticket.index'])}}">
-                   <i class="la la-support"></i>
-                   <span class="category-name">
-                       {{__('Support Ticket')}} @if($support_ticket > 0)<span class="ml-2" style="color:green"><strong>({{ $support_ticket }} {{ __('New') }})</strong></span></span>@endif
-                   </span>
-               </a>
-           </li>
+                <a href="{{ route('customer.app.refer') }}" class="{{ areActiveRoutesHome(['customer.app.refer'])}}">
+                    <i class="la la-dollar"></i>
+                    <span class="category-name">
+                        {{__('App Referrals')}}
+                    </span>
+                </a>
+            </li>
+           @if(Auth::user())
+                @php
+                    $support_ticket = DB::table('tickets')
+                                ->where('client_viewed', 0)
+                                ->where('user_id', Auth::user()->id)
+                                ->count();
+                @endphp
+                <li>
+                    <a href="{{ route('support_ticket.index') }}" class="{{ areActiveRoutesHome(['support_ticket.index'])}}">
+                        <i class="la la-support"></i>
+                        <span class="category-name">
+                            {{__('Support Ticket')}} @if($support_ticket > 0)<span class="ml-2" style="color:green"><strong>({{ $support_ticket }} {{ __('New') }})</strong></span></span>@endif
+                        </span>
+                    </a>
+                </li>
            @endif
        </ul>
       </div>

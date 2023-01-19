@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\AppReferList;
 use App\Models\BusinessSetting;
 use App\Models\Customer;
 use Illuminate\Http\Request;
@@ -106,6 +107,8 @@ class AuthController extends Controller
             $otp_code = strval(rand(10000, 99999));
             $otp_expiry = $thirtyMinutesLater;
 
+            $referral_code = (isset($request->referral_code) && !empty($request->referral_code))?$request->referral_code:'';
+
             $user = new User;
             $user->name = $request->name;
             $user->email = $request->email;
@@ -115,11 +118,26 @@ class AuthController extends Controller
             $user->otp = $otp_code;
             $user->otp_expiry = $otp_expiry;
             $user->save();
+
             $customer = new Customer;
             $customer->user_id = $user->id;
-             $customer->save();
+            $customer->save();
+
+            if(!empty($referral_code)){
+                if(User::where('referral_code',$referral_code)->count() > 0){
+                    $referred_by = User::where('referral_code',$referral_code)->first();
+
+                    $appReferList = new AppReferList();
+                    $appReferList->referrer_user_id = $referred_by->id;
+                    $appReferList->referred_user_id = $user->id;
+                    $appReferList->save();
+                    
+                    $user->referred_by = $referred_by->id;
+                    $user->save();
+                }
+            }
              
-             $user->sendCustomVerificationEmail($otp_code);
+            //  $user->sendCustomVerificationEmail($otp_code);
          }
          catch(\Exception $e){
             return response()->json([

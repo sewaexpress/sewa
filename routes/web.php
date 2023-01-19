@@ -168,6 +168,8 @@ Route::get('/privacypolicy', 'HomeController@privacypolicy')->name('privacypolic
 
 Route::group(['middleware' => ['user', 'verified']], function(){
 	Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
+	Route::get('/customer-app-refer', 'HomeController@customerAppRefer')->name('customer.app.refer');
+
 	Route::get('/profile', 'HomeController@profile')->name('profile');
 	Route::post('/customer/update-profile', 'HomeController@customer_update_profile')->name('customer.profile.update');
 	Route::post('/seller/update-profile', 'HomeController@seller_update_profile')->name('seller.profile.update');

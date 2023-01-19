@@ -20,6 +20,7 @@ class UserCollection extends ResourceCollection
                     'address' => $data->address,
                     'city' => $data->city,
                     'country' => $data->country,
+                    'referral_code' => $data->referral_code,
                     'postal_code' => $data->postal_code,
                     'phone' => $data->phone
                 ];

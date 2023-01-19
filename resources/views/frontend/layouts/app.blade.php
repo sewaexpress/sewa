@@ -1478,6 +1478,15 @@ $('.address-district').on('change',function(e){
         //     $('.category-list').collapse('hide');
         //   }
         // );
+        function copyToClipboard(text) {
+            var sampleTextarea = document.createElement("textarea");
+            document.body.appendChild(sampleTextarea);
+            sampleTextarea.value = text; //save main text in it
+            sampleTextarea.select(); //select textarea contenrs
+            document.execCommand("copy");
+            document.body.removeChild(sampleTextarea);
+            showFrontendAlert('success', 'Copied to clipboard');
+        }
     </script>
 
     @yield('script')

@@ -39,7 +39,7 @@
                             <div class="col-md-4 offset-md-2">
                                 <div class="dashboard-widget text-center green-widget text-white mt-4 c-pointer">
                                     <i class="fa fa-dollar"></i>
-                                    <span class="d-block title heading-3 strong-400">{{ single_price(Auth::user()->affiliate_user->balance) }}</span>
+                                    <span class="d-block title heading-3 strong-400">{{ isset(Auth::user()->affiliate_user->balance)?single_price(Auth::user()->affiliate_user->balance):0 }}</span>
                                     <span class="d-block sub-title">{{ __('Affiliate Balance') }}</span>
                                 </div>
                             </div>
@@ -117,7 +117,7 @@
                         </div>
                         <div class="pagination-wrapper py-4">
                             <ul class="pagination justify-content-end">
-                                {{ $affiliate_payments->links() }}
+                                {{-- {{ $affiliate_payments->links() }} --}}
                             </ul>
                         </div>
                     </div>

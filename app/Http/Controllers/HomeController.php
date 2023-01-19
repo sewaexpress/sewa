@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\AppReferList;
 use App\Blog;
 use Illuminate\Http\Request;
 use Session;
@@ -38,6 +39,7 @@ use Response;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat\PercentageFormatter;
 use DB;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -182,7 +184,35 @@ class HomeController extends Controller
             abort(404);
         }
     }
+    
+    public function createReferralCode(){
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $referral_code = substr(Auth::user()->id.(substr(str_shuffle($characters), 0, 6)), 0, 10);
+        $validator = Validator::make(['referral_code' => $referral_code], ['referral_code' => 'unique:users']);
+        if ($validator->fails()) {
+            $this->createReferralCode();
+        } else {
+            Auth::user()->referral_code = $referral_code;
+            Auth::user()->save();
+            return $referral_code;
+        }
 
+    }
+    public function customerAppRefer(){
+        if(Auth::user()->referral_code == ''){
+            $referral_code = $this->createReferralCode();
+        }else{
+            $referral_code = Auth::user()->referral_code;
+        }
+        $list = AppReferList::where('referrer_user_id',Auth::user()->id)->with('referred_to')->orderBy('id','desc');
+        if($list->count() > 0){
+            $list = $list->get()->toArray();
+        }else{
+            $list = [];
+        }
+        return view('frontend.app-referral.index', compact('list','referral_code'));
+
+    }
     public function profile(Request $request)
     {
         // dd(Auth::user()->addresses);

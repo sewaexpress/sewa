@@ -5,12 +5,31 @@ namespace App\Http\Controllers\Api;
 use App\Http\Resources\UserCollection;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
     public function info($id)
     {
+        $user = User::where('id', $id)->first();
+        if($user->referral_code == ''){
+            $referral_code = $this->createReferralCode($id);
+        }
         return new UserCollection(User::where('id', $id)->get());
+    }
+    public function createReferralCode($id){
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $referral_code = substr($id.(substr(str_shuffle($characters), 0, 6)), 0, 10);
+        $validator = Validator::make(['referral_code' => $referral_code], ['referral_code' => 'unique:users']);
+        if ($validator->fails()) {
+            $this->createReferralCode($id);
+        } else {
+            User::where('id', $id)->update([
+                'referral_code' => $referral_code
+            ]);
+        }
+
     }
 
     public function updateName(Request $request)
