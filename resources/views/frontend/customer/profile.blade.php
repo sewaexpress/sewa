@@ -237,7 +237,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form class="form-default" role="form" action="{{ route('addresses.store') }}" method="POST">
+            <form id="dashboard-customer-address-form" class="form-default" role="form" action="{{ route('addresses.store') }}" method="POST">
                 @csrf
                 <div class="modal-body">
                     <div class="p-3">
@@ -323,7 +323,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-base-1 color-white">{{ __('Save') }}</button>
+                    <button type="submit" class="btn btn-base-1 color-white customer-dashboard-address">{{ __('Save') }}</button>
                 </div>
             </form>
         </div>

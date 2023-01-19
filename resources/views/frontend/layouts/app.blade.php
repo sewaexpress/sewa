@@ -1513,6 +1513,20 @@ $('.address-district').on('change',function(e){
         e.preventDefault();
         return false;
     });
+    $('.customer-dashboard-address').click(function(e){
+    // console.log('1');
+        e.stopImmediatePropagation();
+        var phone = $('#dashboard-phone2').val();
+        if(phone== ''){
+            showFrontendAlert('danger','Phone number cannot be Empty')
+            return false;
+        }
+        if(phone.length < 10){
+            showFrontendAlert('danger','Phone number format not correct')
+            return false;
+        }
+        $('#dashboard-customer-address-form').submit();
+    });
     $('#dashboard-phone').on('keypress', function(e) {
         var $this = $(this);
         var regex = new RegExp("^[0-9\b]+$");
