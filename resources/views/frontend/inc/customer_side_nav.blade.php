@@ -193,14 +193,14 @@
                    </a>
                </li>
            @endif --}}
-           <li>
+           {{-- <li>
                 <a href="{{ route('customer.app.refer') }}" class="{{ areActiveRoutesHome(['customer.app.refer'])}}">
                     <i class="la la-dollar"></i>
                     <span class="category-name">
                         {{__('App Referrals')}}
                     </span>
                 </a>
-            </li>
+            </li> --}}
            @if(Auth::user())
                 @php
                     $support_ticket = DB::table('tickets')
