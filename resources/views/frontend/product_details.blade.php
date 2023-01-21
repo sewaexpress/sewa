@@ -1251,11 +1251,10 @@ td {
             success: function(data) {
 
                 if (data != 'false') {
-                    optionLoop = '';
+                    optionLoop = '<option disabled selected>Select Location</option>';
                     options = data;
                     options.forEach(function(index) {
                         optionLoop +=
-                            '<option disabled selected>Select Location</option>'+
                             '<option data-charge="'+index.delivery_charge+'" value="'+index.id+'">'+index.name+'</option>';
                     });
                 } else {
