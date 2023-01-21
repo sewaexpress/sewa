@@ -540,6 +540,50 @@ td {
                         </div>
                         <div class="col-lg-4 col-md-12 col-12">
                             <div class="seller-info-box mb-4">
+                                <div class="sold-by position-relative">                                    
+                                    <div class="title font-weight-bold">{{__('Delivery')}}</div>
+                                        <div class="form-group">
+                                            {{-- <label for="district">Choose District</label> --}}
+                                            @php
+                                                $district_default = 0;
+                                                $location_default = 0;
+                                                $location_default_details = [];
+                                                $locations = [];
+                                                if(!empty($default_address)){
+                                                    $delivery_location=\App\Location::where('id',$default_address['delivery_location'])->with('districts')->first()->toArray();
+                                                    $district_default = $delivery_location['districts']['id'];
+                                                    $location_default = $default_address['delivery_location'];
+                                                    $locations = \App\Location::where('district',$delivery_location['districts']['id'])->get()->toArray();
+                                                    $location_default_details = \App\Location::where('id',$default_address['delivery_location'])->first()->toArray();
+                                                }
+                                            @endphp
+                                            <select id="district" class="form-control">
+                                                <option value="" selected>Select District</option>
+                                                @foreach (\App\State::where('country_id','154')->get() as $key => $country)
+                                                    <option {{($country->id == $district_default)?'selected':''}} value="{{ $country->id }}">{{ $country->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                        {{-- <label for="location">Choose Delivery Location</label> --}}
+                                        <select id="location" class="form-control address-location" {{(!empty($locations))?'':'disabled'}}>
+                                            <option value="" selected>Select Location</option>
+                                            @if (!empty($locations))
+                                                @foreach ($locations as $key => $location)
+                                                    <option data-charge="{{$location['delivery_charge']}}" {{($location['id'] == $location_default)?'selected':''}} value="{{ $location['id'] }}">{{$location['name'] }}</option>
+                                                @endforeach                                                
+                                            @endif
+                                        </select>
+                                        </div>
+                                        <div class="delivery-charge">
+                                            Delivery Charge: 
+                                            <span id="charge">
+                                                {{(!empty($location_default_details)?'Rs. '.$location_default_details['delivery_charge']:'Rs. 0')}}
+                                            </span>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="seller-info-box mb-4">
                                 <div class="sold-by position-relative">
                                     @if ($detailedProduct->added_by == 'seller' && \App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1 && $detailedProduct->user->seller->verification_status == 1)
                                         <div class="position-absolute medal-badge">
@@ -554,45 +598,45 @@ td {
                                     @endif
                                     
                                     <div class="title font-weight-bold">{{__('Sold By')}}</div>
-                                    @if($detailedProduct->added_by == 'seller' && \App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
-                                        <a href="{{ route('shop.visit', $detailedProduct->user->shop->slug) }}" class="name d-block font-weight-bold">
-                                            {{ $detailedProduct->user->shop->name }}
-                                            @if ($detailedProduct->user->seller->verification_status == 1)
-                                                <span class="ml-2"><i class="fa fa-check-circle" style="color:green"></i></span>
-                                            @else
-                                                <span class="ml-2"><i class="fa fa-times-circle" style="color:red"></i></span>
-                                            @endif
-                                        </a>
-                                        {{-- <div class="location">                                    
-                                            @if ($detailedProduct->added_by == 'seller' && \App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
-                                                <a href="{{ route('shop.visit', $detailedProduct->user->shop->slug) }}">{{ $detailedProduct->user->shop->name }}</a>
-                                            @else
-                                                {{ __('Inhouse product') }}
-                                            @endif
-                                        </div> --}}
-                                    @else
-                                        <span class="font-weight-bold">Inhouse product</span>                                
-                                    @endif
-                                    @php
-                                        $total = 0;
-                                        $rating = 0;
-                                        foreach ($detailedProduct->user->products as $key => $seller_product) {
-                                            $total += $seller_product->reviews->count();
-                                            $rating += $seller_product->reviews->sum('rating');
-                                        }
-                                        // echo $rating/$total;
-                                    @endphp
-        
-                                    <div class="rating text-center d-block">
-                                        <span class="star-rating star-rating-sm d-block">
-                                            @if ($total > 0)
-                                                {{ renderStarRating($rating/$total) }}
-                                            @else
-                                                {{ renderStarRating(0) }}
-                                            @endif
-                                        </span>
-                                        <span class="rating-count d-block ml-0">({{ $total }} {{__('customer reviews')}})</span>
-                                    </div>
+                                        @if($detailedProduct->added_by == 'seller' && \App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
+                                            <a href="{{ route('shop.visit', $detailedProduct->user->shop->slug) }}" class="name d-block font-weight-bold">
+                                                {{ $detailedProduct->user->shop->name }}
+                                                @if ($detailedProduct->user->seller->verification_status == 1)
+                                                    <span class="ml-2"><i class="fa fa-check-circle" style="color:green"></i></span>
+                                                @else
+                                                    <span class="ml-2"><i class="fa fa-times-circle" style="color:red"></i></span>
+                                                @endif
+                                            </a>
+                                            {{-- <div class="location">                                    
+                                                @if ($detailedProduct->added_by == 'seller' && \App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
+                                                    <a href="{{ route('shop.visit', $detailedProduct->user->shop->slug) }}">{{ $detailedProduct->user->shop->name }}</a>
+                                                @else
+                                                    {{ __('Inhouse product') }}
+                                                @endif
+                                            </div> --}}
+                                        @else
+                                            <span class="font-weight-bold">Inhouse product</span>                                
+                                        @endif
+                                        @php
+                                            $total = 0;
+                                            $rating = 0;
+                                            foreach ($detailedProduct->user->products as $key => $seller_product) {
+                                                $total += $seller_product->reviews->count();
+                                                $rating += $seller_product->reviews->sum('rating');
+                                            }
+                                            // echo $rating/$total;
+                                        @endphp
+            
+                                        <div class="rating text-center d-block">
+                                            <span class="star-rating star-rating-sm d-block">
+                                                @if ($total > 0)
+                                                    {{ renderStarRating($rating/$total) }}
+                                                @else
+                                                    {{ renderStarRating(0) }}
+                                                @endif
+                                            </span>
+                                            <span class="rating-count d-block ml-0">({{ $total }} {{__('customer reviews')}})</span>
+                                        </div>
                                 </div>
                                 <div class="row no-gutters align-items-center">
                                     @if($detailedProduct->added_by == 'seller')
@@ -1186,6 +1230,51 @@ td {
 
 @section('script')
     <script type="text/javascript">
+    $(document).ready(function(){
+    $('#district').on('change', function() {
+        $('#location').prop('disabled', false);
+        var district_id = $(this).val();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        var ajaxurl = '/location/getLocation';
+        $.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {
+                "district_id": district_id,
+            },
+            dataType: 'json',
+            beforeSend: function() {},
+            success: function(data) {
+
+                if (data != 'false') {
+                    optionLoop = '';
+                    options = data;
+                    options.forEach(function(index) {
+                        optionLoop +=
+                            '<option disabled selected>Select Location</option>'+
+                            '<option data-charge="'+index.delivery_charge+'" value="'+index.id+'">'+index.name+'</option>';
+                    });
+                } else {
+                    optionLoop = '<option disabled>No Locations</option>';
+                }
+                $(".address-location").html(optionLoop);
+                $('#charge').text('Rs. 0');
+
+            },
+            error: function(data) {
+                showFrontendAlert('error',data.responseText);
+            }
+        });
+    });
+    $('#location').on('change', function() {
+        var charge = $(this).find(':selected').data('charge');
+        $('#charge').text('Rs. '+charge);
+    });
+});
         $(document).ready(function() {
     		$('#share').jsSocials({
     			showLabel: false,

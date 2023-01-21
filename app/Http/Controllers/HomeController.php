@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Address;
 use App\AppReferList;
 use App\Blog;
 use Illuminate\Http\Request;
@@ -419,11 +420,22 @@ class HomeController extends Controller
                 Cookie::queue('product_referral_code', $request->product_referral_code, 43200);
                 Cookie::queue('referred_product_id', $detailedProduct->id, 43200);
             }
+            $districts = State::where('country_id','154')->get();
+            $default_address = [];
+            $default_address_count = Address::where('user_id',Auth::user()->id)->where('set_default',1)->count();
+            if($default_address_count == 0){
+                $address_count = Address::where('user_id',Auth::user()->id)->count();
+                if($address_count > 0){
+                    $default_address = Address::where('user_id',Auth::user()->id)->first()->toArray();
+                }
+            }else{
+                $default_address = Address::where('user_id',Auth::user()->id)->where('set_default',1)->get()->toArray();                
+            }
             if($detailedProduct->digital == 1){
-                return view('frontend.digital_product_details', compact('detailedProduct'));
+                return view('frontend.digital_product_details', compact('detailedProduct','districts','default_address'));
             }
             else {
-                return view('frontend.product_details', compact('detailedProduct'));
+                return view('frontend.product_details', compact('detailedProduct','districts','default_address'));
             }
             // return view('frontend.product_details', compact('detailedProduct'));
         }

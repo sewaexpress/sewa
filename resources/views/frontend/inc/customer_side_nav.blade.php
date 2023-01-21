@@ -136,7 +136,7 @@
            </li>
            {{-- @if(Auth::user())
             @if (\App\BusinessSetting::where('type', 'conversation_system')->first()->value == 1)
-                @php
+                @php    
                     $conversation = \App\Conversation::where('sender_id', Auth::user()->id)->where('sender_viewed', 0)->get();
                 @endphp
                 <li>
@@ -170,7 +170,7 @@
                    </a>
                </li>
            @endif
-            @if(Auth::user())
+            {{-- @if(Auth::user())
            @if ($club_point_addon != null && $club_point_addon->activated == 1)
                <li>
                    <a href="{{ route('earnng_point_for_user') }}" class="{{ areActiveRoutesHome(['earnng_point_for_user'])}}">
@@ -180,7 +180,7 @@
                        </span>
                    </a>
                </li>
-           @endif
+           @endif --}}
            @endif
 
            {{-- @if (\App\Addon::where('unique_identifier', 'affiliate_system')->first() != null && \App\Addon::where('unique_identifier', 'affiliate_system')->first()->activated && Auth::user()->affiliate_user != null && Auth::user()->affiliate_user->status)
