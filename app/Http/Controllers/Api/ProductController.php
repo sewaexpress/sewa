@@ -22,6 +22,7 @@ class ProductController extends Controller
     public function index()
     {
         $products =  filter_products(\App\Product::orderBy('id','DESC')->where('current_stock','>',0)->with('stocks'))->paginate(10);;
+        $products = $products->shuffle();
         return new ProductCollection($products);
     }
 
