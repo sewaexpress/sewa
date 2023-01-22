@@ -21,9 +21,29 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products =  filter_products(\App\Product::orderBy('id','DESC')->where('current_stock','>',0)->with('stocks'))->paginate(10);;
-        $products = $products->shuffle();
-        return new ProductCollection($products);
+        $scope = request('scope');
+
+        switch ($scope) {
+            case 'price_low_to_high':                
+                $product_get = filter_products(Product::selectRaw('*,case when discount_type = "amount" then (unit_price - discount) when discount_type = "percent" then (unit_price - (unit_price * (discount/100))) end as unit_price2')->orderBy('unit_price2', 'asc'))->paginate(2);
+                $collection = new SearchProductCollection($product_get);
+                $collection->appends(['scope' => $scope]);
+                return $collection;
+
+            case 'price_high_to_low':
+                $product_get = filter_products(Product::selectRaw('*,case when discount_type = "amount" then (unit_price - discount) when discount_type = "percent" then (unit_price - (unit_price * (discount/100))) end as unit_price2')->orderBy('unit_price2', 'desc'))->paginate(2);
+                $collection = new SearchPro1ductCollection($product_get);
+                $collection->appends(['scope' => $scope]);
+                return $collection;
+
+            default:
+                $collection = new SearchProductCollection(filter_products(Product::orderBy('num_of_sale', 'desc'))->paginate(2));
+                $collection->appends(['scope' => $scope]);
+                return $collection;
+        }
+        // $products =  filter_products(\App\Product::orderBy('id','DESC')->where('current_stock','>',0)->with('stocks'))->paginate(10);;
+        // $products = $products->shuffle();
+        // return new ProductCollection($products);
     }
 
     public function show($id)

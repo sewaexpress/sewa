@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\AppReferList;
+use App\Http\Resources\AppReferCollection;
 use App\Http\Resources\UserCollection;
 use App\User;
 use Illuminate\Http\Request;
@@ -31,7 +33,9 @@ class UserController extends Controller
         }
 
     }
-
+    public function getRefers($id){
+        return new AppReferCollection(AppReferList::where('referrer_user_id', $id)->with('referred_by','referred_to')->get());
+    }
     public function updateName(Request $request)
     {
         $user = User::findOrFail($request->user_id);

@@ -23,6 +23,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/verify/otp', 'Api\AuthController@verifyOTP')->middleware('auth:api');
 
     Route::get('pops', 'Api\SliderController@pop')->name('api.pop');
+    
+    Route::get('/get-refer/{id}', 'Api\UserController@getRefers')->middleware('auth:api');
 
     Route::apiResource('banners', 'Api\BannerController')->only('index');
 

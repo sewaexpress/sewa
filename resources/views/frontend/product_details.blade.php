@@ -550,9 +550,12 @@ td {
                                                 $location_default_details = [];
                                                 $locations = [];
                                                 if(!empty($default_address)){
-                                                    $delivery_location=\App\Location::where('id',$default_address['delivery_location'])->with('districts')->first()->toArray();
-                                                    $district_default = $delivery_location['districts']['id'];
-                                                    $location_default = $default_address['delivery_location'];
+                                                    $delivery_location=\App\Location::where('id',$default_address['delivery_location'])->with('districts')->count();
+                                                    if($delivery_location > 0){
+                                                        $delivery_location = $delivery_location->toArray();
+                                                    }
+                                                    $district_default = isset($delivery_location['districts']['id'])?$delivery_location['districts']['id']:0;
+                                                    $location_default = isset($default_address['delivery_location'])?$default_address['delivery_location']:0;
                                                     $locations = \App\Location::where('district',$delivery_location['districts']['id'])->get()->toArray();
                                                     $location_default_details = \App\Location::where('id',$default_address['delivery_location'])->first()->toArray();
                                                 }

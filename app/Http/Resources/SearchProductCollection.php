@@ -10,11 +10,30 @@ class SearchProductCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection->map(function($data) {
+                $photo=[];
                 $placeholder_img='frontend/images/placeholder.jpg';
+                
+                if(!(isset($data->photos)) && empty($data->photos)){
+                    array_push($photo,$placeholder_img);
+                }else{
+                    // array_push($photo,$img);
+                // return ($data->photos);
+                    $items = json_decode($data->photos);
+                    if(count(array($items)) > 0){
+                        foreach($items as $key=>$img){
+                            if(file_exists($img)){
+                                array_push($photo,$img);
+                            }else{
+                                array_push($photo,$placeholder_img);
+                            }
+                        }
+                    }
+                }
 
                 return [
                     'id' => (integer) $data->id,
                     'name' => $data->name,
+                    'photos' => $photo,
                     'unit_price2' => $data->unit_price2,
                     'category_id' => $data->category_id,
                     'thumbnail_image' => file_exists($data->featured_img) ? $data->featured_img : $placeholder_img,
