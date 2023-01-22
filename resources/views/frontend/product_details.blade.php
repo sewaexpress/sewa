@@ -551,13 +551,15 @@ td {
                                                 $locations = [];
                                                 if(!empty($default_address)){
                                                     $delivery_location=\App\Location::where('id',$default_address['delivery_location'])->with('districts')->count();
-                                                    if($delivery_location > 0){
+                                                    if($delivery_location != 0){
                                                         $delivery_location = $delivery_location->toArray();
+                                                        $locations = \App\Location::where('district',$delivery_location['districts']['id'])->get()->toArray();
+                                                    $location_default_details = \App\Location::where('id',$default_address['delivery_location'])->first()->toArray();
                                                     }
                                                     $district_default = isset($delivery_location['districts']['id'])?$delivery_location['districts']['id']:0;
                                                     $location_default = isset($default_address['delivery_location'])?$default_address['delivery_location']:0;
-                                                    $locations = \App\Location::where('district',$delivery_location['districts']['id'])->get()->toArray();
-                                                    $location_default_details = \App\Location::where('id',$default_address['delivery_location'])->first()->toArray();
+                                                    
+                                                    
                                                 }
                                             @endphp
                                             <select id="district" class="form-control">
