@@ -367,8 +367,12 @@ td {
                                     @php
                                     $qty = 0;
                                     if($detailedProduct->variant_product){
-                                        foreach ($detailedProduct->stocks as $key => $stock) {
-                                            $qty += $stock->qty;
+                                        if($detailProduct->attributes == '[]' && $detailProduct->choice_options == '[]' && $detailProduct->colors == '[]'){
+                                            $qty = $detailedProduct->current_stock ;
+                                        }else{
+                                            foreach ($detailedProduct->stocks as $key => $stock) {
+                                                $qty += $stock->qty;
+                                            }
                                         }
                                     }
                                     else{
