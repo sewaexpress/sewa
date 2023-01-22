@@ -181,7 +181,7 @@
                    </a>
                </li>
            @endif --}}
-           @endif
+           {{-- @endif --}}
 
            {{-- @if (\App\Addon::where('unique_identifier', 'affiliate_system')->first() != null && \App\Addon::where('unique_identifier', 'affiliate_system')->first()->activated && Auth::user()->affiliate_user != null && Auth::user()->affiliate_user->status)
                <li>

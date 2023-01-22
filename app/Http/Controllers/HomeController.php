@@ -396,6 +396,13 @@ class HomeController extends Controller
 
     public function product(Request $request, $slug)
     {
+        // $detailedProduct = Session::get($slug);
+        // if($detailedProduct === null){
+        //     $detailedProduct  = Product::where('slug', $slug)->first();
+        //     Session::put($slug, $detailedProduct);
+        // }else{
+        //     echo 'loaded from session';
+        // }
         $detailedProduct  = Product::where('slug', $slug)->first();
         if($detailedProduct!=null && $detailedProduct->published){
             updateCartSetup();
