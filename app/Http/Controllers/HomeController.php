@@ -40,6 +40,7 @@ use Response;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat\PercentageFormatter;
 use DB;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
@@ -174,6 +175,24 @@ class HomeController extends Controller
     }
     public function dashboard()
     {
+        // $client = new Client();
+        // $response = $client->request('GET', 'https://qrcode.tec-it.com/API/QRCode', [
+        //     'query' => [
+        //         'data' => 'Your QR code data here',
+        //         'moduleSize' => '5',
+        //         'errorCorrectionLevel' => 'L'
+        //     ]
+        // ]);
+        
+        // $response = $client->request('GET', 'https://barcode.tec-it.com/barcode.ashx', [
+        //     'query' => [
+        //         'data' => 'asd',
+        //         'dpi' => '72',
+        //         'unit' => '1'
+        //     ]
+        // ]);
+        // $image = $response->getBody()->getContents();
+        // return response($image)->header('Content-Type', 'image/png');
         // session()->forget('cart');
         if(Auth::user()->user_type == 'seller'){
             return view('frontend.seller.dashboard');

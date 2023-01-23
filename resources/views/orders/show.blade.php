@@ -269,6 +269,24 @@
     		</div>
     	</div>
     </div>
+    <div class="panel">
+    	<div class="panel-body">				
+            <div class="row">
+                <div class="col-lg-12">
+					<h2>Tracking Code Bar Code</h2>
+					<img alt='Tracking code Bar' src='https://barcode.tec-it.com/barcode.ashx?data={{ $order->code }}&code=Code128&translate-esc=on'/>
+                </div>
+                <div class="col-lg-12">
+					<h2>Shipping Address QR Code</h2>
+					<img alt='Tracking code Bar' src='https://qrcode.tec-it.com/API/QRCode?data={{ json_decode($order->shipping_address)->address }}, {{ json_decode($order->shipping_address)->city }}, {{ json_decode($order->shipping_address)->country }}&moduleSize=5&errorCorrectionLevel=L'/>
+                </div>
+                {{-- <div class="col-lg-12">
+					<h2>Shipping Address Bar Code</h2>
+					<img alt='Tracking code Bar' src='https://barcode.tec-it.com/barcode.ashx?data={{ json_decode($order->shipping_address)->address }}, {{ json_decode($order->shipping_address)->city }}, {{ json_decode($order->shipping_address)->country }}&code=Code128&translate-esc=on'/>
+                </div> --}}
+            </div>
+    	</div>
+    </div>
 @endsection
 
 @section('script')
