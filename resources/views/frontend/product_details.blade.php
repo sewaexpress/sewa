@@ -555,14 +555,14 @@ td {
                                                 $locations = [];
                                                 if(!empty($default_address)){
                                                     
-                                                    $delivery_location=\App\Location::where('id',$default_address['delivery_location'])->with('districts');
+                                                    $delivery_location=\App\Location::where('id',$default_address['delivery_location'])->with('districts')->count();
                                                     
-                                                    if($delivery_location->count() != 0){
-                                                        $delivery_location = $delivery_location->first()->toArray();
-                                                        $locations = \App\Location::where('district',$delivery_location['districts']['id']);
-                                                        if($locations->count() > 0){
+                                                    if($delivery_location != 0){
+                                                        $delivery_location = \App\Location::where('id',$default_address['delivery_location'])->with('districts')->first()->toArray();
+                                                        $locations = \App\Location::where('district',$delivery_location['districts']['id'])->count();
+                                                        if($locations > 0){
                                                            
-                                                            $locations = $locations->get()->toArray();
+                                                            $locations = \App\Location::where('district',$delivery_location['districts']['id'])->get()->toArray();
                                                             $location_default_details = \App\Location::where('id',$default_address['delivery_location'])->first()->toArray();
                                                         }else{
                                                             $locations = [];
