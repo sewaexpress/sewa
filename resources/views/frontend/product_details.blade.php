@@ -554,11 +554,20 @@ td {
                                                 $location_default_details = [];
                                                 $locations = [];
                                                 if(!empty($default_address)){
-                                                    $delivery_location=\App\Location::where('id',$default_address['delivery_location'])->with('districts')->count();
-                                                    if($delivery_location != 0){
-                                                        $delivery_location = $delivery_location->toArray();
-                                                        $locations = \App\Location::where('district',$delivery_location['districts']['id'])->get()->toArray();
-                                                    $location_default_details = \App\Location::where('id',$default_address['delivery_location'])->first()->toArray();
+                                                    
+                                                    $delivery_location=\App\Location::where('id',$default_address['delivery_location'])->with('districts');
+                                                    
+                                                    if($delivery_location->count() != 0){
+                                                        $delivery_location = $delivery_location->first()->toArray();
+                                                        $locations = \App\Location::where('district',$delivery_location['districts']['id']);
+                                                        if($locations->count() > 0){
+                                                           
+                                                            $locations = $locations->get()->toArray();
+                                                            $location_default_details = \App\Location::where('id',$default_address['delivery_location'])->first()->toArray();
+                                                        }else{
+                                                            $locations = [];
+                                                            $location_default_details = 0;
+                                                        }
                                                     }
                                                     $district_default = isset($delivery_location['districts']['id'])?$delivery_location['districts']['id']:0;
                                                     $location_default = isset($default_address['delivery_location'])?$default_address['delivery_location']:0;
