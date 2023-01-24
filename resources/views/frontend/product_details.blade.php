@@ -986,7 +986,7 @@ td {
                                 <div class="product-lists mt-4">
                                     <div class="right-side-wrapper">
                                         <div class="grid-container2 best_selling">
-                                            @foreach (filter_products(\App\Product::where('subcategory_id', $detailedProduct->subcategory_id)->where('id', '!=', $detailedProduct->id))->get() as $key => $related_product)
+                                            @foreach (filter_products(\App\Product::where('subcategory_id', $detailedProduct->subcategory_id)->where('id', '!=', $detailedProduct->id))->limit(5)->get() as $key => $related_product)
                                                 <div class="grid-item mx-1">
                                                     <div class="product-grid-item">
                 
