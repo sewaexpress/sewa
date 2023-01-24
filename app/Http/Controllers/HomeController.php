@@ -894,9 +894,15 @@ class HomeController extends Controller
 
 
         if ($str != null && $product->variant_product) {
-            $product_stock = $product->stocks->where('variant', $str)->first();
-            $price = $product_stock->price;
-            $quantity = $product_stock->qty;
+            $product_stock = $product->stocks->where('variant', $str)->count();
+            if($product_stock > 0){
+                $product_stock = $product->stocks->where('variant', $str)->first();                
+                $price = $product_stock->price;
+                $quantity = $product_stock->qty;                
+            }else{
+                $price = $product->unit_price;
+                $quantity = $product->current_stock;                
+            }
         } else {
             $price = $product->unit_price;
             $quantity = $product->current_stock;
