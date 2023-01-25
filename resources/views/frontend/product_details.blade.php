@@ -654,7 +654,7 @@ td {
                                             $total = 0;
                                             $rating = 0;
                                             foreach ($detailedProduct->user->products as $key => $seller_product) {
-                                                $total += ($seller_product->reviews)?$seller_product->reviews->count();
+                                                $total += ($seller_product->reviews)?$seller_product->reviews->count():0;
                                                 $rating += $seller_product->reviews->sum('rating');
                                             }
                                             // echo $rating/$total;
