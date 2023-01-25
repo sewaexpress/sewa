@@ -459,6 +459,7 @@ class HomeController extends Controller
                 //     $default_address = Address::where('user_id',Auth::user()->id)->where('set_default',1)->get()->toArray();                
                 // }
             }
+            dd('here');
             if($detailedProduct->digital == 1){
                 return view('frontend.digital_product_details', compact('detailedProduct','districts','default_address'));
             }
