@@ -148,6 +148,264 @@ td {
     </section>
     <!-- Breadcrumbs Ends -->
     <!-- Product Detail  -->
+    <section id="product-detail-wrapper" class="py-3">
+        <div class="container">
+            <div class="col-12 mt-3">
+                {{-- justify-content-center --}}
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="first-tab" data-toggle="tab" href="#first"
+                        role="tab" aria-controls="first" aria-selected="true"
+                        style="color: rgb(72, 77, 103);">Product Details</a>
+                        
+                        @if ($detailedProduct->specs != null)
+                        <a class="nav-item nav-link" id="fifth-tab" data-toggle="tab" href="#fifth" role="tab" aria-controls="fourth" aria-selected="false"
+                        style="color: rgb(72, 77, 103);">Specification</a>
+                        @endif
+
+                        
+                        @if ($detailedProduct->pdf != null)
+                        <a class="nav-item nav-link" id="fourth-tab" data-toggle="tab" href="#fourth" role="tab" aria-controls="fourth" aria-selected="false"
+                        style="color: rgb(72, 77, 103);">Downloads</a>
+                        @endif
+
+                        @if ($detailedProduct->video_link != null)
+                        
+                        <a class="nav-item nav-link" id="third-tab" data-toggle="tab" href="#third" role="tab" aria-controls="third" aria-selected="false"
+                        style="color: rgb(72, 77, 103);">Video</a>
+
+                        @endif
+
+                        <a class="nav-item nav-link" id="second-tab" data-toggle="tab" href="#second" role="tab"
+                        aria-controls="second" aria-selected="false"
+                        style="color: rgb(72, 77, 103);">Reviews <span>({{ count($detailedProduct->reviews) }})</span>
+                        </a>
+                        
+                       
+                        
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade p-3 w-75 active show" id="first" role="tabpanel"
+                        aria-labelledby="first-tab">{!! $detailedProduct->description !!}
+                    </div>
+                    
+                    <style>
+                        #fifth li{
+                            list-style: inside;
+                        }
+                    </style>
+                    <div class="tab-pane fade p-3 w-75" id="fifth" role="tabpanel"
+                        aria-labelledby="fifth-tab">{!! $detailedProduct->specs !!}
+                    </div>
+                    
+                    <div class="tab-pane fade p-3" id="fourth" role="tabpanel" aria-labelledby="fourth-tab">
+                        <div class="py-2 px-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a class="btn btn-success" href="{{ asset($detailedProduct->pdf) }}"><i class="fa fa-download"></i> {{ __('Download PDF') }}</a>
+                                </div>
+                            </div>
+                            <span class="space-md-md"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade p-3" id="third" role="tabpanel" aria-labelledby="third-tab">
+                        <div class="fluid-paragraph py-2">
+                            <!-- 16:9 aspect ratio -->
+                            {{-- {{dd($detailedProduct)}} --}}
+                            <div class="embed-responsive embed-responsive-16by9 mb-5">
+                                @php
+                                    $url = $detailedProduct->video_link;
+                                @endphp
+                                    @if (!filter_var($url, FILTER_VALIDATE_URL) === false)
+                                        @if ($detailedProduct->video_provider == 'youtube' && $detailedProduct->video_link != null)
+                                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/{{ explode('=', $detailedProduct->video_link)[1] }}"></iframe>
+                                        @elseif ($detailedProduct->video_provider == 'dailymotion' && $detailedProduct->video_link != null)
+                                            <iframe class="embed-responsive-item" src="https://www.dailymotion.com/embed/video/{{ explode('video/', $detailedProduct->video_link)[1] }}"></iframe>
+                                        @elseif ($detailedProduct->video_provider == 'vimeo' && $detailedProduct->video_link != null)
+                                            <iframe src="https://player.vimeo.com/video/{{ explode('vimeo.com/', $detailedProduct->video_link)[1] }}" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                                        @endif
+                                    @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade p-3" id="second" role="tabpanel" aria-labelledby="second-tab">
+                        <div class="row align-items-center justify-content-center">
+                            @if (Auth::check())
+                                        @php
+                                            $commentable = false;
+                                        @endphp
+                                        @foreach ($detailedProduct->orderDetails as $key => $orderDetail)
+                                            @if (
+                                                $orderDetail->order != null &&
+                                                    $orderDetail->order->user_id == Auth::user()->id &&
+                                                    $orderDetail->delivery_status == 'delivered' &&
+                                                    \App\Review::where('user_id', Auth::user()->id)->where('product_id', $detailedProduct->id)->first() == null)
+                                                @php
+                                                    $commentable = true;
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                        @if ($commentable)
+                                        <div class="col-lg-4 col-12 mx-auto">
+                                            <!-- User Comment -->
+                                            <div class="user-comment py-4 px-3">
+                                                <div class="title mb-3 text-center">
+                                                    <h2 class="font-weight-bold mb-2">Add a comment</h2>
+                                                </div>
+                                                <div class="col-12">
+                                                    <form class="form-default" role="form" action="{{ route('reviews.store') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="product_id" value="{{ $detailedProduct->id }}">
+                                                        <div class="row">
+                                                            <div class="col-12 my-2">
+                                                                <input type="text" class="form-control rounded-0" name="name" value="{{ Auth::user()->name }}" class="form-control" disabled required>
+                                                                {{-- <input type="text" class="form-control rounded-0"
+                                                                    placeholder="Name"> --}}
+                                                            </div>
+                                                            <div class="col-12 my-2">
+                                                                <input type="text" class="form-control rounded-0" name="email" value="{{ Auth::user()->email }}" class="form-control" required disabled>
+                                                                {{-- <input type="email" class="form-control rounded-0"
+                                                                    placeholder="Email address"> --}}
+                                                            </div>
+                                                            <div class="col-12 my-2">
+                                                                <div class="col-text-area d-flex justify-content-center">
+                                                                    <textarea class="w-100 p-3 rounded-0" rows="4" name="comment" placeholder="{{ __('Your review') }}" required></textarea>
+                                                                    {{-- <textarea class="w-100 p-3 rounded-0"
+                                                                        placeholder="Add Comment"></textarea> --}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="d-flex justify-content-center mb-4">
+                                                                    <div class="c-rating mt-1 mb-1 clearfix d-inline-block">
+                                                                        <input type="radio" id="star1" name="rating" value="5" required/>
+                                                                        <label class="tf-ion-android-star" for="star1" title="Awesome" aria-hidden="true"></label>
+                                                                        <input type="radio" id="star2" name="rating" value="4" required/>
+                                                                        <label class="tf-ion-android-star" for="star2" title="Great" aria-hidden="true"></label>
+                                                                        <input type="radio" id="star3" name="rating" value="3" required/>
+                                                                        <label class="tf-ion-android-star" for="star3" title="Very good" aria-hidden="true"></label>
+                                                                        <input type="radio" id="star4" name="rating" value="2" required/>
+                                                                        <label class="tf-ion-android-star" for="star4" title="Good" aria-hidden="true"></label>
+                                                                        <input type="radio" id="star5" name="rating" value="1" required/>
+                                                                        <label class="tf-ion-android-star" for="star5" title="Bad" aria-hidden="true"></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div class="button-wrapper mx-auto mb-3">
+                                                                <button type="submit" class="btn-custom px-4 color-white">Send</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <!-- User Comment Ends-->
+                                        </div>
+                                        @endif
+                                    @endif
+
+                                    
+                                    <!-- people Comments -->
+                            @if (count($detailedProduct->reviews) > 0)
+                            
+                            <div class="col-xl-8 col-lg-8 col-12 mb-4">
+                                <div class="d-flex people-comment">
+                                    <ul class="comment-wrapper">
+                                        @foreach ($detailedProduct->reviews as $key => $review)
+                                        <li class="d-flex mb-2 p-4">
+                                            <div class="image mr-3">
+                                                <a href="#">
+                                                    @php
+                                                        $user_img=\App\User::where('id',$review->user_id)->first();
+                                                    @endphp
+                                                    @if (empty($user_img->avatar_original))
+                                                        <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                                                    @else
+                                                        @if (file_exists(asset($user_img->avatar_original)))
+                                                            <img class="img-responsive user-photo" src="{{ asset($user_img->avatar_original) }}">
+                                                        @else
+                                                        <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+
+                                                        @endif
+                                                    @endif
+                                                    
+                                                </a>
+                                            </div>
+                                            <div class="media-body">
+                                                <h5>{{ $user_img->name }}</h5>
+                                                <div class="comment-date mb-2">
+                                                    <p class="m-0 text-uppercase"> {{ date('D, d M Y', strtotime($review->created_at)) }} </p>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="rating text-right clearfix d-block">
+                                                        <span class="star-rating star-rating-sm float-right">
+                                                            @for ($i = 0; $i < $review->rating; $i++)
+                                                                <i class="fa fa-star active"></i>
+                                                            @endfor
+                                                            @for ($i = 0; $i < 5 - $review->rating; $i++)
+                                                                <i class="fa fa-star"></i>
+                                                            @endfor
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <p>{{ $review->comment }}</p>
+                                                <!-- Comment Reply -->
+                                                {{-- <ul>
+                                                    <li>
+                                                        <div class="comment-reply">
+                                                            <div class="d-flex">
+                                                                <div class="image mr-3">
+                                                                    <a href="#">
+                                                                        <img class="img-responsive user-photo"
+                                                                            src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                                                                    </a>
+                                                                </div>
+                                                                <div class="media-body">
+                                                                    <h5>Azar Hank</h5>
+                                                                    <div class="comment-date mb-2">
+                                                                        <p class="m-0 text-uppercase"> 12 March,
+                                                                            2021 AT 10:50 </p>
+                                                                    </div>
+                                                                    <p>Lorem ipsum, dolor sit amet consectetur
+                                                                        adipisicing elit. Sed consequuntur
+                                                                        repudiandae, ducimus error animi neque
+                                                                        recusandae optio tempora non sequi
+                                                                        cupiditate ipsum perspiciatis
+                                                                        porro maxime praesentium doloribus amet
+                                                                        delectus velit.</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <!-- Comment Reply Ends -->
+                                                <div class="button">
+                                                    <a href="#"> Reply</a>
+                                                </div> --}}
+                                            </div>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            @endif
+                            <!-- people Comments Ends -->
+
+                            @if (count($detailedProduct->reviews) <= 0)
+                                <div class="text-center">
+                                    {{ __('There have been no reviews for this product yet.') }}
+                                </div>
+                            @endif
+
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        {{-- </div> --}}
+    </section>
 
     <section class="gry-bg">
         <div class="container">
