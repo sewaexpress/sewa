@@ -568,6 +568,7 @@ td {
                                                 $location_default_details = [];
                                                 $locations = [];
                                                 if(!empty($default_address)){
+                                                    dd($default_address);
                                                     
                                                     $delivery_location=\App\Location::where('id',$default_address['delivery_location'])->with('districts')->count();
                                                     
