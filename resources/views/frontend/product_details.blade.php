@@ -396,6 +396,37 @@ td {
                                                 </div>
                                             </div>
                                         @endif --}}
+                                        @if ($detailedProduct->colors_images != '' && $detailedProduct->colors_images != '[]' && count(json_decode($detailedProduct->colors_images, true)) > 0)
+                                            <div class="form-group col-lg-12 col-md-6 mb-0">
+                                                <div class="image-select">
+                                                    <h5>Color</h5>
+                                                    <div class="my-color ml-5">
+                                                        @if ($detailedProduct->color_images != null)
+                                                            @foreach (json_decode($detailedProduct->color_images) as $key => $color)
+                                                            <label class="radio m-0 change-image" data-colorPointTo = "color-image-{{ $color->name }}" style="background: {{ $color->code }};" for="{{ $detailedProduct->id }}-color-{{ $key }}" data-toggle="tooltip" >
+                                                                <input type="radio" id="{{ $detailedProduct->id }}-color-{{ $key }}" name="color" value="{{ $color->code }}" @if ($key == 0) checked @endif>
+                                                                <span style="background:{{ $color->code }}; border:{{ $color->code }}"></span> 
+                                                            </label>
+                                                            @endforeach
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @elseif($detailedProduct->colors != '[]' && count(json_decode($detailedProduct->colors)) > 0)
+                                            <div class="form-group col-lg-12 col-md-6 mb-0">
+                                                <div class="image-select">
+                                                    <h5>Color</h5>
+                                                    <div class="my-color ml-5">
+                                                        @foreach (json_decode($detailedProduct->colors) as $key => $color)
+                                                        <label class="radio m-0" style="background: {{ $color }};" for="{{ $detailedProduct->id }}-color-{{ $key }}" data-toggle="tooltip">
+                                                            <input type="radio" id="{{ $detailedProduct->id }}-color-{{ $key }}" name="color" value="{{ $color }}" @if ($key == 0) checked @endif>
+                                                            <span style="background:{{ $color }}; border:{{ $color }}"></span> 
+                                                        </label>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
         
                                         @if ($detailedProduct->choice_options != null)
                                         {{-- {{dd($detailedProduct->choice_options)}} --}}
