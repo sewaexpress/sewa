@@ -449,15 +449,15 @@ class HomeController extends Controller
             $districts = State::where('country_id','154')->get();
             $default_address = [];
             if(Auth::user()){
-                $default_address_count = Address::where('user_id',Auth::user()->id)->where('set_default',1)->count();
-                if($default_address_count == 0){
-                    $address_count = Address::where('user_id',Auth::user()->id)->count();
-                    if($address_count > 0){
-                        $default_address = Address::where('user_id',Auth::user()->id)->first()->toArray();
-                    }
-                }else{
-                    $default_address = Address::where('user_id',Auth::user()->id)->where('set_default',1)->get()->toArray();                
-                }
+                // $default_address_count = Address::where('user_id',Auth::user()->id)->where('set_default',1)->count();
+                // if($default_address_count == 0){
+                //     $address_count = Address::where('user_id',Auth::user()->id)->count();
+                //     if($address_count > 0){
+                //         $default_address = Address::where('user_id',Auth::user()->id)->first()->toArray();
+                //     }
+                // }else{
+                //     $default_address = Address::where('user_id',Auth::user()->id)->where('set_default',1)->get()->toArray();                
+                // }
             }
             if($detailedProduct->digital == 1){
                 return view('frontend.digital_product_details', compact('detailedProduct','districts','default_address'));
