@@ -249,6 +249,313 @@ td {
                 </div>
                 <div class="col-lg-7 col-md-12 col-12 mx-auto">
                     <div class="row">
+                        <div class="col-lg-8 col-md-12 col-12">
+                            <div class="d-flex justify-content-center product-detail flex-column">
+                                <div class="about mb-1">
+                                    <div class="d-inline-block flex-column flex-wrap mb-2">
+                                        <h3 class="font-weight-bold m-0">{{ __($detailedProduct->name) }}</h3>                               
+        
+                                    </div>
+        
+        
+                                    <div class="d-flex flex-wrap align-items-center">
+                                        <!-- Rating -->
+                                        <div class="rating-wrapper mr-3">
+                                            <div class="p-ratings">
+                                                @php
+                                                    $total = 0;
+                                                    $rating = 0;
+                                                @endphp
+                                                <i class="star-rating">
+                                                    {{-- @if ($detailedProduct->rating > 0)
+                                                        {{ renderStarRating($rating/$total) }}
+                                                    @else
+                                                        {{ renderStarRating(0) }}
+                                                    @endif --}}
+                                                    {{ renderStarRating($detailedProduct->rating) }}
+                                                </i>
+                                                
+                                                <span class="rating-count ml-1">
+                                                    ({{ count($detailedProduct->reviews) }} {{ __('reviews') }})
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <!-- Rating Ends -->
+                                        
+                                        {{-- <div class="font-weight-bold d-inline-flex align-items-center">
+                                            <ul class="p-0 m-0 d-flex align-items-center">                                        
+                                                <li class="mr-2">
+                                                    <div class="jssocials-share jssocials-share-email">
+                                                        <a class="all-deals effect gray" href="javasctipy:void(0);" onclick="addToWishList({{$detailedProduct->id}})">
+                                                            <i class="fa fa-heart icon mr-2"></i>
+                                                        </a>
+                                                        <a class="all-deals effect gray" onclick="addToCompare({{$detailedProduct->id}})">
+                                                            <i class="fa fa-exchange icon mr-2"></i>
+                                                        </a>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            
+                                        </div> --}}
+                                        {{-- <div class="social-media font-weight-bold d-inline-flex align-items-center">
+                                            <!-- <label class="mr-3 mb-0 font-weight-bold">
+                                            Share On
+                                            </label> -->
+                                            <ul class="p-0 m-0 d-flex align-items-center">
+                                                
+                                                <li class="mr-2">
+                                                    <div id="share"></div>
+                                                </li>
+                                            </ul>
+                                            
+                                        </div> --}}
+                                    </div>
+                                </div>
+                                <hr>
+
+                                    <div class="row align-items-center">
+                                        <div class="sold-by col-auto">
+                                            <small class="mr-2">Brand: </small><br>
+                                            @if ($detailedProduct->brand)
+                                            <a href="{{ route('products.brand', ['brand_slug' => $detailedProduct->brand->slug]) }}">{{ $detailedProduct->brand->name }}</a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <hr>
+                                {{-- @else
+                                    <div class="row align-items-center">
+                                        <div class="sold-by col-auto">
+                                            <small class="mr-2">Vendor: </small><br>                                    
+                                            @if ($detailedProduct->added_by == 'seller' && \App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
+                                                <a href="{{ route('shop.visit', $detailedProduct->user->shop->slug) }}">{{ $detailedProduct->user->shop->name }}</a>
+                                            @else
+                                                {{ __('Inhouse product') }}
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <hr>
+                                @endif --}}
+                                <div class="form-group">
+                                    @if (home_price($detailedProduct->id) != home_discounted_price($detailedProduct->id))
+                                        <div class="product-price text-dark">
+                                            <div class="second-price font-weight-bold">{{ home_discounted_price($detailedProduct->id) }}
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="first-price mr-2">{{ home_price($detailedProduct->id) }}
+                                                </div>
+                                                <div class="discount">
+                                                    @if (!$detailedProduct->discount == 0)
+                                                        <div class="">
+                                                            -{{ $detailedProduct->discount_type == 'amount' ? 'Rs.' : '' }} {{ intval($detailedProduct->discount, 0) }}{{ !($detailedProduct->discount_type == 'amount') ? ' %' : '' }} off
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @else
+                                        <div class="product-price text-dark">
+                                            <div class="second-price font-weight-bold">{{ home_discounted_price($detailedProduct->id) }}
+                                            </div> 
+                                        </div>
+                                    @endif
+                                </div>
+        
+        
+                                <form id="option-choice-form" class="image-size-wrapper">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ $detailedProduct->id }}">
+                                    @php
+                                    $qty = 0;
+                                    if($detailedProduct->variant_product){
+                                        if($detailedProduct->attributes == '[]' && $detailedProduct->choice_options == '[]' && $detailedProduct->colors == '[]'){
+                                            $qty = $detailedProduct->current_stock ;
+                                        }else{
+                                            foreach ($detailedProduct->stocks as $key => $stock) {
+                                                $qty += $stock->qty;
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        $qty = $detailedProduct->current_stock ;
+                                    }
+                                    @endphp
+                                    <div class="form-row">
+        
+                                        {{-- @if (count(json_decode($detailedProduct->colors)) > 0)
+                                            <div class="form-group col-lg-12 col-md-6 mb-0">
+                                                <div class="image-select">
+                                                    <h5>Color</h5>
+                                                    <div class="my-color ml-5">
+                                                        @foreach (json_decode($detailedProduct->colors) as $key => $color)
+                                                        <label class="radio m-0" style="background: {{ $color }};" for="{{ $detailedProduct->id }}-color-{{ $key }}" data-toggle="tooltip">
+                                                            <input type="radio" id="{{ $detailedProduct->id }}-color-{{ $key }}" name="color" value="{{ $color }}" @if ($key == 0) checked @endif>
+                                                            <span style="background:{{$color}}; border:{{$color}}"></span> 
+                                                        </label>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif --}}
+                                        @if (count(json_decode($detailedProduct->colors_images, true)) > 0)
+                                            <div class="form-group col-lg-12 col-md-6 mb-0">
+                                                <div class="image-select">
+                                                    <h5>Color</h5>
+                                                    <div class="my-color ml-5">
+                                                        @if ($detailedProduct->color_images != null)
+                                                            @foreach (json_decode($detailedProduct->color_images) as $key => $color)
+                                                            <label class="radio m-0 change-image" data-colorPointTo = "color-image-{{ $color->name }}" style="background: {{ $color->code }};" for="{{ $detailedProduct->id }}-color-{{ $key }}" data-toggle="tooltip" >
+                                                                <input type="radio" id="{{ $detailedProduct->id }}-color-{{ $key }}" name="color" value="{{ $color->code }}" @if ($key == 0) checked @endif>
+                                                                <span style="background:{{ $color->code }}; border:{{ $color->code }}"></span> 
+                                                            </label>
+                                                            @endforeach
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {{-- @elseif($detailedProduct->colors != '[]' && count(json_decode($detailedProduct->colors)) > 0)
+                                            <div class="form-group col-lg-12 col-md-6 mb-0">
+                                                <div class="image-select">
+                                                    <h5>Color</h5>
+                                                    <div class="my-color ml-5">
+                                                        @foreach (json_decode($detailedProduct->colors) as $key => $color)
+                                                        <label class="radio m-0" style="background: {{ $color }};" for="{{ $detailedProduct->id }}-color-{{ $key }}" data-toggle="tooltip">
+                                                            <input type="radio" id="{{ $detailedProduct->id }}-color-{{ $key }}" name="color" value="{{ $color }}" @if ($key == 0) checked @endif>
+                                                            <span style="background:{{ $color }}; border:{{ $color }}"></span> 
+                                                        </label>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif --}}
+        
+                                        @if ($detailedProduct->choice_options != null)
+                                        {{-- {{dd($detailedProduct->choice_options)}} --}}
+                                        @foreach (json_decode($detailedProduct->choice_options) as $key => $choice)
+                                        <div class="form-group col-lg-12 col-md-6 mb-0">
+                                            <div class="size-wrapper">
+                                                <div class="size-select">
+                                                    <h5>{{ \App\Attribute::find($choice->attribute_id)->name }}</h5>
+                                                    <div class="select-size ml-5">
+                                                        {{-- {{dd($choice->values)}} --}}
+                                                        @foreach ($choice->values as $key => $value)
+                                                        <input type="radio" id="{{ $choice->attribute_id }}-{{ $value }}" name="attribute_id_{{ $choice->attribute_id }}" value="{{ $value }}" @if ($key == 0) checked @endif>
+                                                            <label for="{{ $choice->attribute_id }}-{{ $value }}" class="size">{{ $value }}</label>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                        @endif
+        
+                                        <div class="form-group col-lg-4 col-md-6 mt-3">
+                                            <div class="quantity">
+                                                <h5>Quantity</h5>
+                                                <div class="qty-1">
+                                                    <span class="input-group-btn minus">
+                                                        <button class="btn btn-number" type="button" data-type="minus" data-field="quantity" style="padding:0px;">
+                                                            -
+                                                        </button>
+                                                    </span>
+                                                    <input type="text" name="quantity" class="input-number text-center" placeholder="1" value="1" min="1" max="10">
+                                                    <span class="input-group-btn plus" data-type="plus" data-field="quantity">
+                                                        <button class="btn btn-number" type="button" data-type="plus" data-field="quantity" style="padding:0px;">
+                                                            +
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                                <div class="avialable-amount">(<span id="available-quantity">{{ $qty }}</span> {{ __('available') }})</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    {{-- <div class="row no-gutters">
+                                        <div class="product-description-label font-weight-bold d-flex">
+                                            Shipping Cost:
+                                            @php   
+                                            $shipping_type = \App\BusinessSetting::where('type', 'shipping_type')->first()->value;
+                                            if($shipping_type == 'product_wise_shipping'){
+                                                $shipping = $detailedProduct->shipping_cost;
+                                            }elseif($shipping_type == 'flat_rate'){
+                                                $shipping = \App\BusinessSetting::where('type', 'flat_rate_shipping_cost')->first()->value;
+                                            }
+                                            @endphp
+                                            @if ($detailedProduct->shipping_type == 'free')
+                                               <span class="cost pl-2">Free</span> 
+                                            @else
+                                                @if ($shipping <= 0)
+                                                    <span class="cost pl-2">Free</span> 
+                                                @else
+                                                    <span class="cost pl-2"> Rs. {{(intval($detailedProduct->shipping_cost,0))}} </span>
+                                                @endif
+                                            @endif
+                                        </div>
+                                    </div> --}}
+                                    <div class="row no-gutters py-2 d-none align-items-center" id="chosen_price_div">
+                                        <div class="col-2 m-auto">
+                                            <div class="product-description-label h5 m-0">{{ __('Total Price') }}:</div>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="product-price text-dark" style="background: none;">
+                                                <strong id="chosen_price" class="font-weight-bold h5">
+                                                    
+                                                </strong>
+                                            </div>
+                                        </div>
+        
+                                    </div>
+        
+        
+        
+                                    <div class="d-table width-100 mt-3">
+                                        <div class="d-table-cell">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <!-- Buy Now button -->
+                                                    @if ($qty > 0)
+                                                        @if (Auth::check())   
+                                                            @if (Auth::user()->user_type != 'admin' && Auth::user()->user_type != 'seller')   
+                                                                <button type="button" class="btn-custom ml-2" onclick="buyNow()">
+                                                                    {{ __('Buy Now') }}
+                                                                </button>
+                                                                <button type="button" class="btn-custom" onclick="addToCart()">
+                                                                    <span class=" d-md-inline-block"> {{ __('Add to cart') }}</span>
+                                                                </button>
+                                                                
+                                                            @endif                 
+                                                        @else                                 
+                                                            <button type="button" class="btn-custom ml-2" onclick="showCheckoutModal()">
+                                                                {{ __('Buy Now') }}
+                                                            </button>
+                                                            <button type="button" class="btn-custom" onclick="showCheckoutModal()">
+                                                                <span class=" d-md-inline-block"> {{ __('Add to cart') }}</span>
+                                                            </button>
+                                                            {{-- <button class="btn btn-styled btn-base-1" onclick="showCheckoutModal()" style="background: var(--theme_color)">{{__('Continue to Shipping')}}</button> --}}
+                                                        @endif                                                    
+                                                    @else
+                                                        <button type="button" class="btn btn-effect btn-base-3 btn-icon-left strong-700" disabled>
+                                                             {{ __('Out of Stock') }}
+                                                        </button>
+                                                    @endif         
+
+                                                </div>
+                                                <div class="col-12 mt-2">           
+                                                <button type="button" class="btn-custom ml-2" onclick="addToCompare({{ $detailedProduct->id }})">
+                                                    {{ __('Compare') }}
+                                                </button>
+                                                <button type="button" class="btn-custom" onclick="addToWishList({{ $detailedProduct->id }})">
+                                                    <span class=" d-md-inline-block"> {{ __('Wishlist') }}</span>
+                                                </button>  
+                                                    
+                                                </div>
+                                            </div>             
+                                        </div>
+                                    </div>
+        
+                                </form>
+        
+                            </div>
+                        </div>
                         <div class="col-lg-4 col-md-12 col-12">
                             <div class="seller-info-box mb-4">
                                 <div class="sold-by position-relative">                                    
