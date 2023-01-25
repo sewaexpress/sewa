@@ -322,43 +322,19 @@ td {
                                         </div>
                                     </div>
                                     <hr>
-                                {{-- @else
-                                    <div class="row align-items-center">
-                                        <div class="sold-by col-auto">
-                                            <small class="mr-2">Vendor: </small><br>                                    
-                                            @if ($detailedProduct->added_by == 'seller' && \App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
-                                                <a href="{{ route('shop.visit', $detailedProduct->user->shop->slug) }}">{{ $detailedProduct->user->shop->name }}</a>
-                                            @else
-                                                {{ __('Inhouse product') }}
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <hr>
-                                @endif --}}
-                                <div class="form-group">
-                                    @if (home_price($detailedProduct->id) != home_discounted_price($detailedProduct->id))
-                                        <div class="product-price text-dark">
-                                            <div class="second-price font-weight-bold">{{ home_discounted_price($detailedProduct->id) }}
-                                            </div>
-                                            <div class="d-flex">
-                                                <div class="first-price mr-2">{{ home_price($detailedProduct->id) }}
-                                                </div>
-                                                <div class="discount">
-                                                    @if (!$detailedProduct->discount == 0)
-                                                        <div class="">
-                                                            -{{ $detailedProduct->discount_type == 'amount' ? 'Rs.' : '' }} {{ intval($detailedProduct->discount, 0) }}{{ !($detailedProduct->discount_type == 'amount') ? ' %' : '' }} off
-                                                        </div>
-                                                    @endif
-                                                </div>
+                                    {{-- @else
+                                        <div class="row align-items-center">
+                                            <div class="sold-by col-auto">
+                                                <small class="mr-2">Vendor: </small><br>                                    
+                                                @if ($detailedProduct->added_by == 'seller' && \App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
+                                                    <a href="{{ route('shop.visit', $detailedProduct->user->shop->slug) }}">{{ $detailedProduct->user->shop->name }}</a>
+                                                @else
+                                                    {{ __('Inhouse product') }}
+                                                @endif
                                             </div>
                                         </div>
-                                        @else
-                                        <div class="product-price text-dark">
-                                            <div class="second-price font-weight-bold">{{ home_discounted_price($detailedProduct->id) }}
-                                            </div> 
-                                        </div>
-                                    @endif
-                                </div>
+                                        <hr>
+                                    @endif --}}
         
         
                                 <form id="option-choice-form" class="image-size-wrapper">
@@ -412,7 +388,7 @@ td {
                                                     </div>
                                                 </div>
                                             </div>
-                                        {{-- @elseif($detailedProduct->colors != '[]' && count(json_decode($detailedProduct->colors)) > 0)
+                                        @elseif($detailedProduct->colors != '[]' && count(json_decode($detailedProduct->colors)) > 0)
                                             <div class="form-group col-lg-12 col-md-6 mb-0">
                                                 <div class="image-select">
                                                     <h5>Color</h5>
@@ -425,7 +401,7 @@ td {
                                                         @endforeach
                                                     </div>
                                                 </div>
-                                            </div> --}}
+                                            </div>
                                         @endif
         
                                         @if ($detailedProduct->choice_options != null)
