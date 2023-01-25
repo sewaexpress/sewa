@@ -150,6 +150,104 @@ td {
     <!-- Product Detail  -->
     <section id="product-detail-wrapper" class="py-3">
         <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-12 col-12">
+                    <div class="product-carousel">
+                        
+                        <!-- Swiper and EasyZoom plugins start -->
+                        <div class="swiper-container gallery-top">
+                            <div class="swiper-wrapper">
+                                @php
+                                    $count = 0;
+                                @endphp
+                                @if (is_array(json_decode($detailedProduct->photos)) && count(json_decode($detailedProduct->photos)) > 0)
+                                    @foreach (json_decode($detailedProduct->photos) as $key => $photo)
+                                        <div class="swiper-slide" data-indexVal="{{ $count }}">
+                                            @if (!empty($photo))
+                                                @if (file_exists($photo))
+                                                    <img src="{{ asset($photo) }}" data-zoom="{{ asset($photo) }}" class="img-responsive asdf">
+                                                @else
+                                                    <img src="{{ asset('frontend/images/placeholder.jpg') }}"
+                                                    data-zoom="{{ asset('frontend/images/placeholder.jpg') }}" class="img-responsive asdf">
+                                                @endif
+                                            @else
+                                                <img src="{{ asset('frontend/images/placeholder.jpg') }}"
+                                                data-zoom="{{ asset('frontend/images/placeholder.jpg') }}" class="img-responsive asdf">
+                                            @endif
+                                        </div>
+                                        @php $count ++; @endphp
+                                    @endforeach
+                                @endif
+                                @if (is_array(json_decode($detailedProduct->color_images)) && count(json_decode($detailedProduct->color_images)) > 0)
+                                    @foreach (json_decode($detailedProduct->color_images, true) as $key => $photo)
+                                        <div class="swiper-slide" data-color="color-image-{{ $photo['name'] }}" data-indexVal="{{ $count }}">
+                                            @if (!empty($photo))
+                                                @if (file_exists($photo['image']))
+                                                    <img src="{{ asset($photo['image']) }}" data-zoom="{{ asset($photo['image']) }}" class="img-responsive asdf">
+                                                @else
+                                                    <img src="{{ asset('frontend/images/placeholder.jpg') }}"
+                                                    data-zoom="{{ asset('frontend/images/placeholder.jpg') }}" class="img-responsive asdf">
+                                                @endif
+                                            @else
+                                                <img src="{{ asset('frontend/images/placeholder.jpg') }}"
+                                                data-zoom="{{ asset('frontend/images/placeholder.jpg') }}" class="img-responsive asdf">
+                                            @endif
+                                        </div>
+                                        @php $count ++; @endphp
+                                    @endforeach
+                                @endif
+                            </div>
+                            <!-- Add Arrows -->
+                            <div class="swiper-button-next swiper-button-white"></div>
+                            <div class="swiper-button-prev swiper-button-white"></div>
+                        </div>
+
+                        <div class="swiper-container gallery-thumbs">
+                            <div class="swiper-wrapper">
+                                @php
+                                    $count = 0;
+                                @endphp
+                                @if (is_array(json_decode($detailedProduct->photos)) && count(json_decode($detailedProduct->photos)) > 0)
+                                @foreach (json_decode($detailedProduct->photos) as $key => $photo)
+                                    @if (!empty($photo))
+                                        @if (file_exists($photo))
+                                            <div class="swiper-slide" data-indexVal="{{ $count }}" style="background-image:url('{{ asset($photo) }}')">
+                                            </div>
+                                        @else
+                                            <div class="swiper-slide" data-indexVal="{{ $count }}" style="background-image:url('{{ asset('frontend/images/placeholder.jpg') }}')">
+                                            </div>
+                                        @endif                                    
+                                    @else
+                                        <div class="swiper-slide"  data-indexVal="{{ $count }}" style="background-image:url('{{ asset('frontend/images/placeholder.jpg') }}')">
+                                    @endif
+                                    @php $count ++; @endphp
+                                @endforeach
+                                @endif
+                                @if (is_array(json_decode($detailedProduct->color_images)) && count(json_decode($detailedProduct->color_images)) > 0)
+                                    @foreach (json_decode($detailedProduct->color_images, true) as $key => $photo)
+                                        @if (!empty($photo['image']))
+                                            @if (file_exists($photo['image']))
+                                                <div class="swiper-slide color-image-{{ $photo['name'] }}" data-indexVal="{{ $count }}" style="background-image:url('{{ asset($photo['image']) }}')">
+                                                </div>
+                                            @else
+                                            <div class="swiper-slide color-image-{{ $photo['name'] }}" data-indexVal="{{ $count }}" style="background-image:url('{{ asset('frontend/images/placeholder.jpg') }}')">
+                                            </div>
+                                            @endif
+                                        @endif
+                                        @php $count ++; @endphp
+
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="zoom">
+                        </div>
+                        <!-- Swiper and EasyZoom plugins end -->
+                        
+                    </div>
+                </div>
+            </div>
             <div class="col-12 mt-3">
                 {{-- justify-content-center --}}
                 <nav>
