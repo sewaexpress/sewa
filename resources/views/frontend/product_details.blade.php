@@ -425,8 +425,8 @@ td {
                                                         @endforeach
                                                     </div>
                                                 </div>
-                                            </div>
-                                        @endif --}}
+                                            </div> --}}
+                                        @endif
         
                                         @if ($detailedProduct->choice_options != null)
                                         {{-- {{dd($detailedProduct->choice_options)}} --}}
