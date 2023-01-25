@@ -570,20 +570,20 @@ td {
                                                 if(!empty($default_address)){
                                                     // dd($default_address);
                                                     
-                                                    $delivery_location=\App\Location::where('id',$default_address['delivery_location'])->with('districts')->count();
+                                                    // $delivery_location=\App\Location::where('id',$default_address['delivery_location'])->with('districts')->count();
                                                     
-                                                    if($delivery_location != 0){
-                                                        $delivery_location = \App\Location::where('id',$default_address['delivery_location'])->with('districts')->first()->toArray();
-                                                        $locations = \App\Location::where('district',$delivery_location['districts']['id'])->count();
-                                                        if($locations > 0){
+                                                    // if($delivery_location != 0){
+                                                    //     $delivery_location = \App\Location::where('id',$default_address['delivery_location'])->with('districts')->first()->toArray();
+                                                    //     $locations = \App\Location::where('district',$delivery_location['districts']['id'])->count();
+                                                    //     if($locations > 0){
                                                            
-                                                            $locations = \App\Location::where('district',$delivery_location['districts']['id'])->get()->toArray();
-                                                            $location_default_details = \App\Location::where('id',$default_address['delivery_location'])->first()->toArray();
-                                                        }else{
-                                                            $locations = [];
-                                                            $location_default_details = 0;
-                                                        }
-                                                    }
+                                                    //         $locations = \App\Location::where('district',$delivery_location['districts']['id'])->get()->toArray();
+                                                    //         $location_default_details = \App\Location::where('id',$default_address['delivery_location'])->first()->toArray();
+                                                    //     }else{
+                                                    //         $locations = [];
+                                                    //         $location_default_details = 0;
+                                                    //     }
+                                                    // }
                                                     $district_default = isset($delivery_location['districts']['id'])?$delivery_location['districts']['id']:0;
                                                     $location_default = isset($default_address['delivery_location'])?$default_address['delivery_location']:0;
                                                     
@@ -654,7 +654,7 @@ td {
                                             $total = 0;
                                             $rating = 0;
                                             foreach ($detailedProduct->user->products as $key => $seller_product) {
-                                                $total += 0;
+                                                $total += ($seller_product->reviews)?$seller_product->reviews->count():0;
                                                 $rating += $seller_product->reviews->sum('rating');
                                             }
                                             // echo $rating/$total;
