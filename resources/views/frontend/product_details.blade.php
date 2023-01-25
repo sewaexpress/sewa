@@ -247,6 +247,184 @@ td {
                         
                     </div>
                 </div>
+                <div class="col-lg-7 col-md-12 col-12 mx-auto">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12 col-12">
+                            <div class="seller-info-box mb-4">
+                                <div class="sold-by position-relative">                                    
+                                    <div class="title font-weight-bold">{{ __('Delivery') }}</div>
+                                        <div class="form-group">
+                                            {{-- <label for="district">Choose District</label> --}}
+                                            @php
+                                                $district_default = 0;
+                                                $location_default = 0;
+                                                $location_default_details = [];
+                                                $locations = [];
+                                                if(!empty($default_address)){
+                                                    // dd($default_address);
+                                                    
+                                                    $delivery_location=\App\Location::where('id',$default_address['delivery_location'])->with('districts')->count();
+                                                    
+                                                    if($delivery_location != 0){
+                                                        $delivery_location = \App\Location::where('id',$default_address['delivery_location'])->with('districts')->first()->toArray();
+                                                        $locations = \App\Location::where('district',$delivery_location['districts']['id'])->count();
+                                                        if($locations > 0){
+                                                           
+                                                            $locations = \App\Location::where('district',$delivery_location['districts']['id'])->get()->toArray();
+                                                            $location_default_details = \App\Location::where('id',$default_address['delivery_location'])->first()->toArray();
+                                                        }else{
+                                                            $locations = [];
+                                                            $location_default_details = 0;
+                                                        }
+                                                    }
+                                                    $district_default = isset($delivery_location['districts']['id'])?$delivery_location['districts']['id']:0;
+                                                    $location_default = isset($default_address['delivery_location'])?$default_address['delivery_location']:0;
+                                                    
+                                                    
+                                                }
+                                            @endphp
+                                            <select id="district" class="form-control">
+                                                <option value="" selected>Select District</option>
+                                                @foreach (\App\State::where('country_id', '154')->get() as $key => $country)
+                                                    <option {{ $country->id == $district_default ? 'selected' : '' }} value="{{ $country->id }}">{{ $country->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                        {{-- <label for="location">Choose Delivery Location</label> --}}
+                                        <select id="location" class="form-control address-location" {{ !empty($locations) ? '' : 'disabled' }}>
+                                            <option value="" selected>Select Location</option>
+                                            @if (!empty($locations))
+                                                @foreach ($locations as $key => $location)
+                                                    <option data-charge="{{ $location['delivery_charge'] }}" {{ $location['id'] == $location_default ? 'selected' : '' }} value="{{ $location['id'] }}">{{ $location['name'] }}</option>
+                                                @endforeach                                                
+                                            @endif
+                                        </select>
+                                        </div>
+                                        <div class="delivery-charge">
+                                            Delivery Charge: 
+                                            <span id="charge">
+                                                {{ !empty($location_default_details) ? 'Rs. ' . $location_default_details['delivery_charge'] : 'Rs. 0' }}
+                                            </span>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="seller-info-box mb-4">
+                                <div class="sold-by position-relative">
+                                    @if (
+                                        $detailedProduct->added_by == 'seller' &&
+                                            \App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1 &&
+                                            $detailedProduct->user->seller->verification_status == 1)
+                                        <div class="position-absolute medal-badge">
+                                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" viewBox="0 0 287.5 442.2">
+                                                <polygon style="fill:#F8B517;" points="223.4,442.2 143.8,376.7 64.1,442.2 64.1,215.3 223.4,215.3 "/>
+                                                <circle style="fill:#FBD303;" cx="143.8" cy="143.8" r="143.8"/>
+                                                <circle style="fill:#F8B517;" cx="143.8" cy="143.8" r="93.6"/>
+                                                <polygon style="fill:#FCFCFD;" points="143.8,55.9 163.4,116.6 227.5,116.6 175.6,154.3 195.6,215.3 143.8,177.7 91.9,215.3 111.9,154.3
+                                                60,116.6 124.1,116.6 "/>
+                                            </svg>
+                                        </div>
+                                    @endif
+                                    
+                                    <div class="title font-weight-bold">{{ __('Sold By') }}</div>
+                                        @if (
+                                            $detailedProduct->added_by == 'seller' &&
+                                                \App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
+                                            <a href="{{ route('shop.visit', $detailedProduct->user->shop->slug) }}" class="name d-block font-weight-bold">
+                                                {{ $detailedProduct->user->shop->name }}
+                                                @if ($detailedProduct->user->seller->verification_status == 1)
+                                                    <span class="ml-2"><i class="fa fa-check-circle" style="color:green"></i></span>
+                                                @else
+                                                    <span class="ml-2"><i class="fa fa-times-circle" style="color:red"></i></span>
+                                                @endif
+                                            </a>
+                                            {{-- <div class="location">                                    
+                                                @if ($detailedProduct->added_by == 'seller' && \App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
+                                                    <a href="{{ route('shop.visit', $detailedProduct->user->shop->slug) }}">{{ $detailedProduct->user->shop->name }}</a>
+                                                @else
+                                                    {{ __('Inhouse product') }}
+                                                @endif
+                                            </div> --}}
+                                        @else
+                                            <span class="font-weight-bold">Inhouse product</span>                                
+                                        @endif
+                                        @php
+                                            $total = 0;
+                                            $rating = 0;
+                                            foreach ($detailedProduct->user->products as $key => $seller_product) {
+                                                $total += ($seller_product->reviews)?$seller_product->reviews->count():0;
+                                                $rating += $seller_product->reviews->sum('rating');
+                                            }
+                                            // echo $rating/$total;
+                                        @endphp
+            
+                                        <div class="rating text-center d-block">
+                                            <span class="star-rating star-rating-sm d-block">
+                                                @if ($total > 0)
+                                                    {{ renderStarRating($rating / $total) }}
+                                                @else
+                                                    {{ renderStarRating(0) }}
+                                                @endif
+                                            </span>
+                                            <span class="rating-count d-block ml-0">({{ $total }} {{ __('customer reviews') }})</span>
+                                        </div>
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    @if ($detailedProduct->added_by == 'seller')
+                                        <div class="col">
+                                            <a href="{{ route('shop.visit', $detailedProduct->user->shop->slug) }}" class="d-block store-btn">{{ __('Visit Store') }}</a>
+                                        </div>
+                                        {{-- <div class="col">
+                                            <ul class="social-media social-media--style-1-v4 text-center">
+                                                <li>
+                                                    <a href="{{ $detailedProduct->user->shop->facebook }}" class="facebook" target="_blank" data-toggle="tooltip" data-original-title="Facebook">
+                                                        <i class="fa fa-facebook"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ $detailedProduct->user->shop->google }}" class="google" target="_blank" data-toggle="tooltip" data-original-title="Google">
+                                                        <i class="fa fa-google"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ $detailedProduct->user->shop->twitter }}" class="twitter" target="_blank" data-toggle="tooltip" data-original-title="Twitter">
+                                                        <i class="fa fa-twitter"></i>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{ $detailedProduct->user->shop->youtube }}" class="youtube" target="_blank" data-toggle="tooltip" data-original-title="Youtube">
+                                                        <i class="fa fa-youtube"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div> --}}
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="seller-info-box mb-4">
+                                <div class="sold-by position-relative">                                    
+                                    <div class="title font-weight-bold">Services</div>
+                                    <span class="font-weight-bold">
+                                       {{-- <i class="fa fa-exchange"></i>  --}}
+                                       {{ $detailedProduct->refundable == 1 ? 'Refundable' : 'Non Refundable' }}
+                                    </span>
+                                    @if ($detailedProduct->made_in_nepal == 1)
+                                        <br><span class="font-weight-bold">Made In Nepal</span>
+                                    @endif
+                                    
+                                    @if ($detailedProduct->warranty == 0)
+                                        <br><span class="font-weight-bold">No Warranty Available</span>
+                                    @else
+                                    <br><span class="font-weight-bold">
+                                        {{-- <i class="fa fa-undo"></i> --}}
+                                        Warranty:{{ ' ' . $detailedProduct->warranty_time }}</span>
+                                    @endif
+                                    
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
             </div>
             <div class="col-12 mt-3">
                 {{-- justify-content-center --}}
