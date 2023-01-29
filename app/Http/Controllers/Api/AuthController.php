@@ -137,7 +137,7 @@ class AuthController extends Controller
                 }
             }
              
-            //  $user->sendCustomVerificationEmail($otp_code);
+             $user->sendCustomVerificationEmail($otp_code);
          }
          catch(\Exception $e){
             return response()->json([
