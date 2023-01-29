@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Banner;
+use App\Models\Category;
+use App\Models\SubCategory;
+use App\Models\SubSubCategory;
 
 class BannerController extends Controller
 {
@@ -76,7 +79,18 @@ class BannerController extends Controller
     }
     public function appPopEdit(){
         $generalsetting = \App\GeneralSetting::first();
-        return view('banners.appPopedit', compact($generalsetting));
+        $items = [];
+        if($generalsetting->app_pop_url != 'flash_deal'){
+            $items = [];
+            if($generalsetting->app_pop_url == 'category'){
+                $items = Category::get();
+            }elseif($generalsetting->app_pop_url == 'subcategory'){
+                $items = SubCategory::get();
+            }elseif($generalsetting->app_pop_url == 'subsubcategory'){
+                $items = SubSubCategory::get();
+            }
+        }
+        return view('banners.appPopedit', compact('generalsetting','items'));
     }
     
     public function appPopUpdate(Request $request)
@@ -87,6 +101,12 @@ class BannerController extends Controller
         $generalsetting->app_pop_image = $request->previous_photo;
         $generalsetting->app_pop_url = $request->app_pop_url;
         $generalsetting->app_pop_status = $request->app_pop_status;
+        if($request->app_pop_url == 'flash_deal'){
+            $custom_point = null;
+        }else{
+            $custom_point = $request->custom_point;
+        }
+        $generalsetting->app_point_link = $custom_point;
 
         // dd($request->hasFile('photo'));
         if($request->hasFile('photo')){

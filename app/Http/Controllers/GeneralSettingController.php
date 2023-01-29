@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\GeneralSetting;
 use ImageOptimizer;
 use App\Http\Controllers\BusinessSettingsController;
+use App\Models\Category;
+use App\Models\SubCategory;
+use App\Models\SubSubCategory;
 
 class GeneralSettingController extends Controller
 {
@@ -26,7 +29,23 @@ class GeneralSettingController extends Controller
         $generalsetting = GeneralSetting::first();
         return view("general_settings.logo", compact("generalsetting"));
     }
-
+    public function getSelectedItems(Request $request){
+        // dd($request->all());
+        $data = $request->all();
+        if($data['item'] == 'category'){
+            $categories = Category::get();
+        }elseif($data['item'] == 'subcategory'){
+            $categories = SubCategory::get();
+        }elseif($data['item'] == 'subsubcategory'){
+            $categories = SubSubCategory::get();
+        }
+        $options = '';
+        foreach($categories as $a => $cat){
+            $options .= '<option value="'.$cat->id.'">'.$cat->name.'</option>';
+        }
+        
+        return $options;
+    }
     //updates the logo and favicons of the system
     public function storeLogo(Request $request)
     {

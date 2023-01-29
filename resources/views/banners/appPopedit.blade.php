@@ -24,9 +24,24 @@
             <div class="form-group">
                 <label class="col-sm-3" for="url">{{__('Redirect To')}}</label>
                 <div class="col-sm-9">
-                    <select name="app_pop_url" id="url" class="form-control">
+                    <select name="app_pop_url" id="url" class="form-control app_pop_url">
                         <option {{($generalsetting->app_pop_url == 'flash_deal')?'selected':''}} value="flash_deal">Flash Deal</option>
-                        {{-- <option {{($generalsetting->app_pop_url == 'category')?'selected':''}} value="category">Category</option> --}}
+                        <option {{($generalsetting->app_pop_url == 'category')?'selected':''}} value="category">Category</option>
+                        <option {{($generalsetting->app_pop_url == 'subcategory')?'selected':''}} value="subcategory">SubCategory</option>
+                        <option {{($generalsetting->app_pop_url == 'subsubcategory')?'selected':''}} value="subsubcategory">SubSubCategory</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group category-options {{($generalsetting->app_pop_url != 'flash_deal')?'':'hidden'}}">
+                <label class="col-sm-3" for="url">Select</label>
+                <div class="col-sm-9">
+                    <select name="custom_point" id="custom_point" class="form-control custom_point">
+                        @if (isset($items) && !empty($items))
+                            @foreach ($items as $item)
+                                <option {{($generalsetting->app_point_link == $item->id)?'selected':''}} value="{{$item->id}}">{{$item->name}}</option>
+                            @endforeach                            
+                        @endif
+                        {{-- <option {{($generalsetting->app_pop_url == 'flash_deal')?'selected':''}} value="flash_deal">Flash Deal</option> --}}
                     </select>
                 </div>
             </div>
@@ -62,7 +77,27 @@
 <script type="text/javascript">
 
     $(document).ready(function(){
-
+        
+        $(".app_pop_url").change(function() {
+            // console.log($(this).val());
+            
+            if ($(this).val() != "flash_deal") {        
+                $(".category-options").removeClass('hidden');
+                $.ajax({
+                type:"POST",
+                url:'{{ route('getSelectedItems') }}',
+                data:{
+                    'item' : $(this).val()
+                },
+                success: function(data){
+                    $('#custom_point').html(data);
+                }
+                });
+            } 
+            else {
+                $(".category-options").addClass('hidden');
+            }
+        });
         $('.remove-files').on('click', function(){
             $(this).parents(".col-md-4").remove();
         });

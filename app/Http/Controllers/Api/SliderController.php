@@ -17,6 +17,7 @@ class SliderController extends Controller
             'status' => $generalsetting->app_pop_status,
             'url' => $generalsetting->app_pop_url,
             'image' => $generalsetting->app_pop_image,
+            'url_id' => $generalsetting->app_point_link,
         ];
         return response()->json([
             'status'=>200,

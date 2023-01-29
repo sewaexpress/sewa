@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class GeneralSetting extends Model
 {
     protected $fillable = [
-        'pop_url'
+        'pop_url','app_point_link'
     ];
 }

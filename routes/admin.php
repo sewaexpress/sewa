@@ -181,6 +181,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function()
 
     Route::get('/app-popup', 'BannerController@appPopEdit')->name('app.pop');
     Route::post('/app-pop-update', 'BannerController@appPopUpdate')->name('app-pop-update');
+    Route::post('/getSelectedItems', 'GeneralSettingController@getSelectedItems')->name('getSelectedItems');
 	
 
     Route::resource('staffs','StaffController');
