@@ -30,8 +30,7 @@ class OrderController extends Controller
     {       
         $coupon_discount = 0;
         if ($request->coupon_code != '') {
-            $coupon  = Coupon::where('code', $request->coupon_code)
-                                ->first();
+            $coupon  = Coupon::where('code', $request->coupon_code)->first();
             if(strtotime(date('d-m-Y')) <= $coupon->end_date){
                 $coupon_discount = $coupon->discount;
             }else{
@@ -230,10 +229,10 @@ class OrderController extends Controller
 
         if (Config::get('mail.username') != null) {
             try {
-                // Mail::to($request->session()->get('shipping_info')['email'])->send(new InvoiceEmailManager($data));
                 Mail::to(Auth::user()->email)->queue(new InvoiceEmailManager($data));
+                Log::info('Mail Sent to '.Auth::user()->email);
+                // Mail::to($request->session()->get('shipping_info')['email'])->send(new InvoiceEmailManager($data));
                 // Mail::to(User::where('user_type', 'admin')->first()->email)->queue(new InvoiceEmailManager($data));
-                Log::info('Mail Sent');
             } catch (\Exception $e) {
                 Log::info($e->getMessage());
             }

@@ -32,7 +32,7 @@ class ProductController extends Controller
 
             case 'price_high_to_low':
                 $product_get = filter_products(Product::selectRaw('*,case when discount_type = "amount" then (unit_price - discount) when discount_type = "percent" then (unit_price - (unit_price * (discount/100))) end as unit_price2')->orderBy('unit_price2', 'desc'))->paginate(2);
-                $collection = new SearchPro1ductCollection($product_get);
+                $collection = new SearchProductCollection($product_get);
                 $collection->appends(['scope' => $scope]);
                 return $collection;
 
