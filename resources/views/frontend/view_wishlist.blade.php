@@ -79,7 +79,9 @@
                                                 </div>
 
                                                 <h2 class="heading heading-6 strong-600 mt-2 text-truncate-2 d-flex justify-content-between">
-                                                    <a href="{{ route('product', $wishlist->product->slug) }}">{{ $wishlist->product->name }}</a> <span>       <a href="#" class="link link--style-3" data-toggle="tooltip" data-placement="top" title="Remove from wishlist" onclick="removeFromWishlist({{ $wishlist->id }})">
+                                                    <a href="{{ route('product', $wishlist->product->slug) }}">{{ $wishlist->product->name }}</a> 
+                                                    <span>       
+                                                        <a href="#" class="link link--style-3 removeFromWishlist" data-toggle="tooltip" data-placement="top" title="Remove from wishlist" data-id="{{$wishlist->id}}">
                                                                 <i class="la la-trash dashboard-wishlist-trash"></i>
                                                             </a></span>
                                                 </h2>

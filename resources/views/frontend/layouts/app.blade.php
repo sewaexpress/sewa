@@ -805,6 +805,16 @@
     @endforeach
     <script>
         $(document).ready(function () {
+            
+            $('.removeFromWishlist').on('click',function(){
+                var cid = $(this).data('id');
+            $.post('{{ route('wishlists.remove') }}',{_token:'{{ csrf_token() }}', id:cid}, function(data){
+                $('#wishlist').html(data);
+                $('#wishlist_'+cid).hide();
+                showFrontendAlert('success', 'Item has been renoved from wishlist');
+            })
+
+            });
             function removeFromWishlist(id){
             $.post('{{ route('wishlists.remove') }}',{_token:'{{ csrf_token() }}', id:id}, function(data){
                 $('#wishlist').html(data);
