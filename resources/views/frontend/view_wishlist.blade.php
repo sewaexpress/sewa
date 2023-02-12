@@ -254,12 +254,6 @@
 
 @section('script')
     <script type="text/javascript">
-        function removeFromWishlist(id){
-            $.post('{{ route('wishlists.remove') }}',{_token:'{{ csrf_token() }}', id:id}, function(data){
-                $('#wishlist').html(data);
-                $('#wishlist_'+id).hide();
-                showFrontendAlert('success', 'Item has been renoved from wishlist');
-            })
-        }
+      
     </script>
 @endsection
