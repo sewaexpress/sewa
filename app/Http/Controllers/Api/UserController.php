@@ -36,6 +36,20 @@ class UserController extends Controller
     public function getRefers($id){
         return new AppReferCollection(AppReferList::where('referrer_user_id', $id)->with('referred_by','referred_to')->get());
     }
+    public function updateImage(Request $request){
+        $user = User::findOrFail($request->user_id);
+        if($request->hasFile('photo')){
+            $file = $request->photo->store('uploads/users');
+        }else{
+            $file = $user->avatar_original;
+        }
+        $user->update([
+            'avatar_original' => $file,
+        ]);
+        return response()->json([
+            'message' => 'Profile Image has been updated successfully'
+        ]);
+    }
     public function updateName(Request $request)
     {
         $user = User::findOrFail($request->user_id);
