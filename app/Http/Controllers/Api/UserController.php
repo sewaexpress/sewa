@@ -37,6 +37,7 @@ class UserController extends Controller
         return new AppReferCollection(AppReferList::where('referrer_user_id', $id)->with('referred_by','referred_to')->get());
     }
     public function updateImage(Request $request){
+        //update user image
         $user = User::findOrFail($request->user_id);
         if($request->hasFile('photo')){
             $file = $request->photo->store('uploads/users');
