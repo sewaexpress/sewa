@@ -567,11 +567,12 @@ td {
                                                 $location_default = 0;
                                                 $location_default_details = [];
                                                 $locations = [];
-                                                if(Auth::user()->id = 617){
-                                                    echo '<pre>';
-                                                        print_r($default_address);
-                                                    echo '</pre>';
-                                                }
+                                                // if(Auth::user()->id = 617){
+                                                //     echo 'asdfasdf';
+                                                //     echo '<pre>';
+                                                //         print_r($default_address);
+                                                //     echo '</pre>';
+                                                // }
                                                 if(!empty($default_address)){
                                                     // dd($default_address);
                                                     if(isset($default_address['delivery_location']) && !empty($default_address['delivery_location'])){

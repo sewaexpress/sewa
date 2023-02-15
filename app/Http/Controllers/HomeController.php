@@ -456,7 +456,7 @@ class HomeController extends Controller
                         $default_address = Address::where('user_id',Auth::user()->id)->first()->toArray();
                     }
                 }else{
-                    $default_address = Address::where('user_id',Auth::user()->id)->where('set_default',1)->get()->toArray();                
+                    $default_address = Address::where('user_id',Auth::user()->id)->where('set_default',1)->first()->toArray();                
                 }
             }
             // dd('123');
