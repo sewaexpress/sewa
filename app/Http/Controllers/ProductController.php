@@ -733,7 +733,10 @@ class ProductController extends Controller
                 // return redirect()->route('products.seller');
             }
         } else {
-            return redirect()->route('seller.products');
+            // return redirect()->route('products.admin.edit', ['id' => $id]);
+            // return view('frontend.seller.product_edit', compact('categories', 'product'));
+            // return redirect()->route('seller.products');
+            return redirect()->back();
         }
     }
 

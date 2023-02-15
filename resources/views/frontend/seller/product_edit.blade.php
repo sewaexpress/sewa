@@ -361,8 +361,8 @@
                                         <div class="col-8 col-md-3 order-1 order-md-0">
         									<input type="text" class="form-control" value="{{__('Colors')}}" disabled>
         								</div>
-        								<div class="col-12 col-md-7 col-xl-8 order-3 order-md-0 mt-2 mt-md-0">
-        									<select class="form-control color-var-select" name="colors[]" id="colors" multiple>
+        								<div class="col-12 col-md-7 col-xl-8 order-3 order-md-0 mt-2 mt-md-0 ">
+        									<select class="form-control color-var-select" name="colors[]" id="colors" multiple disabled>
                                                 @foreach (\App\Color::orderBy('name', 'asc')->get() as $key => $color)
         											<option value="{{ $color->code }}" <?php if(in_array($color->code, json_decode($product->colors))) echo 'selected'?> >{{ $color->name }}</option>
         										@endforeach
@@ -414,6 +414,69 @@
         									<button type="button" class="btn btn-info" onclick="add_more_customer_choice_option()">{{ __('Add More Customer Choice Option') }}</button>
         								</div>
                                     </div> --}}
+                                </div>
+                            </div>
+                            <div class="form-box bg-white mt-4">
+                                <div class="form-box-title px-3 py-2">
+                                    {{__('Color Images')}}
+                                </div>
+                                <div class="form-box-content p-3">
+                                    <div class="row mb-3">
+                                        
+					<table class="table table-bordered color-images-table">
+						<thead>
+							<tr>
+								<td class="text-center">
+									<label for="" class="control-label">{{__('Color')}}</label>
+								</td>
+								<td class="text-center" style="width:40%;">
+									<label for="" class="control-label">{{__('Image')}}</label>
+								</td>
+								<td class="text-center">
+									<label for="" class="control-label">{{__('Action')}}</label>
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							<style>
+								.color-image-label{
+									cursor: pointer;
+									background: #64bd63;
+									padding: 5px 5px 5px 5px;
+									color: white;
+									border-radius: 5px;
+								}
+								.upload-photo {
+									opacity: 0;
+									position: absolute;
+									z-index: -1;
+								}
+							</style>
+							@foreach(json_decode($product->color_images,true) as $key => $color_image)
+								<tr class="{{$color_image['code']}}">
+									<td class="text-center">
+										<label for="" class="control-label">{{$color_image['name']}}</label>
+									</td>
+									<td class="text-center">
+										@if ($color_image['image'] == '')
+											<img class="image-{{$color_image['name']}}" style="width:100%;" src="" alt="">											
+
+										@else
+											<img class="image-{{$color_image['name']}}" style="width:100%;" src="{{asset($color_image['image'])}}" alt="">											
+										@endif
+									</td>
+									<td class="text-center">
+										<label for="upload-photo-{{$key}}" class="color-image-label">Upload</label>
+										<input type="hidden" name="color_image[{{$color_image['name']}}][name]" value="{{$color_image['name']}}">
+										<input type="hidden" name="color_image[{{$color_image['name']}}][code]" value="{{$color_image['code']}}">
+										<input type="hidden" name="color_image[{{$color_image['name']}}][image]" value="{{$color_image['image']}}">
+										<input data-image="image-{{$color_image['name']}}" class="upload-photo" type="file" name="color_image[{{$color_image['name']}}][new-image]" id="upload-photo-{{$key}}"/>
+									</td>
+								</tr>
+							@endforeach
+						</tbody>
+					</table>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-box bg-white mt-4">
@@ -884,8 +947,91 @@
     		}
     		update_sku();
     	});
+        $(document).on('change', '.upload-photo', function () {
+        // $('.upload-photo').change(function() {
+            var imageTag = $(this).data('image');
+            // Get the selected image file
+            var imageFile = $(this)[0].files[0];
+
+            // Create an object URL for the selected image file
+            var objectUrl = URL.createObjectURL(imageFile);
+
+            // Set the src attribute of the image tag to the object URL
+            $('.'+imageTag).attr('src', objectUrl);
+        });
 
     	$('#colors').on('change', function() {
+            // Get an array of the values of the classes of all tr elements in the tbody
+            var trClassValues = $('.color-images-table tbody tr').map(function() {
+                return $(this).attr('class');
+            }).get();
+
+            // Get the selected values from the select box
+            var selectedValues = $(this).val();
+            var diff = $(selectedValues).not(trClassValues).get();
+            if(diff != ''){
+                // Create an empty object to store the selected option values and texts
+                var selectedOptionValuesAndTexts = {};
+
+                // Get an array of the selected options in the select box
+                var selectedOptions = $('#colors option:selected');
+
+                // Loop through the selected options
+                selectedOptions.map(function() {
+                    // Get the value and text of the selected option
+                    var value = $(this).val();
+                    var text = $(this).text();
+
+                    // Add the value and text of the selected option to the object
+                    selectedOptionValuesAndTexts[value] = text;
+                });
+                // console.log(selectedOptionValuesAndTexts);
+                // Loop through the selected values
+                for (var i = 0; i < diff.length; i++) {
+                    var name = '';
+                    // selectedOptionValuesAndTexts.each(function(index,value) {
+                    // 	if(index == diff[i]){
+                    // 		name = value;
+                    // 	}
+                    // });
+                    // Check if a given key exists in the object
+                    if (diff[i] in selectedOptionValuesAndTexts) {
+                        // If the key exists, log a message
+                        name = selectedOptionValuesAndTexts[diff[i]];
+                        console.log('The key exists in the object.');
+                    }
+                    var selectedValue = diff[i];
+                    var string = '<tr class="'+selectedValue+'">'+
+                                '<td class="text-center">'+
+                                '<label for="" class="control-label">'+name+'</label>'+
+                                '</td>'+
+                                '<td class="text-center">'+
+                                    // 'No Image Uploaded'+
+                                '<img class="image-'+name+'" style="width:100%;" src="" alt="">'+
+                                '</td>'+
+                                '<td class="text-center">'+
+                                '<label for="upload-photo-'+selectedValue+'" class="color-image-label">Upload</label>'+
+                                '<input type="hidden" name="color_image['+selectedValue+'][name]" value="'+name+'">'+
+                                '<input type="hidden" name="color_image['+selectedValue+'][code]" value="'+selectedValue+'">'+
+                                '<input type="hidden" name="color_image['+selectedValue+'][image]" value="'+selectedValue+'">'+
+                                '<input data-image="image-'+name+'" class="upload-photo" type="file" name="color_image['+selectedValue+'][new-image]" id="upload-photo-'+selectedValue+'"/>'+
+                                '</td>'+
+                                '</tr>';
+                    $('.color-images-table').append(string);
+                }
+            }else{
+                diff = $(trClassValues).not(selectedValues).get();
+                $('.color-images-table tbody tr').each(function() {
+                    var rowValue = $(this).attr('class')
+
+                    // Check if the row value is not in the selected values
+                    if ($.inArray(rowValue, selectedValues) === -1) {
+                        // If not, remove the row from the table
+                        $(this).remove();
+                    }
+                });
+
+            }
     	    update_sku();
     	});
 
