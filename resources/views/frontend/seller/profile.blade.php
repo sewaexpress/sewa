@@ -85,7 +85,64 @@
                                             <label>{{__('Your Password')}}</label>
                                         </div>
                                         <div class="col-md-10">
-                                            <input type="password" class="form-control mb-3" placeholder="{{__('New Password')}}" name="new_password">
+                                            <input id="firstPasswordPofile" type="password" class="form-control mb-3" placeholder="{{__('New Password')}}" name="new_password">
+                                            
+                                        <style>
+                                            #pswd_info {
+                                                position: absolute;
+                                                bottom: -160px;
+                                                bottom: -115px\9;
+                                                right: -80px;
+                                                width: 250px;
+                                                padding: 12px;
+                                                background: #fefefe;
+                                                font-size: .875em;
+                                                border-radius: 5px;
+                                                box-shadow: 0 1px 3px #ccc;
+                                                border: 1px solid #ddd;
+                                                z-index: 9;
+                                            }
+                                            #pswd_info h4 {
+                                                margin:0 0 10px 0;
+                                                padding:0;
+                                                font-weight:normal;
+                                            }
+                                            #pswd_info::before {
+                                                content: "\25B2";
+                                                position:absolute;
+                                                top:-12px;
+                                                left:45%;
+                                                font-size:14px;
+                                                line-height:14px;
+                                                color:#ddd;
+                                                text-shadow:none;
+                                                display:block;
+                                            }
+                                            .invalid {
+                                                background:url(../images/invalid.png) no-repeat 0 50%;
+                                                padding-left:22px;
+                                                line-height:24px;
+                                                color:#ec3f41;
+                                            }
+                                            .valid {
+                                                background:url(../images/valid.png) no-repeat 0 50%;
+                                                padding-left:22px;
+                                                line-height:24px;
+                                                color:#3a7d34;
+                                            }
+                                            #pswd_info {
+                                                display:none;
+                                            }
+                                        </style>
+                                        <div id="pswd_info">
+                                            <h6>Password must meet the following requirements:</h6>
+                                            <ul>
+                                                <li id="letter" class="invalid">At least <strong>one letter</strong></li>
+                                                <li id="capital" class="invalid">At least <strong>one capital letter</strong></li>
+                                                <li id="number" class="invalid">At least <strong>one number</strong></li>
+                                                <li id="length" class="invalid">Be at least <strong>8 characters</strong></li>
+                                            </ul>
+                                        </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -247,7 +304,7 @@
                                 </div>
                             </div>
                             <div class="text-right mt-4">
-                                <button type="submit" class="btn btn-styled btn-base-1 color-white">{{__('Update Profile')}}</button>
+                                <button  id="submit-user-profile" class="btn btn-styled btn-base-1 color-white">{{__('Update Profile')}}</button>
                             </div>
                         </form>
                     </div>
@@ -409,4 +466,74 @@
             $('#new-address-modal').modal('show');
         }
     </script>
+<script type="text/javascript">
+    $('#firstPasswordPofile').keyup(function() {
+        var pswd = $(this).val();
+        //validate the length
+        if ( pswd.length < 8 ) {
+            $('#length').removeClass('valid').addClass('invalid');
+        } else {
+            $('#length').removeClass('invalid').addClass('valid');
+        }
+        //validate letter
+        if ( pswd.match(/[A-z]/) ) {
+            $('#letter').removeClass('invalid').addClass('valid');
+        } else {
+            $('#letter').removeClass('valid').addClass('invalid');
+        }
+
+        //validate capital letter
+        if ( pswd.match(/[A-Z]/) ) {
+            $('#capital').removeClass('invalid').addClass('valid');
+        } else {
+            $('#capital').removeClass('valid').addClass('invalid');
+        }
+
+        //validate number
+        if ( pswd.match(/\d/) ) {
+            $('#number').removeClass('invalid').addClass('valid');
+        } else {
+            $('#number').removeClass('valid').addClass('invalid');
+        }
+    }).focus(function() {
+        $('#pswd_info').show();
+    }).blur(function() {
+        $('#pswd_info').hide();
+    });
+    
+    function containsUppercase(str) {
+            return /[A-Z]/.test(str);
+            }
+            function containsNumbers(str) {
+            return /\d/.test(str);
+            }
+    $('#submit-user-profile').click(function(e){
+            console.log('1');
+            exit;
+            e.stopImmediatePropagation();
+            var pswd = $('#firstPasswordPofile').val();
+            if(pswd== ''){
+                showFrontendAlert('danger','Password cannot be Empty')
+                return false;
+            }
+            if ( pswd.length < 8 ) {
+                showFrontendAlert('danger','Password should at least be of 8 characters')
+                return false;
+            }
+
+            //validate capital letter
+            if(!containsUppercase(pswd)){
+                showFrontendAlert('danger','Password should contain a capital letter')
+                return false;
+            }
+
+            //validate number
+            if(!containsNumbers(pswd)){
+                showFrontendAlert('danger','Password should contain a number')
+                return false;
+            }
+            exit;
+            $('#register-form').submit();
+          });
+</script>
 @endsection
