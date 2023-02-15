@@ -508,7 +508,7 @@ class ProductController extends Controller
             foreach ($request->color_image as $a => $b) {
                 if (isset($b['new-image'])) {
                     $path = $b['new-image']->store('uploads/products/photos');
-                    Image::make(public_path($path))->resize(750, 750)->save();
+                    // Image::make(public_path($path))->resize(750, 750)->save();
                     $b = [
                         'name' => $b['name'],
                         'code' => $b['code'],
