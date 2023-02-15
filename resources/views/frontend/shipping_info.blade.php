@@ -306,7 +306,7 @@
                            <label>{{__('Postal code')}}</label>
                         </div>
                         <div class="col-md-10">
-                           <input type="text" class="form-control mb-3" placeholder="{{__('Your Postal Code')}}" name="postal_code" value="">
+                           <input type="number" pattern="[0-9]+"  class="form-control mb-3" placeholder="{{__('Your Postal Code')}}" name="postal_code" value="">
                         </div>
                   </div>
                   <div class="row">

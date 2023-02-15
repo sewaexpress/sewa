@@ -362,7 +362,7 @@
                                 </div>
                                 <div class="col-md-10">
                                     <div class="mb-3">
-                                        <select class="form-control mb-3 selectpicker address-location" data-placeholder="{{__('Select your country')}}" name="delivery_location" required>
+                                        <select class="form-control mb-3 selectpicker address-location" data-placeholder="{{__('Select your location')}}" name="delivery_location" required>
                                             {{-- @foreach (\App\Location::get() as $key => $country)
                                                 <option value="{{ $country->id }}">{{ $country->name }}</option>
                                             @endforeach --}}

@@ -338,7 +338,7 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="mb-3">
-                                    <select class="form-control mb-3 selectpicker address-location" data-placeholder="{{__('Select your country')}}" name="delivery_location" required>
+                                    <select class="form-control mb-3 selectpicker address-location" data-placeholder="{{__('Select your location')}}" name="delivery_location" required>
                                         {{-- @foreach (\App\Location::get() as $key => $country)
                                             <option value="{{ $country->id }}">{{ $country->name }}</option>
                                         @endforeach --}}
@@ -375,7 +375,7 @@
                                 <label>{{__('Phone')}}</label>
                             </div>
                             <div class="col-md-10">
-                                <input id="dashboard-phone2" type="number" class="form-control mb-3" placeholder="{{__('9801234567')}}" name="phone" value="" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
+                                <input id="dashboard-phone2" type="number" class="form-control mb-3" placeholder="{{__('Enter your number')}}" name="phone" value="" maxlength="10" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
                             </div>
                         </div>
                     </div>

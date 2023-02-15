@@ -104,7 +104,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group has-feedback">
                                                     <label class="control-label">{{__('Postal code')}}</label>
-                                                    <input type="text" class="form-control" value="{{ $user->postal_code }}" name="postal_code" required>
+                                                    <input placeholder="Postal Code" type="number" class="form-control" value="{{ $user->postal_code }}" name="postal_code" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
