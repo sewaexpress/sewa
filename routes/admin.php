@@ -63,6 +63,7 @@ Route::group(['prefix' =>'admin', 'middleware' => ['auth', 'admin']], function()
 	Route::get('/products/admin/{id}/edit','ProductController@admin_product_edit')->name('products.admin.edit');
 	Route::get('/products/seller/{id}/edit','ProductController@seller_product_edit')->name('products.seller.edit');
 	Route::post('/products/todays_deal', 'ProductController@updateTodaysDeal')->name('products.todays_deal');
+	Route::post('/products/variant_product', 'ProductController@updateVariantProduct')->name('products.variant_product');
 	Route::post('/products/get_products_by_subsubcategory', 'ProductController@get_products_by_subsubcategory')->name('products.get_products_by_subsubcategory');
 	Route::post('/products/get_productids_by_category', 'ProductController@get_productids_by_category')->name('products.get_productids_by_category');
 	Route::post('/products/get_productids_by_seller', 'ProductController@get_productids_by_seller')->name('products.get_productids_by_seller');

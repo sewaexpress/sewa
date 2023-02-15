@@ -859,6 +859,16 @@ class ProductController extends Controller
         return 0;
     }
 
+    public function updateVariantProduct(Request $request)
+    {
+        $product = Product::findOrFail($request->id);
+        $product->variant_product = $request->status;
+        if ($product->save()) {
+            return 1;
+        }
+        return 0;
+    }
+
     public function updatePublished(Request $request)
     {
         $product = Product::findOrFail($request->id);

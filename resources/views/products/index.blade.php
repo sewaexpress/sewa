@@ -66,8 +66,9 @@
                         <th>{{ __('Num of Sale') }}</th>
                         <th>{{ __('Total Stock') }}</th>
                         <th>{{ __('Base Price') }}</th>
-                        <th>{{ __('Todays Deal') }}</th>
                         <th>{{ __('Rating') }}</th>
+                        <th>{{ __('Variant') }}</th>
+                        <th>{{ __('Todays Deal') }}</th>
                         <th>{{ __('Published') }}</th>
                         <th>{{ __('Featured') }}</th>
                         <th>{{ __('Options') }}</th>
@@ -120,13 +121,23 @@
                             </td>
                             <td class="updateData" data-name="price" data-type="text" data-pk="{{ $product->id }}"
                                 data-title="Enter Product Price">{{ number_format($product->unit_price, 2) }}</td>
-                            <td><label class="switch">
+                            <td>{{ $product->rating }}</td>
+                            <td>
+                                <label class="switch">
+                                    <input onchange="update_variant_product(this)" value="{{ $product->id }}" type="checkbox"
+                                        <?php if ($product->variant_product == 1) {
+                                            echo 'checked';
+                                        } ?>>
+                                    <span class="slider round"></span></label>
+                                </td>
+                            <td>
+                                <label class="switch">
                                     <input onchange="update_todays_deal(this)" value="{{ $product->id }}" type="checkbox"
                                         <?php if ($product->todays_deal == 1) {
                                             echo 'checked';
                                         } ?>>
-                                    <span class="slider round"></span></label></td>
-                            <td>{{ $product->rating }}</td>
+                                    <span class="slider round"></span></label>
+                                </td>
                             <td><label class="switch">
                                     <input onchange="update_published(this)" value="{{ $product->id }}" type="checkbox"
                                         <?php if ($product->published == 1) {
@@ -246,6 +257,25 @@
                 $('#payment_modal').modal('show');
                 exit;
  }
+        }
+        
+        function update_variant_product(el) {
+            if (el.checked) {
+                var status = 1;
+            } else {
+                var status = 0;
+            }
+            $.post('{{ route('products.variant_product') }}', {
+                _token: '{{ csrf_token() }}',
+                id: el.value,
+                status: status
+            }, function(data) {
+                if (data == 1) {
+                    showAlert('success', 'Variant Status updated successfully');
+                } else {
+                    showAlert('danger', 'Something went wrong');
+                }
+            });
         }
         function update_todays_deal(el) {
             if (el.checked) {

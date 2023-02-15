@@ -83,6 +83,15 @@
 						</div>
 					@endif
 
+					{{-- <div class="form-group">
+						<label for="variant_product" class="col-lg-2 control-label">{{ __('Variant product') }}</label>
+						<div class="col-lg-7">
+							<label class="switch" style="margin-top: 5px;">
+								<input type="checkbox" name="variant_product" id="variant_product" {{ $product->variant_product == 1 ? 'checked': '' }}>
+								<span class="slider round"></span>
+							</label>
+						</div>
+					</div> --}}
 					@php
 					    $refund_request_addon = \App\Addon::where('unique_identifier', 'refund_request')->first();
 					@endphp
