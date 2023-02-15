@@ -359,10 +359,11 @@
                                 <div class="form-box-content p-3">
                                     <div class="row mb-3">
                                         <div class="col-8 col-md-3 order-1 order-md-0">
-        									<input type="text" class="form-control" value="{{__('Colors')}}" disabled>
+        									<input type="text" class="form-control" value="{{__('Colors')}}" >
         								</div>
         								<div class="col-12 col-md-7 col-xl-8 order-3 order-md-0 mt-2 mt-md-0 ">
-        									<select class="form-control color-var-select" name="colors[]" id="colors" multiple disabled>
+                                            {{-- {{dd(count(json_decode($product->colors)))}} --}}
+        									<select class="form-control color-var-select" name="colors[]" id="colors" multiple <?php if(count(json_decode($product->colors)) <= 0) echo "disabled";?>>
                                                 @foreach (\App\Color::orderBy('name', 'asc')->get() as $key => $color)
         											<option value="{{ $color->code }}" <?php if(in_array($color->code, json_decode($product->colors))) echo 'selected'?> >{{ $color->name }}</option>
         										@endforeach
@@ -423,59 +424,59 @@
                                 <div class="form-box-content p-3">
                                     <div class="row mb-3">
                                         
-					<table class="table table-bordered color-images-table">
-						<thead>
-							<tr>
-								<td class="text-center">
-									<label for="" class="control-label">{{__('Color')}}</label>
-								</td>
-								<td class="text-center" style="width:40%;">
-									<label for="" class="control-label">{{__('Image')}}</label>
-								</td>
-								<td class="text-center">
-									<label for="" class="control-label">{{__('Action')}}</label>
-								</td>
-							</tr>
-						</thead>
-						<tbody>
-							<style>
-								.color-image-label{
-									cursor: pointer;
-									background: #64bd63;
-									padding: 5px 5px 5px 5px;
-									color: white;
-									border-radius: 5px;
-								}
-								.upload-photo {
-									opacity: 0;
-									position: absolute;
-									z-index: -1;
-								}
-							</style>
-							@foreach(json_decode($product->color_images,true) as $key => $color_image)
-								<tr class="{{$color_image['code']}}">
-									<td class="text-center">
-										<label for="" class="control-label">{{$color_image['name']}}</label>
-									</td>
-									<td class="text-center">
-										@if ($color_image['image'] == '')
-											<img class="image-{{$color_image['name']}}" style="width:100%;" src="" alt="">											
+                                        <table class="table table-bordered color-images-table">
+                                            <thead>
+                                                <tr>
+                                                    <td class="text-center">
+                                                        <label for="" class="control-label">{{__('Color')}}</label>
+                                                    </td>
+                                                    <td class="text-center" style="width:40%;">
+                                                        <label for="" class="control-label">{{__('Image')}}</label>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <label for="" class="control-label">{{__('Action')}}</label>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <style>
+                                                    .color-image-label{
+                                                        cursor: pointer;
+                                                        background: #64bd63;
+                                                        padding: 5px 5px 5px 5px;
+                                                        color: white;
+                                                        border-radius: 5px;
+                                                    }
+                                                    .upload-photo {
+                                                        opacity: 0;
+                                                        position: absolute;
+                                                        z-index: -1;
+                                                    }
+                                                </style>
+                                                @foreach(json_decode($product->color_images,true) as $key => $color_image)
+                                                    <tr class="{{$color_image['code']}}">
+                                                        <td class="text-center">
+                                                            <label for="" class="control-label">{{$color_image['name']}}</label>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @if ($color_image['image'] == '')
+                                                                <img class="image-{{$color_image['name']}}" style="width:100%;" src="" alt="">											
 
-										@else
-											<img class="image-{{$color_image['name']}}" style="width:100%;" src="{{asset($color_image['image'])}}" alt="">											
-										@endif
-									</td>
-									<td class="text-center">
-										<label for="upload-photo-{{$key}}" class="color-image-label">Upload</label>
-										<input type="hidden" name="color_image[{{$color_image['name']}}][name]" value="{{$color_image['name']}}">
-										<input type="hidden" name="color_image[{{$color_image['name']}}][code]" value="{{$color_image['code']}}">
-										<input type="hidden" name="color_image[{{$color_image['name']}}][image]" value="{{$color_image['image']}}">
-										<input data-image="image-{{$color_image['name']}}" class="upload-photo" type="file" name="color_image[{{$color_image['name']}}][new-image]" id="upload-photo-{{$key}}"/>
-									</td>
-								</tr>
-							@endforeach
-						</tbody>
-					</table>
+                                                            @else
+                                                                <img class="image-{{$color_image['name']}}" style="width:100%;" src="{{asset($color_image['image'])}}" alt="">											
+                                                            @endif
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <label for="upload-photo-{{$key}}" class="color-image-label">Upload</label>
+                                                            <input type="hidden" name="color_image[{{$color_image['name']}}][name]" value="{{$color_image['name']}}">
+                                                            <input type="hidden" name="color_image[{{$color_image['name']}}][code]" value="{{$color_image['code']}}">
+                                                            <input type="hidden" name="color_image[{{$color_image['name']}}][image]" value="{{$color_image['image']}}">
+                                                            <input data-image="image-{{$color_image['name']}}" class="upload-photo" type="file" name="color_image[{{$color_image['name']}}][new-image]" id="upload-photo-{{$key}}"/>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
