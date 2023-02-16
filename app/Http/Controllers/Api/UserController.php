@@ -40,10 +40,28 @@ class UserController extends Controller
         //update user image
         $user = User::findOrFail($request->user_id);
         if($request->hasFile('photo')){
-            dd('yes');
-            $file = $request->photo->store('uploads/users');
+            $timestamp = strtotime(date('Y-m-d H:i:s'));
+            switch (exif_imagetype($request->photo)) {
+                case IMAGETYPE_JPEG:
+                    $image = imagecreatefromjpeg($request->photo);
+                    break;
+                case IMAGETYPE_PNG:
+                    $image = imagecreatefrompng($request->photo);
+                    break;
+                default:
+                    $image = $request->photo;
+                    break;
+            }
+            $compression_level = 20;
+            $image_width = imagesx($image); // Get the width of the original image
+            $image_height = imagesy($image); // Get the height of the original image
+            $new_image = imagecreatetruecolor($image_width, $image_height); // Create a new image with the same dimensions as the original image
+            imagecopyresampled($new_image, $image, 0, 0, 0, 0, $image_width, $image_height, $image_width, $image_height); // Copy the original image to the new image, maintaining the resolution
+            imagejpeg($new_image, 'uploads/users/'.$timestamp.'.jpg', $compression_level); // Save the new image with a compression level of 75 (higher numbers mean more compression, but also lower quality)
+            // $product->thumbnail_img = 'uploads/products/thumbnail/'.$timestamp.'.jpg';
+            
+            $file = 'uploads/products/thumbnail/'.$timestamp.'.jpg';
         }else{
-            dd('no',$request->all());
             $file = $user->avatar_original;
         }
         $user->update([
