@@ -40,8 +40,10 @@ class UserController extends Controller
         //update user image
         $user = User::findOrFail($request->user_id);
         if($request->hasFile('photo')){
+            dd('yes');
             $file = $request->photo->store('uploads/users');
         }else{
+            dd('no',$request->all());
             $file = $user->avatar_original;
         }
         $user->update([
