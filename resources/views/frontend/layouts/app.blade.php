@@ -507,25 +507,42 @@
     @php
         $generalsetting = \App\GeneralSetting::first();
     @endphp
-    @if ($generalsetting->pop_status == 1)
-        <div class="modal fade coming-soon-modal height-100vh" id="abc" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="z-index: 99999;">
-            <div class="modal-dialog modal-lg" role="document" style="max-width: 600px">
-                <div class="modal-content">
-                    <div class="p-0 modal-header w-100">
-                        <a href="{{($generalsetting->pop_url)}}">
-                            <img src="{{asset($generalsetting->pop_img)}}" class="w-100 height-100vh">
+    @if ($generalsetting->pop_status == 1 && isset($page) && $page == 'index')
+    @php
+    $popUpStatus = 1;
+    if (!session('modal_shown')) {
+        session(['modal_shown' => true]);
+        $popUpStatus = 0;
+    }
+    // $popUpStatus = session('popUpStatus');
+    // if(!$popUpStatus != 1){
+    //     session(['popUpStatus' => 1]);
+    //     $popUpStatus = 1;
+    // }
 
-                        </a>
-                        <button type="button" class="close m-0 custom-close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+    @endphp
+        @if($popUpStatus == 0)
+            <div class="modal fade coming-soon-modal" id="abc" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="z-index: 99999;">    
+                <div class="modal-dialog modal-lg" role="document" style="max-width: 600px">
+                    <div class="modal-content">
+                        <div class="p-0 modal-header w-100">
+                            <button type="button" class="close m-0 custom-close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            
+                            <a href="{{($generalsetting->pop_url)}}">
+                                <img src="{{asset($generalsetting->pop_img)}}" class="w-100 height-100vh pop-up-modal-image">
+
+                            </a>
+                        </div>
+
+
                     </div>
-
-
                 </div>
             </div>
-        </div>
-
+        @endif
     @endif
     <!-- MAIN WRAPPER -->
     <div class="body-wrap shop-default shop-cards shop-tech">
@@ -553,21 +570,21 @@
                     chatbox.setAttribute("attribution", "biz_inbox");
                   </script> --}}
                   <!-- Your SDK code -->
-    {{-- <script>
-        window.fbAsyncInit = function() {
-          FB.init({
-            xfbml            : true,
-          });
-        };
-  
-        (function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
-          js = d.createElement(s); js.id = id;
-          js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-          fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-      </script> --}}
+                {{-- <script>
+                    window.fbAsyncInit = function() {
+                    FB.init({
+                        xfbml            : true,
+                    });
+                    };
+            
+                    (function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) return;
+                    js = d.createElement(s); js.id = id;
+                    js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+                    fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));
+                </script> --}}
                 <div class="modal fade" id="addToCart">
                     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-zoom product-modal" id="modal-size" role="document">
                         <div class="modal-content position-relative">
@@ -778,6 +795,19 @@
     @if ($generalsetting->pop_status == 1)
     <script type="text/javascript">
         $(window).on('load', function() {
+            // Get the modal and the image
+            // var modal = $(".coming-soon-modal");
+            // var img = $(".pop-up-modal-image");
+
+            // When the image is loaded, set the modal size to the image size
+            // img.on("load", function() {
+            //     modal.css({
+            //     "width": this.width + "px",
+            //     "height": this.height + "px",
+            //     "display": "block"
+            //     });
+            // });
+
             $('.coming-soon-modal').modal('show');
         });
     </script>

@@ -874,6 +874,7 @@ $flash_deal = \App\FlashDeal::where('status', 1)->where('featured', 1)->first();
 
 @php
     $today = date('Y-m-d H:i:s');
+    $page = 'index';
     // dd($today);
 @endphp
 @endsection
