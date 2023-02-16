@@ -412,8 +412,8 @@ $flash_deal = \App\FlashDeal::where('status', 1)->where('featured', 1)->first();
     </div>
 </section> --}}
 
-<section id="banner_three" class="mb-3 p-0">
-    <div class="container">
+<section id="banner_three" class="mb-3">
+    <div class="container p-0">
         <div class="row">
             @foreach (\App\Banner::where('position', 3)->where('published', 1)->take(1)->get() as $key => $banner)
             <div class="col-md-12 mb-3">
