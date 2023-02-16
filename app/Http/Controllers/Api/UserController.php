@@ -70,6 +70,8 @@ class UserController extends Controller
             'avatar_original' => $file,
         ]);
         return response()->json([
+            'file' => $file,
+            'user' => $user,
             'message' => 'Profile Image has been updated successfully'
         ]);
     }
