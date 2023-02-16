@@ -64,6 +64,8 @@ class UserController extends Controller
         }else{
             $file = $user->avatar_original;
         }
+        
+        $user = User::findOrFail($request->user_id);
         $user->update([
             'avatar_original' => $file,
         ]);
