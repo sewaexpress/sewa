@@ -60,7 +60,7 @@ class UserController extends Controller
             imagejpeg($new_image, 'uploads/users/'.$timestamp.'.jpg', $compression_level); // Save the new image with a compression level of 75 (higher numbers mean more compression, but also lower quality)
             // $product->thumbnail_img = 'uploads/products/thumbnail/'.$timestamp.'.jpg';
             
-            $file = 'uploads/products/thumbnail/'.$timestamp.'.jpg';
+            $file = 'uploads/users/'.$timestamp.'.jpg';
         }else{
             $file = $user->avatar_original;
         }
