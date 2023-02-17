@@ -659,7 +659,7 @@
                             <div class="form-group">
                                 <div class="input-group input-group--style-1">
                                     <input type="password" name="password" class="form-control"
-                                        placeholder="{{ __('Password') }}">
+                                        placeholder="{{ __('Password') }}" autocomplete="current-password">
                                     <span class="input-group-addon">
                                         <i class="text-md la la-lock" style="line-height: 0px"></i>
                                     </span>
