@@ -174,6 +174,14 @@ class BannerController extends Controller
             $banner->photo = $request->photo->store('uploads/banners');
         }
         $banner->url = $request->url;
+        
+        $banner->app_pop_url = $request->app_pop_url;
+        if($request->app_pop_url == 'flash_deal'){
+            $custom_point = null;
+        }else{
+            $custom_point = $request->custom_point;
+        }
+        $banner->app_point_link = $custom_point;
         $banner->save();
         flash(__('Banner has been updated successfully'))->success();
         return redirect()->route('home_settings.index');
