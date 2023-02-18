@@ -18,7 +18,7 @@ class AddressCollection extends ResourceCollection
                     'address'=> (string) $data->address, 
                     'country'=> (string) $data->country, 
                     'delivery_location'=> (integer) $data->delivery_location, 
-                    'delivery_location_details' => (Location::where('id',$data->delivery_location)->count() > 0)?Location::where('id',$data->delivery_location)->first():[],
+                    'delivery_location_details' => (Location::where('id',$data->delivery_location)->count() > 0)?Location::where('id',$data->delivery_location)->first():null,
                     'city'=> (string) $data->city, 
                     'postal_code'=> (integer) $data->postal_code, 
                     'phone'=> (integer) $data->phone, 

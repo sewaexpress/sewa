@@ -12,4 +12,7 @@ class BannerController extends Controller
     {
         return new BannerCollection(Banner::all());
     }
+    // public function appBanners(){
+    //     $banners = Banner
+    // }
 }

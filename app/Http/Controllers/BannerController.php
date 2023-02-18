@@ -70,7 +70,18 @@ class BannerController extends Controller
     public function edit($id)
     {
         $banner = Banner::findOrFail($id);
-        return view('banners.edit', compact('banner'));
+        $items = [];
+        if($banner->app_pop_url != 'flash_deal'){
+            $items = [];
+            if($banner->app_pop_url == 'category'){
+                $items = Category::get();
+            }elseif($banner->app_pop_url == 'subcategory'){
+                $items = SubCategory::get();
+            }elseif($banner->app_pop_url == 'subsubcategory'){
+                $items = SubSubCategory::get();
+            }
+        }
+        return view('banners.edit', compact('banner','items'));
     }
     public function popEdit()
     {
@@ -145,6 +156,9 @@ class BannerController extends Controller
         }
     }
 
+    public function appBanners(){
+        // $banners = Banner::
+    }
     /**
      * Update the specified resource in storage.
      *
