@@ -466,9 +466,13 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order = Order::findOrFail(decrypt($id));
-        $order->viewed = 1;
-        $order->save();
+        $order = Order::where('id',decrypt($id))->first();
+        if($order->viewed == 0){
+            $order_update = Order::findOrFail(decrypt($id));
+            $order_update->viewed = 1;
+            $order_update->save();   
+        }
+        // dd($order);
         return view('orders.show', compact('order'));
     }
 

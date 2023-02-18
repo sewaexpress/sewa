@@ -9,7 +9,7 @@ class Order extends Model
     protected $fillable = ['note'];
     public function orderDetails()
     {
-        return $this->hasMany(OrderDetail::class);
+        return $this->hasMany(OrderDetail::class)->with('shop');
     }
 
     public function refund_requests()

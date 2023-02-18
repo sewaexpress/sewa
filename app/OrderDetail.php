@@ -6,6 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderDetail extends Model
 {
+    public function seller()
+    {
+        return $this->belongsTo(User::class,'seller_id','id');
+    }
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class,'seller_id','user_id');
+    }
     public function order()
     {
         return $this->belongsTo(Order::class);

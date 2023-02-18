@@ -128,6 +128,9 @@
 										{{__('Description')}}
 									</th>
 									<th class="text-uppercase">
+										{{__('Seller')}}
+									</th>
+									<th class="text-uppercase">
 										{{__('Delivery Type')}}
 									</th>
 									<th class="min-col text-center text-uppercase">
@@ -172,6 +175,18 @@
 												<small>{{ $orderDetail->variation }}</small>
 											@else
 												<strong>{{ __('Product Unavailable') }}</strong>
+											@endif
+										</td>
+										<td>
+											@if ($orderDetail->shop != null)
+												<strong>													
+													{{-- <a href="{{ route('product', $orderDetail->product->slug) }}" target="_blank"> --}}
+														{{ $orderDetail->shop->name }}
+													{{-- </a> --}}
+												</strong>
+												{{-- <small>{{ $orderDetail->variation }}</small> --}}
+											@else
+												<strong>{{ __('Shop Unavailable') }}</strong>
 											@endif
 										</td>
 										<td>
