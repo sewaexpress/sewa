@@ -692,11 +692,8 @@
 
                                 <!--Submenu-->
                                 <ul class="collapse">
-                                    <li class="{{ areActiveRoutes(['app.pop', 'app-pop-update'])}}">
+                                    <li class="{{ areActiveRoutes(['staffs.index', 'staffs.create', 'staffs.edit'])}}">
                                         <a class="nav-link" href="{{ route('app.pop') }}">{{__('Pop up Banner')}}</a>
-                                    </li>
-                                    <li class="{{ areActiveRoutes(['app.banners'])}}">
-                                        <a class="nav-link" href="{{ route('app.banners') }}">{{__('Banners')}}</a>
                                     </li>
                                 </ul>
                             </li>

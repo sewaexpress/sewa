@@ -1,12 +1,13 @@
-<div class="panel">
-    <div class="panel-heading">
-        <h3 class="panel-title">{{__('Banner Information')}}</h3>
-    </div>
 
     <!--Horizontal Form-->
     <!--===================================================-->
     <form class="form-horizontal" action="{{ route('home_banners.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{__('Banner Information')}}</h3>
+        </div>
+
         <div class="panel-body">
             <div class="form-group">
                 <label class="col-sm-3" for="url">{{__('URL')}}</label>
@@ -39,16 +40,61 @@
         <div class="panel-footer text-right">
             <button class="btn btn-purple" type="submit">{{__('Save')}}</button>
         </div>
+    </div>
+    
+    <div class="panel">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{__('App Redirection')}}</h3>
+        </div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-sm-3" for="url">{{__('Redirect To')}}</label>
+                <div class="col-sm-9">
+                    <select name="app_pop_url" id="url" class="form-control app_pop_url">
+                        <option value="flash_deal">Flash Deal</option>
+                        <option value="category">Category</option>
+                        <option value="subcategory">SubCategory</option>
+                        <option value="subsubcategory">SubSubCategory</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group category-options">
+                <label class="col-sm-3" for="url">Select</label>
+                <div class="col-sm-9">
+                    <select name="custom_point" id="custom_point" class="form-control custom_point">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer text-right">
+            <button class="btn btn-purple" type="submit">{{__('Save')}}</button>
+        </div>
+    </div>
     </form>
-    <!--===================================================-->
-    <!--End Horizontal Form-->
-
-</div>
 
 <script type="text/javascript">
 
     $(document).ready(function(){
-
+        $(".app_pop_url").change(function() {
+            // console.log($(this).val());
+            
+            if ($(this).val() != "flash_deal") {        
+                $(".category-options").removeClass('hidden');
+                $.ajax({
+                type:"POST",
+                url:'{{ route('getSelectedItems') }}',
+                data:{
+                    'item' : $(this).val()
+                },
+                success: function(data){
+                    $('#custom_point').html(data);
+                }
+                });
+            } 
+            else {
+                $(".category-options").addClass('hidden');
+            }
+        });
         $('.demo-select2').select2();
 
         $("#photo").spartanMultiImagePicker({
