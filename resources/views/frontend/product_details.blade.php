@@ -396,7 +396,7 @@ td {
                                                 </div>
                                             </div>
                                         @endif --}}
-                                        @if ($detailedProduct->colors_images != '' && $detailedProduct->colors_images != '[]' && count(json_decode($detailedProduct->colors_images, true)) > 0)
+                                        @if ($detailedProduct->color_images != '' && $detailedProduct->color_images != '[]' && count(json_decode($detailedProduct->color_images, true)) > 0)
                                             <div class="form-group col-lg-12 col-md-6 mb-0">
                                                 <div class="image-select">
                                                     <h5>Color</h5>

@@ -846,22 +846,22 @@
 
             });
             function removeFromWishlist(id){
-            $.post('{{ route('wishlists.remove') }}',{_token:'{{ csrf_token() }}', id:id}, function(data){
-                $('#wishlist').html(data);
-                $('#wishlist_'+id).hide();
-                showFrontendAlert('success', 'Item has been renoved from wishlist');
-            })
-        }
-        function show_wallet_modal(){
-            $('#wallet_modal').modal('show');
-        }
+                $.post('{{ route('wishlists.remove') }}',{_token:'{{ csrf_token() }}', id:id}, function(data){
+                    $('#wishlist').html(data);
+                    $('#wishlist_'+id).hide();
+                    showFrontendAlert('success', 'Item has been renoved from wishlist');
+                })
+            }
+            function show_wallet_modal(){
+                $('#wallet_modal').modal('show');
+            }
 
-        function show_make_wallet_recharge_modal(){
-            $.post('{{ route('offline_wallet_recharge_modal') }}', {_token:'{{ csrf_token() }}'}, function(data){
-                $('#offline_wallet_recharge_modal_body').html(data);
-                $('#offline_wallet_recharge_modal').modal('show');
-            });
-        }
+            function show_make_wallet_recharge_modal(){
+                $.post('{{ route('offline_wallet_recharge_modal') }}', {_token:'{{ csrf_token() }}'}, function(data){
+                    $('#offline_wallet_recharge_modal_body').html(data);
+                    $('#offline_wallet_recharge_modal').modal('show');
+                });
+            }
             // product Gallery and Zoom
             // activation carousel plugin
             var galleryThumbs = new Swiper(".gallery-thumbs", {
@@ -881,7 +881,9 @@
                     swiper: galleryThumbs,
                 },
             });
-            $('.change-image').on('click',function(){
+            $(document).on('click','.change-image',function(){
+                console.log('a');
+                // $('.change-image').on('click',function(){
                 // Get the index of the active slide
                 var colorPointTo = $(this).data('colorpointto');
                 // console.log(colorPointTo);
@@ -895,10 +897,11 @@
                 // galleryThumbs.slideTo(1);
             });
 
+            var demoTrigger = document.querySelector(".img-responsive");
             var paneContainer = document.querySelector(".zoom");
 
-            $(".swiper-slide").each(function () {
-                new Drift($(this).find("img")[0], {
+            $(".swiper-slide").each(function () {0
+                new Drift(demoTrigger, {
                     paneContainer: paneContainer,
                     inlinePane: false,
                 });
