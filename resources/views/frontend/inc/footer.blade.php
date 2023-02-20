@@ -226,6 +226,11 @@ else{
                   <li class="mr-1">
                      <img src="{{asset('uploads/2.jpg')}}" class="img-fluid ">
                   </li>
+                  <li class="mr-1">
+                     <a href="https://khalti.com/">
+                        <img src="{{asset('frontend/Khalti_Logo_Color.png')}}" class="img-fluid ">
+                     </a>
+                  </li>
                   {{-- <li class="mr-1"><a href=""> <img
                            src="https://www.nicasiabank.com/assets/backend/uploads/nic-asia-bank.png"
                            class="img-fluid "></a></li>
