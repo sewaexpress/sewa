@@ -88,6 +88,7 @@
                                             <th>{{__('Category')}}</th>
                                             <th>{{__('Current Qty')}}</th>
                                             <th>{{__('Base Price')}}</th>
+                                            <th>{{__('Variant')}}</th>
                                             <th>{{__('Published')}}</th>
                                             <th>{{__('Featured')}}</th>
                                             <th>{{__('Options')}}</th>
@@ -123,6 +124,16 @@
                                                     @endphp
                                                 </td>
                                                 <td>{{ $product->unit_price }}</td>
+                                                
+                                                <td>
+                                                    <label class="switch">
+                                                        <input onchange="update_variant_product(this)" value="{{ $product->id }}" type="checkbox"
+                                                            <?php if ($product->variant_product == 1) {
+                                                                echo 'checked';
+                                                            } ?>>
+                                                        <span class="slider round"></span></label>
+                                                    </td>
+                                                <td>
                                                 <td><label class="switch">
                                                     <input onchange="update_published(this)" value="{{ $product->id }}" type="checkbox" <?php if($product->published == 1) echo "checked";?> >
                                                     <span class="slider round"></span></label>
@@ -167,6 +178,25 @@
 
 @section('script')
     <script type="text/javascript">
+    
+        function update_variant_product(el) {
+                if (el.checked) {
+                    var status = 1;
+                } else {
+                    var status = 0;
+                }
+                $.post('{{ route('products.variant_product') }}', {
+                    _token: '{{ csrf_token() }}',
+                    id: el.value,
+                    status: status
+                }, function(data) {
+                    if (data == 1) {
+                        showAlert('success', 'Variant Status updated successfully');
+                    } else {
+                        showAlert('danger', 'Something went wrong');
+                    }
+                });
+            }
         function update_featured(el){
             if(el.checked){
                 var status = 1;
