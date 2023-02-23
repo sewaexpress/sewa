@@ -897,15 +897,24 @@
                 // galleryThumbs.slideTo(1);
             });
 
-            var demoTrigger = document.querySelector(".img-responsive");
             var paneContainer = document.querySelector(".zoom");
 
-            $(".swiper-slide").each(function () {0
-                new Drift(demoTrigger, {
+            $(".swiper-slide").each(function () {
+                new Drift($(this).find("img")[0], {
                     paneContainer: paneContainer,
                     inlinePane: false,
                 });
             });
+            
+            // var demoTrigger = document.querySelector(".img-responsive");
+            // var paneContainer = document.querySelector(".zoom");
+
+            // $(".swiper-slide").each(function () {0
+            //     new Drift(demoTrigger, {
+            //         paneContainer: paneContainer,
+            //         inlinePane: false,
+            //     });
+            // });
         });
 
         $(document).ready(function() {
