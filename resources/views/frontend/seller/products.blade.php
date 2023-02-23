@@ -191,9 +191,9 @@
                     status: status
                 }, function(data) {
                     if (data == 1) {
-                        showAlert('success', 'Variant Status updated successfully');
+                        showFrontendAlert('success', 'Variant Status updated successfully');
                     } else {
-                        showAlert('danger', 'Something went wrong');
+                        showFrontendAlert('danger', 'Something went wrong');
                     }
                 });
             }
