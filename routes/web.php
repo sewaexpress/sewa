@@ -165,6 +165,7 @@ Route::get('/returnpolicy', 'HomeController@returnpolicy')->name('returnpolicy')
 Route::get('/supportpolicy', 'HomeController@supportpolicy')->name('supportpolicy');
 Route::get('/terms', 'HomeController@terms')->name('terms');
 Route::get('/privacypolicy', 'HomeController@privacypolicy')->name('privacypolicy');
+Route::post('/products/variant_product_update', 'ProductController@updateVariantProduct')->name('products.variant_product_update');
 
 Route::group(['middleware' => ['user', 'verified']], function(){
 	Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');

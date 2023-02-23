@@ -185,7 +185,7 @@
                 } else {
                     var status = 0;
                 }
-                $.post('{{ route('products.variant_product') }}', {
+                $.post('{{ route('products.variant_product_update') }}', {
                     _token: '{{ csrf_token() }}',
                     id: el.value,
                     status: status
