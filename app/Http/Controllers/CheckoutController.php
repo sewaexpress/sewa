@@ -105,8 +105,9 @@ class CheckoutController extends Controller
         }
 
         $order->commission_calculated = 1;
-        $order->save();
+        $order->save(); 
 
+        Log::info('aaa');
         set_time_limit(1500);
         //stores the pdf for invoice
         $pdf = PDF::setOptions([

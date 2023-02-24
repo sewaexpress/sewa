@@ -134,9 +134,10 @@
                                                         <span class="slider round"></span></label>
                                                     </td>
                                                 <td>
-                                                <td><label class="switch">
-                                                    <input onchange="update_published(this)" value="{{ $product->id }}" type="checkbox" <?php if($product->published == 1) echo "checked";?> >
-                                                    <span class="slider round"></span></label>
+                                                    <label class="switch">
+                                                        <input onchange="update_published(this)" value="{{ $product->id }}" type="checkbox" <?php if($product->published == 1) echo "checked";?> >
+                                                        <span class="slider round"></span>
+                                                    </label>
                                                 </td>
                                                 <td><label class="switch">
                                                     <input onchange="update_featured(this)" value="{{ $product->id }}" type="checkbox" <?php if($product->featured == 1) echo "checked";?> >

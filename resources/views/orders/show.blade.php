@@ -1,9 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+	@media print {
+    .printable {
+        background-color: white;
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        margin: 0;
+        padding: 15px;
+        font-size: 14px;
+        line-height: 18px;
+    }
+}
+</style>
     <div class="panel">
     	<div class="panel-body">
-    		<div class="invoice-masthead">
+    		<div class="invoice-masthead no-print">
     			<div class="invoice-text">
     				<h3 class="h1 text-thin mar-no text-primary">{{ __('Order Details') }}</h3>
     			</div>
@@ -15,12 +31,22 @@
 			?>
 			{{-- @if ($seller_id==$admin_id) --}}
 				
-            <div class="row">
+            <div class="row no-print">
                 @php
                     $delivery_status = $order->orderDetails->first()->delivery_status;
                     $payment_status = $order->orderDetails->first()->payment_status;
                 @endphp
-                <div class="col-lg-offset-6 col-lg-3">
+                <div class="col-lg-3">
+					<div class="row no-print">
+						<a href="javascript:void(0)" onclick="printInvoice()" class="btn btn-primary">
+							Print
+						</a>
+						<a href="{{ route('seller.invoice.download', $order->id) }}" class="btn btn-primary">
+							Download
+						</a>
+					</div>
+                </div>
+                <div class="col-lg-offset-3 col-lg-3">
                     <label for=update_payment_status"">{{__('Payment Status')}}</label>
                     <select class="form-control demo-select2"  data-minimum-results-for-search="Infinity" id="update_payment_status">
                         <option value="paid" @if ($payment_status == 'paid') selected @endif>{{__('Paid')}}</option>
@@ -40,7 +66,6 @@
             </div>
             <hr>
 			{{-- @endif --}}
-			<button onclick="printInvoice()">Print Invoice</button>
 
 			<div class="printable">
 				<div class="invoice-bill row">
@@ -278,16 +303,15 @@
 					</tbody>
 					</table>
 				</div>
-				<div class="text-left no-print">
-					Order Note : {{($order->note) }}
-				</div>
-				<div class="text-right no-print">
-					<a href="{{ route('seller.invoice.download', $order->id) }}" class="btn btn-default"><i class="demo-pli-printer icon-lg"></i></a>
-				</div>
+				@if (!empty($order->note))
+					<div class="text-left no-print">
+						Order Note : {{($order->note) }}
+					</div>					
+				@endif
 			</div>
     	</div>
     </div>
-    <div class="panel">
+    <div class="panel no-print">
     	<div class="panel-body">				
             <div class="row">
                 <div class="col-lg-12">
@@ -310,8 +334,10 @@
 @section('script')
     <script type="text/javascript">
 		function printInvoice() {
-		  const invoiceContent = $('.printable').innerHTML;
-		  const originalContent = document.body.innerHTML;
+		  var invoiceContent = document.querySelector(".printable");
+		  console.log(invoiceContent);
+		  var originalContent = document.body.innerHTML;
+		  console.log(originalContent);
 		  document.body.innerHTML = invoiceContent;
 		  window.print();
 		  document.body.innerHTML = originalContent;

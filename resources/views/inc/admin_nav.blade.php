@@ -19,7 +19,7 @@
             </a>
         </div>
 
-        <div class="navbar-content">
+        <div class="navbar-content no-print">
 
             <ul class="nav navbar-top-links">
 
