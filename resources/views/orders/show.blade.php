@@ -20,15 +20,26 @@
                     $delivery_status = $order->orderDetails->first()->delivery_status;
                     $payment_status = $order->orderDetails->first()->payment_status;
                 @endphp
+				
+                <div class="col-lg-3">
+					<div class="row no-print">
+						<a href="javascript:void(0);" data-id="{{($order->id) }}" class="btn btn-default print-invoice">
+							<i class="demo-pli-printer icon-lg"></i>
+						</a>
+						<a href="{{ route('seller.invoice.download', $order->id) }}" class="btn btn-default">
+							<i class="fa fa-download icon-lg"></i>
+						</a>
+					</div>
+                </div>
                 <div class="col-lg-offset-6 col-lg-3">
-                    <label for=update_payment_status"">{{__('Payment Status')}}</label>
+                    <label for="update_payment_status">{{__('Payment Status')}}</label>
                     <select class="form-control demo-select2"  data-minimum-results-for-search="Infinity" id="update_payment_status">
                         <option value="paid" @if ($payment_status == 'paid') selected @endif>{{__('Paid')}}</option>
                         <option value="unpaid" @if ($payment_status == 'unpaid') selected @endif>{{__('Unpaid')}}</option>
                     </select>
                 </div>
                 <div class="col-lg-3">
-                    <label for=update_delivery_status"">{{__('Delivery Status')}}</label>
+                    <label for="update_delivery_status">{{__('Delivery Status')}}</label>
                     <select class="form-control demo-select2"  data-minimum-results-for-search="Infinity" id="update_delivery_status">
                         <option value="pending" @if ($delivery_status == 'pending') selected @endif>{{__('Pending')}}</option>
                         <option value="on_review" @if ($delivery_status == 'on_review') selected @endif>{{__('On review')}}</option>
@@ -266,13 +277,13 @@
 					Order Note : {{($order->note) }}
 				</div>					
 			@endif
-    		<div class="text-right no-print">
+    		{{-- <div class="text-right no-print">
 				<a href="javascript:void(0);" data-id="{{($order->id) }}" class="btn btn-default print-invoice">
 					print invoice
 				</a>
 
     			<a href="{{ route('seller.invoice.download', $order->id) }}" class="btn btn-default"><i class="demo-pli-printer icon-lg"></i></a>
-    		</div>
+    		</div> --}}
     	</div>
     </div>
     <div class="panel no-print">
