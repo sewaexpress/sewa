@@ -203,6 +203,7 @@ Route::resource('flash_deals','FlashDealController');
 	Route::get('/orders/bulk/delete', 'OrderController@bulkDelete')->name('orders.bulkDelete');
 	Route::get('/orders/bulk/invoice/download', 'OrderController@bulkInvoiceDownload')->name('orders.downloadInvoice');
 	Route::get('/sales', 'OrderController@sales')->name('sales.index');
+	Route::get('/orders/{id}/invvoice', 'OrderController@invoice')->name('orders.invoice');
 
 	Route::resource('links','LinkController');
 	Route::get('/links/destroy/{id}', 'LinkController@destroy')->name('links.destroy');

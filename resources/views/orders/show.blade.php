@@ -146,11 +146,11 @@
 							<thead>
 								<tr class="bg-trans-dark">
 									<th class="min-col">#</th>
-									<th width="10%">
+									<th class="no-print" width="10%">
 										{{__('Photo')}}
 									</th>
 									<th class="text-uppercase">
-										{{__('Description')}}
+										{{__('Name')}}
 									</th>
 									<th class="text-uppercase">
 										{{__('Seller')}}
@@ -178,7 +178,7 @@
 								{{-- {{dd($orderDetail->product)}} --}}
 									<tr>
 										<td>{{ $key+1 }}</td>
-										<td>
+										<td  class="no-print">
 											@if ($orderDetail->product != null)
 												<a href="{{ route('product', $orderDetail->product->slug) }}" target="_blank">
 													@if (!empty($orderDetail->product->featured_img))
@@ -334,13 +334,26 @@
 @section('script')
     <script type="text/javascript">
 		function printInvoice() {
-		  var invoiceContent = document.querySelector(".printable");
-		  console.log(invoiceContent);
-		  var originalContent = document.body.innerHTML;
-		  console.log(originalContent);
-		  document.body.innerHTML = invoiceContent;
-		  window.print();
-		  document.body.innerHTML = originalContent;
+			$.ajax({
+				url: 'path/to/controller',
+				type: 'GET',
+				data: {data: 'value'},
+				success: function(response) {
+					var newWindow = window.open('', 'Print Window');
+					newWindow.document.write(response);
+					newWindow.document.close();
+					newWindow.focus();
+					newWindow.print();
+					newWindow.close();
+				}
+			});
+		//   var invoiceContent = document.querySelector(".printable");
+		//   console.log(invoiceContent);
+		//   var originalContent = document.body.innerHTML;
+		//   console.log(originalContent);
+		//   document.body.innerHTML = invoiceContent;
+		//   window.print();
+		//   document.body.innerHTML = originalContent;
 		}
         $('#update_delivery_status').on('change', function(){
             var order_id = {{ $order->id }};
