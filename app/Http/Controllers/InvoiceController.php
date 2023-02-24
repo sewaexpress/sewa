@@ -9,6 +9,18 @@ use Auth;
 
 class InvoiceController extends Controller
 {
+    public function invoice($id){
+        $order = Order::findOrFail($id);
+        $content = view('invoices.customer_invoice', compact('order'))->render();
+        // Render the "invoices.order" view with the provided data, and get its contents
+    
+        $headers = [
+            'Content-Type' => 'text/html',
+        ];
+    
+        return response($content, 200, $headers);
+
+    }
     //downloads customer invoice
     public function customer_invoice_download($id)
     {
