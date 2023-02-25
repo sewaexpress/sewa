@@ -77,6 +77,7 @@
                         <th><input type="checkbox" id="checkAll"></th>
                         <th>#</th>
                         <th>{{ __('Order Code') }}</th>
+                        <th>{{ __('Shop') }}</th>
                         <th>{{ __('Num. of Products') }}</th>
                         <th>{{ __('Customer') }}</th>
                         <th>{{ __('Amount') }}</th>
@@ -94,19 +95,26 @@
                     @foreach ($orders as $key => $order_id)
                         @php
                             $order = \App\Order::find($order_id->id);
-                            // dd($order);
-                            
+                            $order_details = \App\OrderDetail::where('order_id',$order_id->id)->first();
+                            $shop = [];
+                            if($order_details->seller_id){
+                                $shop = \App\Shop::where('user_id',$order_details->seller_id)->first();
+                            }
                         @endphp
                         
                         @if ($order != null)
                             <tr>
-                                <td><input type="checkbox" value="{{ $order->id }}" data-id="{{ $order->id }}"
+                                <td>
+                                    <input type="checkbox" value="{{ $order->id }}" data-id="{{ $order->id }}"
                                         name="orderID[]" class="rowCheck"></td>
                                 <td>
                                     {{ $key + 1 + ($orders->currentPage() - 1) * $orders->perPage() }}
                                 </td>
                                 <td>
                                     {{ $order->code }} @if ($order->viewed == 0) <span class="pull-right badge badge-info">{{ __('New') }}</span> @endif
+                                </td>
+                                <td>
+                                    {{($shop && !empty($shop))?$shop->name:'Not Found'}}
                                 </td>
                                 <td>
                                     {{ count($order->orderDetails->whereIn('seller_id', (array)$admin_user_id)) }}

@@ -685,7 +685,7 @@
                             </li>
                             <li>
                                 <a href="#">
-                                    <i class="fa fa-user"></i>
+                                    <i class="fa fa-mobile"></i>
                                     <span class="menu-title">{{__('Mobile App')}}</span>
                                     <i class="arrow"></i>
                                 </a>
