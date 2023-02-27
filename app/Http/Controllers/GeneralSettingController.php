@@ -93,6 +93,7 @@ class GeneralSettingController extends Controller
     }
     public function addColor(Request $request)
     {
+        // dd($request->all());
         $color = Color::where('code',$request->code)->count();
         if($color > 0){            
             flash(__('Color Already Exists'))->error();

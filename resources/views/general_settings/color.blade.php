@@ -42,7 +42,7 @@
                 </div>
             </div>
 @php
-    $colors = \App\Color::get();
+    $colors = \App\Color::orderBy('id','desc')->get();
 @endphp
             <!--Horizontal Form-->
             <!--===================================================-->
@@ -54,7 +54,9 @@
                             <div class="color-radio col-sm-3">
                                 <label>
                                     <input type="radio" name="frontend_color" class="color-control-input" value="{{$b->id}}" @if(\App\GeneralSetting::first()->frontend_color == $b->id) checked @endif>
-                                    <span class="color-control-box" style="background:{{$b->code}}"></span>
+                                    <span class="color-control-box" style="background:{{$b->code}}">
+                                        {{$b->name}}
+                                    </span>
                                 </label>
                             </div> 
                         @endforeach

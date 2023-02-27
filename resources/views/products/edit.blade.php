@@ -341,6 +341,7 @@
 									z-index: -1;
 								}
 							</style>
+							@if (!empty($product->color_images))
 							@foreach(json_decode($product->color_images,true) as $key => $color_image)
 								<tr class="{{$color_image['code']}}">
 									<td class="text-center">
@@ -363,6 +364,8 @@
 									</td>
 								</tr>
 							@endforeach
+								
+							@endif
 						</tbody>
 					</table>
 				</div>

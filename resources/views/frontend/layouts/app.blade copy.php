@@ -24,55 +24,209 @@
     @yield('meta')
 
     @if(!isset($detailedProduct))
-        <!-- Schema.org markup for Google+ -->
-        <meta itemprop="name" content="{{ config('app.name', 'Laravel') }}">
-        <meta itemprop="description" content="{{ $seosetting->description }}">
-        <meta itemprop="image" content="{{ asset(\App\GeneralSetting::first()->logo) }}">
-        <meta name="twitter:card" content="product">
-        <meta name="twitter:site" content="@publisher_handle">
-        <meta name="twitter:title" content="{{ config('app.name', 'Laravel') }}">
-        <meta name="twitter:description" content="{{ $seosetting->description }}">
-        <meta name="twitter:creator" content="@author_handle">
-        <meta name="twitter:image" content="{{ asset(\App\GeneralSetting::first()->logo) }}">
-        <meta property="og:title" content="{{ config('app.name', 'Laravel') }}" />
-        <meta property="og:type" content="Ecommerce Site" />
-        <meta property="og:url" content="{{ route('home') }}" />
-        <meta property="og:image" content="{{ asset(\App\GeneralSetting::first()->logo) }}" />
-        <meta property="og:description" content="{{ $seosetting->description }}" />
-        <meta property="og:site_name" content="{{ env('APP_NAME') }}" />
+    <!-- Schema.org markup for Google+ -->
+    <meta itemprop="name" content="{{ config('app.name', 'Laravel') }}">
+    <meta itemprop="description" content="{{ $seosetting->description }}">
+    <meta itemprop="image" content="{{ asset(\App\GeneralSetting::first()->logo) }}">
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="product">
+    <meta name="twitter:site" content="@publisher_handle">
+    <meta name="twitter:title" content="{{ config('app.name', 'Laravel') }}">
+    <meta name="twitter:description" content="{{ $seosetting->description }}">
+    <meta name="twitter:creator" content="@author_handle">
+    <meta name="twitter:image" content="{{ asset(\App\GeneralSetting::first()->logo) }}">
+
+    <!-- Open Graph data -->
+    <meta property="og:title" content="{{ config('app.name', 'Laravel') }}" />
+    <meta property="og:type" content="Ecommerce Site" />
+    <meta property="og:url" content="{{ route('home') }}" />
+    <meta property="og:image" content="{{ asset(\App\GeneralSetting::first()->logo) }}" />
+    <meta property="og:description" content="{{ $seosetting->description }}" />
+    <meta property="og:site_name" content="{{ env('APP_NAME') }}" />
     @endif
 
+    <!-- Favicon -->
     <link type="image/x-icon" href="{{ asset(\App\GeneralSetting::first()->favicon) }}" rel="shortcut icon" />
+
+    <!-- Fonts -->
+    {{-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet" media="none" onload="if(media!='all')media='all'"> --}}
+
+    <!-- Bootstrap -->
+    {{-- <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}" type="text/css" media="all"> --}}
+
     <link rel="stylesheet" href="{{ asset('frontend/assets/bootstrap-4.3.1/css/bootstrap.min.css') }}" />
+
+    {{-- <link rel="stylesheet" href="{{ asset('frontend/assets/bootstrap-4.3.1/css/bootstrap.min.css.map') }}" /> --}}
+
+    <!-- Font Awesome Link Starts -->
     <link rel="stylesheet" href="{{ asset('frontend/css/font-awesome.min.css') }}" type="text/css" media="none" onload="if(media!='all')media='all'">
+    <!-- Font Awesome Link Ends -->
+    <!-- Slick Css -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/slick/slick.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/slick/slick-theme.css') }}" />
+    <!-- Slick Css Ends-->
+
+    <!-- Custom Links -->
+    <!-- Font Link -->
+    {{-- <link rel="preconnect" href="https://fonts.-apis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> --}}
+    <!-- google font  -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Readex+Pro:wght@200&display=swap" rel="stylesheet" />
+    <!-- Font Link Ends -->
+
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/responsive.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/css/dashboard.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/css/dashboard-responsive.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/css/dashboard-two.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style2.css') }}" />
+    <!-- Countdown start -->
     <link rel="stylesheet" href="{{ asset('frontend/assets/countdown/css/flipclock.css') }}" />
+    <!-- Countdown end -->
+
     <link rel="stylesheet" href="{{ asset('frontend/assets/swiper/drift-basic.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/swiper/swiper.min.css') }}" />
+
+
+    {{-- <link rel="stylesheet" href="https://k1ngzed.com/dist/swiper/swiper.min.css" />
+    <link rel="stylesheet" href="https://k1ngzed.com/dist/EasyZoom/easyzoom.css" /> --}}
+
+
+    <!-- Icons -->
+    {{-- <link rel="stylesheet" href="{{ asset('frontend/css/font-awesome.min.css') }}" type="text/css" media="none" onload="if(media!='all')media='all'"> --}}
     <link rel="stylesheet" href="{{ asset('frontend/css/line-awesome.min.css') }}" type="text/css" media="none" onload="if(media!='all')media='all'">
+
     <link type="text/css" href="{{ asset('frontend/css/bootstrap-tagsinput.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('frontend/css/jodit.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('frontend/css/sweetalert2.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+    {{-- <link type="text/css" href="{{ asset('frontend/css/slick.css') }}" rel="stylesheet" media="all"> --}}
     <link type="text/css" href="{{ asset('frontend/css/xzoom.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('frontend/css/jssocials.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('frontend/css/jssocials-theme-flat.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('frontend/css/intlTelInput.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('css/spectrum.css')}}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+
+    <!-- Global style (main) -->
     <link type="text/css" href="{{ asset('frontend/css/active-shop.css') }}" rel="stylesheet" media="all">
+
+    {{-- martin edit css --}}
+    {{-- <link type="text/css" href="{{ asset('frontend/css/martinedit.css') }}" rel="stylesheet" media="all"> --}}
+
+
+
+
+
     <link type="text/css" href="{{ asset('frontend/css/main.css') }}" rel="stylesheet" media="all">
 
-    @if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
-        <link type="text/css" href="{{ asset('frontend/css/active.rtl.css') }}" rel="stylesheet" media="all">
-    @endif
+    {{-- style-new css --}}
+    {{-- <link type="text/css" href="{{ asset('frontend/css/style-new.css') }}" rel="stylesheet" media="all"> --}}
 
+
+    @if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
+    <!-- RTL -->
+    <link type="text/css" href="{{ asset('frontend/css/active.rtl.css') }}" rel="stylesheet" media="all">
+    @endif
+    {{-- <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+    <script>
+  
+      // Enable pusher logging - don't include this in production
+      Pusher.logToConsole = true;
+  
+      var pusher = new Pusher('841403de16a5983f6e8c', {
+        cluster: 'ap2'
+      });
+  
+      var channel = pusher.subscribe('my-channel');
+      channel.bind('my-event', function(data) {
+        alert(JSON.stringify(data));
+      });
+    </script> --}}
+    {{-- <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script> --}}
+    {{-- <script src="{{asset('js/OneSignalSDKWorker.js')}}" async=""></script> --}}
+    
+    {{-- <script>
+        window.OneSignal = window.OneSignal || [];
+        OneSignal.push(function() {
+            OneSignal.init({
+            appId: "7930c420-38ef-4181-b5d3-d289b3d93ab4",
+            });
+        });
+    </script> --}}
+    {{-- <script>
+        var OneSignal = window.OneSignal || [];
+         var initConfig = {
+             appId: "7930c420-38ef-4181-b5d3-d289b3d93ab4",
+             notifyButton: {
+                 enable: true
+             },
+         };
+         OneSignal.push(function () {
+             OneSignal.SERVICE_WORKER_PARAM = { scope: '/push/onesignal/' };
+             OneSignal.SERVICE_WORKER_PATH = 'push/onesignal/OneSignalSDKWorker.js'
+             OneSignal.SERVICE_WORKER_UPDATER_PATH = 'push/onesignal/OneSignalSDKUpdaterWorker.js'
+             OneSignal.init(initConfig);
+         });
+     </script> --}}
+    <!-- color theme -->
+    {{-- <link href="{{ asset('frontend/css/colors/'.\App\GeneralSetting::first()->frontend_color.'.css')}}" rel="stylesheet" media="all"> --}}
+
+    <!-- Custom style -->
+    {{-- <link type="text/css" href="{{ asset('frontend/css/custom-style.css') }}" rel="stylesheet" media="all"> --}}
+
+    <!-- jQuery -->
+    {{-- <script src="{{ asset('frontend/js/vendor/jquery.min.js') }}"></script> --}}
+
+
+    {{-- @if (\App\BusinessSetting::where('type', 'google_analytics')->first()->value == 1)  --}}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    {{-- <script async src="https://www.googletagmanager.com/gtag/js?id={{ env('TRACKING_ID') }}"></script>
+
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', '{{ env('
+            TRACKING_ID ') }}');
+    </script> --}}
+    {{-- @endif --}}
+
+    {{-- @if (\App\BusinessSetting::where('type', 'facebook_pixel')->first()->value == 1) --}}
+    {{-- Facebook Pixel Code  --}}
+    {{-- <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', {{ env('FACEBOOK_PIXEL_ID') }});
+    fbq('track', 'PageView');
+    </script> --}}
+    {{-- <noscript>
+  <img height="1" width="1" style="display:none"
+       src="https://www.facebook.com/tr?id={{ env('FACEBOOK_PIXEL_ID') }}/&ev=PageView&noscript=1"/>
+</noscript> --}}
+<!-- End Facebook Pixel Code -->
+ {{-- @endif  --}}
+ <!-- Meta Pixel Code -->
+{{-- <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '518595586902025');
+    fbq('track', 'PageView');
+  </script> --}}
   <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=518595586902025&ev=PageView&noscript=1"
   /></noscript>
@@ -80,6 +234,8 @@
     .multi-level{
         min-height: 70vh!important;
     }
+</style>
+<style>
     section#category_section{
         margin-bottom: 0!important;
     }
@@ -118,210 +274,220 @@
         width: 200px;
     }
     /* preloader */
-    #loading {
-        position: fixed;
-        width: 100%;
-        height: 100vh;
-        background: #fff;
-        background-size: 50px;
-        background-repeat: no-repeat;
-        background-position: center;
-        z-index: 99999;
-        background-image: url('{{asset("frontend/preloader/2.gif")}}');
-        background-color: #f7f7f7;
+#loading {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background: #fff;
+    background-size: 50px;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 99999;
+    background-image: url('{{asset("frontend/preloader/2.gif")}}');
+    background-color: #f7f7f7;
 
-    }
-    .hidden{
-        display: none;
-    }
-    .custom-close {
+}
+.hidden{
+    display: none;
+}
+.custom-close {
+  position: absolute;
+  right: 25px;
+}
+.height-100vh{
+    height: 100vh;
+    object-fit: contain;
+}
+#loading div img {
+    max-height: 100px;
+    min-height: 100px;
+    object-fit: contain;
+    object-position: center;
+}
+.fa-search{
+    color: white;
+}
+.category_title_top{
+    margin: auto;
+}
+.cus-price{
+    color: #ff6300!important;
+    font-size: 20px!important;
+}
+#search-content .title{
+    width: 100%;
+    text-align: center;
+}
+#search-content li{
+    text-align: center;
+}
+.slider_feature .product-grid-item{
+    margin: 2px;
+}
+
+/* Swiper Slider */
+/* .zoom {
+    width: 100%;
+    height: 39%;
+    left: 100%;
+    top: 15px;
     position: absolute;
-    right: 25px;
-    }
-    .height-100vh{
-        height: 100vh;
-        object-fit: contain;
-    }
-    #loading div img {
-        max-height: 100px;
-        min-height: 100px;
-        object-fit: contain;
-        object-position: center;
-    }
-    .fa-search{
-        color: white;
-    }
-    .category_title_top{
-        margin: auto;
-    }
-    .cus-price{
-        color: #ff6300!important;
-        font-size: 20px!important;
-    }
-    #search-content .title{
-        width: 100%;
-        text-align: center;
-    }
-    #search-content li{
-        text-align: center;
-    }
-    .slider_feature .product-grid-item{
-        margin: 2px;
-    }
+    z-index: 1;
+} */
 
-    .product-grid-item .category-title .category a{
-        color: rgb(74 67 67) !important;
-    }
-    .product-grid-item .category-title .title a{
-        color: #ff6707 !important;
-    }
-    .img-responsive {
-        max-width: 100;
-        height: auto;
-    }
+.product-grid-item .category-title .category a{
+    color: rgb(74 67 67) !important;
+}
+.product-grid-item .category-title .title a{
+    color: #ff6707 !important;
+}
+.img-responsive {
+    max-width: 100;
+    height: auto;
+}
 
-    .swiper-container {
-        width: 100%;
-        height: 300px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+.swiper-container {
+    width: 100%;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-    .swiper-slide {
-        background-size: cover;
-        background-position: center;
-    }
+.swiper-slide {
+    background-size: cover;
+    background-position: center;
+}
 
-    .gallery-top {
-        height: 80%;
-        width: 100%;
-    }
+.gallery-top {
+    height: 80%;
+    width: 100%;
+}
 
-    .gallery-thumbs {
-        height: 20%;
-        box-sizing: border-box;
-        padding: 10px 0;
-    }
+.gallery-thumbs {
+    height: 20%;
+    box-sizing: border-box;
+    padding: 10px 0;
+}
 
-    .gallery-thumbs .swiper-slide {
-        width: 25%;
-        height: 100%;
-        opacity: 0.4;
-    }
+.gallery-thumbs .swiper-slide {
+    width: 25%;
+    height: 100%;
+    opacity: 0.4;
+}
 
-    .gallery-thumbs .swiper-slide-thumb-active {
-        opacity: 1;
-    }
+.gallery-thumbs .swiper-slide-thumb-active {
+    opacity: 1;
+}
 
-    /* Swiper Slider Ends */
+/* Swiper Slider Ends */
 
-    .product-carousel .swiper-button-next.swiper-button-white,
-    .product-carousel .swiper-button-prev.swiper-button-white {
-        color: white;
-        background-color: var(--theme_color);
-    }
-    .xzoom-preview{
-        z-index: 99999;
-    }
-    .xzoom-source{
-        z-index: 99999;
-    }
-    /* mobile smart search */
-    .type-search-box {
-        position: absolute;
-        top: 100%;
-        border: 1px solid #eceff1;
-        box-shadow: 0 5px 25px 0 rgba(123, 123, 123, 0.15);
-        background: #fff;
-        width: 100%;
-        height: auto;
-        transition: all 0.3s;
-        -webkit-transition: all 0.3s;
-        -ms-webkit-transition: all 0.3s;
-        min-height: 200px;
-        z-index: 999999;
-        margin-left: -24px;
-    }
+.product-carousel .swiper-button-next.swiper-button-white,
+.product-carousel .swiper-button-prev.swiper-button-white {
+    color: white;
+    background-color: var(--theme_color);
+}
+.xzoom-preview{
+    z-index: 99999;
+}
+.xzoom-source{
+    z-index: 99999;
+}
+/* mobile smart search */
+.type-search-box {
+    position: absolute;
+    top: 100%;
+    border: 1px solid #eceff1;
+    box-shadow: 0 5px 25px 0 rgba(123, 123, 123, 0.15);
+    background: #fff;
+    width: 100%;
+    height: auto;
+    transition: all 0.3s;
+    -webkit-transition: all 0.3s;
+    -ms-webkit-transition: all 0.3s;
+    min-height: 200px;
+    z-index: 999999;
+    margin-left: -24px;
+}
 
-    .type-search-box .search-preloader {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        z-index: 1;
-    }
+.type-search-box .search-preloader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+}
 
-    .type-search-box .search-preloader .loader {
-        position: absolute;
-        top: 0px;
-        left: 50%;
-        transform: translateX(-18px);
-        -webkit-transform: translateX(-18px);
-    }
+.type-search-box .search-preloader .loader {
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-18px);
+    -webkit-transform: translateX(-18px);
+}
 
-    .type-search-box .search-nothing {
-        position: absolute;
-        top: 50%;
-        left: 0;
-        transform: translateY(-50%);
-        -webkit-transform: translateY(-50%);
-        font-size: 15px;
-        text-align: center;
-        width: 100%;
-        padding: 5px 20px;
-    }
+.type-search-box .search-nothing {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    font-size: 15px;
+    text-align: center;
+    width: 100%;
+    padding: 5px 20px;
+}
 
-    .type-search-box .title {
-        background: #ddd;
-        font-size: 10px;
-        text-align: right;
-        opacity: 0.5;
-        padding: 3px 15px 4px;
-        text-transform: uppercase;
-        line-height: 1;
-        width: 100%;
-    }
+.type-search-box .title {
+    background: #ddd;
+    font-size: 10px;
+    text-align: right;
+    opacity: 0.5;
+    padding: 3px 15px 4px;
+    text-transform: uppercase;
+    line-height: 1;
+    width: 100%;
+}
 
-    .type-search-box ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-    }
+.type-search-box ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
 
-    .type-search-box ul a {
-        display: block;
-        padding: 5px 15px;
-        color: #525252;
-    }
+.type-search-box ul a {
+    display: block;
+    padding: 5px 15px;
+    color: #525252;
+}
 
-    .type-search-box ul a:hover {
-        background: #f7f7f7;
-    }
+.type-search-box ul a:hover {
+    background: #f7f7f7;
+}
 
-    .type-search-box .search-product .image {
-        width: 50px;
-        min-width: 50px;
-        background-color: #ffffff;
-        background-size: cover;
-        height: 50px;
-        background-position: center;
-    }
+.type-search-box .search-product .image {
+    width: 50px;
+    min-width: 50px;
+    background-color: #ffffff;
+    background-size: cover;
+    height: 50px;
+    background-position: center;
+}
 
-    .type-search-box .product a {
-        padding: 8px 15px;
-    }
+.type-search-box .product a {
+    padding: 8px 15px;
+}
 
-    .type-search-box .search-product .product-name {
-        margin-bottom: 5px;
-        font-size: 13px;
-        font-weight: 600;
-        margin-left: 20px;
-    }
+.type-search-box .search-product .product-name {
+    margin-bottom: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-left: 20px;
+}
 
-    .type-search-box .search-product .price-box {
-        margin-left: 20px;
-    }
+.type-search-box .search-product .price-box {
+    margin-left: 20px;
+}
 </style>
 </head>
 @php
