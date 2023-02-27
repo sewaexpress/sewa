@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+
     <div class="panel">
     	<div class="panel-body">
     		<div class="invoice-masthead">
@@ -28,6 +30,11 @@
 						</a>
 						<a href="{{ route('seller.invoice.download', $order->id) }}" class="btn btn-default">
 							<i class="fa fa-download icon-lg"></i>
+						</a>
+						<a href="javascript:void(0);" data-id="{{($order->id) }}" class="btn btn-default print-label">
+							<i class="demo-pli-printer icon-lg">
+								Label
+							</i>
 						</a>
 					</div>
                 </div>
@@ -323,6 +330,34 @@
 
 @section('script')
     <script type="text/javascript">
+	
+		$('.print-label').click(function() {
+			var cid = $(this).attr('data-id');
+			$.ajax({
+			url: '/orders/'+cid+'/label',
+			type: 'GET',
+			success: function(response) {
+				var printWindow = window.open('', 'Print', 'height=600,width=800');
+        		printWindow.document.write(response);
+
+				// Wait for the window to finish loading before printing
+				setTimeout(function() {
+					printWindow.focus();
+					// printWindow.print();
+					printWindow.onbeforeunload = function() {
+						printWindow.close();
+					};
+					// console.log('1');
+					// printWindow.onload = function() {
+					//     printWindow.focus();
+					//     printWindow.close();
+					// };
+				}, 1000); // Add a delay of 1 second (1000 ms)
+			},error: function(){
+				console.log('error');
+			}
+			});
+		});
 		$('.print-invoice').click(function() {
 			var cid = $(this).attr('data-id');
 			$.ajax({
@@ -330,21 +365,21 @@
 			type: 'GET',
 			success: function(response) {
 				var printWindow = window.open('', 'Print', 'height=600,width=800');
-        printWindow.document.write(response);
+        		printWindow.document.write(response);
 
-        // Wait for the window to finish loading before printing
-		setTimeout(function() {
-			printWindow.focus();
-			printWindow.print();
-			printWindow.onbeforeunload = function() {
-				printWindow.close();
-			};
-			// console.log('1');
-            // printWindow.onload = function() {
-            //     printWindow.focus();
-            //     printWindow.close();
-            // };
-        }, 1000); // Add a delay of 1 second (1000 ms)
+				// Wait for the window to finish loading before printing
+				setTimeout(function() {
+					printWindow.focus();
+					printWindow.print();
+					printWindow.onbeforeunload = function() {
+						printWindow.close();
+					};
+					// console.log('1');
+					// printWindow.onload = function() {
+					//     printWindow.focus();
+					//     printWindow.close();
+					// };
+				}, 1000); // Add a delay of 1 second (1000 ms)
 			},error: function(){
 				console.log('error');
 			}

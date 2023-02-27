@@ -12,6 +12,7 @@
 */
 //Shipping Configuration
 
+Route::get('/orders/{id}/label', 'InvoiceController@label')->name('orders.label')->middleware(['auth']);
 Route::get('/orders/{id}/invoice', 'InvoiceController@invoice')->name('orders.invoice')->middleware(['auth']);
 Route::post('/get-states-by-country', 'HomeController@getStates')->name('getStates')->middleware(['auth']);
 Route::get('/admin', 'HomeController@admin_dashboard')->name('admin.dashboard')->middleware(['auth', 'admin']);
