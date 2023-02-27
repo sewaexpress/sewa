@@ -343,7 +343,7 @@
 				// Wait for the window to finish loading before printing
 				setTimeout(function() {
 					printWindow.focus();
-					// printWindow.print();
+					printWindow.print();
 					printWindow.onbeforeunload = function() {
 						printWindow.close();
 					};
