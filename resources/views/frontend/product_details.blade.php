@@ -180,7 +180,7 @@ td {
                                 @endif
                                 @if (is_array(json_decode($detailedProduct->color_images)) && count(json_decode($detailedProduct->color_images)) > 0)
                                     @foreach (json_decode($detailedProduct->color_images, true) as $key => $photo)
-                                        @if ($photo['image'] != '' || $photo['image'] != 'empty')
+                                        @if ($photo['image'] != '' && $photo['image'] != 'empty')
                                             <div class="swiper-slide" data-color="color-image-{{ $photo['name'] }}" data-indexVal="{{ $count }}">
                                                 @if (!empty($photo))
                                                     @if (file_exists($photo['image']))
