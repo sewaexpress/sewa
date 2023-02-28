@@ -348,7 +348,7 @@
 										<label for="" class="control-label">{{$color_image['name']}}</label>
 									</td>
 									<td class="text-center">
-										@if ($color_image['image'] == '')
+										@if ($color_image['image'] == '' || $color_image['image'] == 'empty')
 											<img class="image-{{$color_image['name']}}" style="width:100%;" src="" alt="">											
 
 										@else

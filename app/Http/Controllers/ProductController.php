@@ -516,7 +516,16 @@ class ProductController extends Controller
                     ];
                     $color_images[] = $b;
                 } else {
-                    $color_images[] = $b;
+                    if(!($b['code'] == $b['image'])){
+                        $color_images[] = $b;
+                    }else{
+                        $b = [
+                            'name' => $b['name'],
+                            'code' => $b['code'],
+                            'image' => 'empty'
+                        ];
+                        $color_images[] = $b;
+                    }
                 }
             }
         }
