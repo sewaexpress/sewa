@@ -147,6 +147,7 @@ td {
        </div>
     </section>
     <!-- Breadcrumbs Ends -->
+    
     <!-- Product Detail  -->
     <section id="product-detail-wrapper" class="py-3">
         <div class="container">
@@ -229,7 +230,7 @@ td {
                                 @endif
                                 @if (is_array(json_decode($detailedProduct->color_images)) && count(json_decode($detailedProduct->color_images)) > 0)
                                     @foreach (json_decode($detailedProduct->color_images, true) as $key => $photo)
-                                        @if (!empty($photo['image']))
+                                        @if (!empty($photo['image'])  && $photo['image'] != 'empty')
                                             @if (file_exists($photo['image']))
                                                 <div class="swiper-slide color-image-{{ $photo['name'] }}" data-indexVal="{{ $count }}" style="background-image:url('{{ asset($photo['image']) }}')">
                                                 </div>
