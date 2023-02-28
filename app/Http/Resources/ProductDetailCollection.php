@@ -107,7 +107,7 @@ class ProductDetailCollection extends ResourceCollection
                     'discount' => (double) $data->discount,
                     'discount_type' => $data->discount_type,
                     'tax' => (double) $data->tax,
-                    'color_images' => json_encode($data->color_images),
+                    'color_images' => json_decode($data->color_images),
                     'video_provider' => $data->video_provider,
                     'video_link' => $data->video_link,
                     'tax_type' => $data->tax_type,
