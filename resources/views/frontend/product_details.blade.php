@@ -180,20 +180,24 @@ td {
                                 @endif
                                 @if (is_array(json_decode($detailedProduct->color_images)) && count(json_decode($detailedProduct->color_images)) > 0)
                                     @foreach (json_decode($detailedProduct->color_images, true) as $key => $photo)
-                                        <div class="swiper-slide" data-color="color-image-{{ $photo['name'] }}" data-indexVal="{{ $count }}">
-                                            @if (!empty($photo))
-                                                @if (file_exists($photo['image']))
-                                                    <img src="{{ asset($photo['image']) }}" data-zoom="{{ asset($photo['image']) }}" class="img-responsive asdf">
+                                        @if ($photo['image'] != '')
+                                            <div class="swiper-slide" data-color="color-image-{{ $photo['name'] }}" data-indexVal="{{ $count }}">
+                                                @if (!empty($photo))
+                                                    @if (file_exists($photo['image']))
+                                                        <img src="{{ asset($photo['image']) }}" data-zoom="{{ asset($photo['image']) }}" class="img-responsive asdf">
+                                                    @else
+                                                        <img src="{{ asset('frontend/images/placeholder.jpg') }}"
+                                                        data-zoom="{{ asset('frontend/images/placeholder.jpg') }}" class="img-responsive asdf">
+                                                    @endif
                                                 @else
                                                     <img src="{{ asset('frontend/images/placeholder.jpg') }}"
                                                     data-zoom="{{ asset('frontend/images/placeholder.jpg') }}" class="img-responsive asdf">
                                                 @endif
-                                            @else
-                                                <img src="{{ asset('frontend/images/placeholder.jpg') }}"
-                                                data-zoom="{{ asset('frontend/images/placeholder.jpg') }}" class="img-responsive asdf">
-                                            @endif
-                                        </div>
-                                        @php $count ++; @endphp
+                                            </div>    
+                                            @php 
+                                                $count ++; 
+                                            @endphp                                        
+                                        @endif
                                     @endforeach
                                 @endif
                             </div>
