@@ -37,7 +37,7 @@ class SearchProductCollection extends ResourceCollection
                     'unit_price2' => $data->unit_price2,
                     'category_id' => $data->category_id,
                     'thumbnail_image' => file_exists($data->featured_img) ? $data->featured_img : $placeholder_img,
-                    'featured_img' => file_exists($data->featured_img) ? $data->featured_img : $placeholder_img,
+                    'featured_image' => file_exists($data->featured_img) ? $data->featured_img : $placeholder_img,
                     'base_price' => (double) homeBasePrice($data->id),
                     'unit_price' => number_format(intval($data->unit_price)),
                     'base_discounted_price' => number_format(intval(homeDiscountedBasePrice($data->id))),
