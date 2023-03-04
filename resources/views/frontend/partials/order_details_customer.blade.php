@@ -166,7 +166,7 @@
         </div>
         <div class="col-lg-3">
             <div class="card mt-4">
-                <div class="card-header py-2 px-3 heading-6 strong-600">{{__('Order Ammount')}}</div>
+                <div class="card-header py-2 px-3 heading-6 strong-600">{{__('Order Amount')}}</div>
                 <div class="card-body pb-0">
                     <table class="table details-table">
                         <tbody>

@@ -57,6 +57,7 @@ Route::prefix('v1')->group(function () {
 
     Route::apiResource('home-categories', 'Api\HomeCategoryController')->only('index');
 
+    Route::post('refund-request-send/{id}', 'Api\CustomerController@request_store')->middleware('auth:api');
     Route::get('support_ticket', 'Api\CustomerController@supportTicket')->middleware('auth:api');
     Route::post('send/support_ticket', 'Api\CustomerController@sendSupportTicket')->middleware('auth:api');
 

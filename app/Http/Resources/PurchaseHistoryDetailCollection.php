@@ -11,10 +11,10 @@ class PurchaseHistoryDetailCollection extends ResourceCollection
     {
         return [
             'data' => $this->collection->map(function($data) {
-                $photo=[];
                 $placeholder_img='frontend/images/placeholder.jpg';
-            $product = Product::where('id',$data->product_id)->first();
+                $product = Product::where('id',$data->product_id)->first();
                 return [
+                    'id' => (integer) $data->id,
                     'product' => (isset($product))?$product->name:'Empty',
                     'featured_image' => file_exists($product->featured_img) ? $product->featured_img : $placeholder_img,
                     'variation' => $data->variation,
