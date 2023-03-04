@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Customer;
+use App\Models\Ticket;
 use App\User;
 use App\Order;
 use Carbon\Carbon;

@@ -57,6 +57,9 @@ Route::prefix('v1')->group(function () {
 
     Route::apiResource('home-categories', 'Api\HomeCategoryController')->only('index');
 
+    Route::get('support_ticket', 'Api\CustomerController@supportTicket')->middleware('auth:api');
+    Route::post('send/support_ticket', 'Api\CustomerController@sendSupportTicket')->middleware('auth:api');
+
     Route::post('purchase-history/update-transaction', 'Api\PurchaseHistoryController@updateTransaction')->middleware('auth:api');
     Route::post('purchase-history/cancel','Api\PurchaseHistoryController@cancel')->middleware('auth:api');
     Route::get('purchase-history/{id}', 'Api\PurchaseHistoryController@index')->middleware('auth:api');
