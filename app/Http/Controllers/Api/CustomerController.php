@@ -6,8 +6,11 @@ use App\Http\Resources\CustomerResource;
 use App\Http\Resources\SupportTicketCollection;
 use App\Models\Customer;
 use App\Models\OrderDetail;
+use App\Product;
+use App\Models\Review;
 use App\Models\Ticket;
 use App\RefundRequest;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -85,5 +88,39 @@ class CustomerController extends Controller
                 'message' => 'Something went wrong'
             ]);
         }
+    }
+    public function rateProduct(Request $request){
+        $product = Product::where('id',$request->product_id);   
+        if($product->count() > 0){
+            $product = $product->first();
+            $review = new Review();
+            $review->product_id = $request->product_id;
+            $review->user_id = Auth::user()->id;
+            $review->rating = $request->rating;
+            $review->comment = $request->comment;
+            $review->viewed = '0';
+            if($review->save()){
+                if(count(Review::where('product_id', $product->id)->where('status', 1)->get()) > 0){
+                    $product->rating = Review::where('product_id', $product->id)->where('status', 1)->sum('rating')/count(Review::where('product_id', $product->id)->where('status', 1)->get());
+                }
+                else {
+                    $product->rating = 0;
+                }
+                $product->save();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Review has been submitted successfully',
+                ]);
+            }
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong',
+            ]);
+                
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Product Not Found',
+        ]);
     }
 }
