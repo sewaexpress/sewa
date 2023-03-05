@@ -11,7 +11,9 @@ class SliderCollection extends ResourceCollection
         return [
             'data' => $this->collection->map(function($data) {
                 return [
-                    'photo' => $data->photo
+                    'photo' => $data->photo,
+                    'url' => null,        
+                    'url_id' => null,
                 ];
             })
         ];
