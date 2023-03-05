@@ -20,12 +20,12 @@ class CustomerController extends Controller
     public function supportTicket()
     {
         $tickets = Ticket::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Ticket List',
-            'data' => new SupportTicketCollection($tickets)
-        ]);
+        return new SupportTicketCollection($tickets);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Ticket List',
+        //     'data' => new SupportTicketCollection($tickets)
+        // ]);
     }
     public function sendSupportTicket(Request $request)
     {
