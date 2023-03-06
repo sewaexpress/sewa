@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\CustomerResource;
 use App\Http\Resources\SupportTicketCollection;
+use App\Models\Coupon;
 use App\Models\Customer;
 use App\Models\OrderDetail;
 use App\Product;
@@ -16,6 +17,36 @@ use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
+    public function validateCoupon(Request $request){
+        $coupon_discount = 0;
+        if ($request->coupon_code != '') {
+            $coupon  = Coupon::where('code', $request->coupon_code);
+            if($coupon->count() > 0){
+                $coupon = $coupon->first();
+                if(strtotime(date('d-m-Y')) <= $coupon->end_date){
+                    // $coupon_discount = $coupon->discount;
+                    return response()->json([
+                        'success' => true,
+                        'value' => $coupon->discount,
+                        'message' => 'Coupon Validated'
+                    ]);
+                }else{
+                    return response()->json([
+                        'success' => false,
+                        'value' => 0,
+                        'message' => 'Coupon Code Expired'
+                    ]);
+                }
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'value' => 0,
+                    'message' => 'Invalid Coupon Key'
+                ]);
+
+            }
+        }
+    }
     public function show($id)
     {
         return new CustomerResource(Customer::find($id));
