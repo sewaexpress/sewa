@@ -15,6 +15,7 @@ class PurchaseHistoryDetailCollection extends ResourceCollection
                 $product = Product::where('id',$data->product_id)->first();
                 return [
                     'id' => (integer) $data->id,
+                    'product_id' => (isset($product))?$product->id:'Empty',
                     'product' => (isset($product))?$product->name:'Empty',
                     'featured_image' => file_exists($product->featured_img) ? $product->featured_img : $placeholder_img,
                     'variation' => $data->variation,
