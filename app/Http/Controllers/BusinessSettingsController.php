@@ -349,8 +349,13 @@ class BusinessSettingsController extends Controller
     }
     
     public function appReferral(Request $request){
-        $list = AppReferList::groupBy('referrer_user_id')->with('referred_by')->select('id','referrer_user_id','created_at', DB::raw('count(*) as count'))->get()->toArray();
-        // dd($data);
+        $list = AppReferList::groupBy('referrer_user_id')
+                                ->where('status', null)
+                                ->with('referred_by')
+                                ->with('reward_amount')
+                                ->select('id','referrer_user_id','created_at', DB::raw('count(*) as count'))
+                                ->get()->toArray();
+        // dd($list);
         // $list = AppReferList::with('referred_by','referred_to')->get();
         // if($list->isEmpty()){
         //     $list = [];

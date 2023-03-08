@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\BusinessSetting;
+use App\RewardAmount;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class AppReferCollection extends ResourceCollection
@@ -21,7 +23,9 @@ class AppReferCollection extends ResourceCollection
 
     public function with($request)
     {
+        // $business_settings = BusinessSetting::where('type', 'app_refer_point')->first();
         return [
+            // 'rate' => $business_settings->value,
             'success' => true,
             'status' => 200
         ];

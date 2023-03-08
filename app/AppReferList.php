@@ -22,4 +22,7 @@ class AppReferList extends Model
     public function referred_to(){
         return $this->belongsTo(User::class, 'referred_user_id');
     }
+    public function reward_amount(){
+        return $this->hasOne(RewardAmount::class, 'user_id','referrer_user_id');
+    }
 }

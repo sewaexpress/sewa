@@ -224,7 +224,7 @@ class HomeController extends Controller
         }else{
             $referral_code = Auth::user()->referral_code;
         }
-        $list = AppReferList::where('referrer_user_id',Auth::user()->id)->with('referred_to')->orderBy('id','desc');
+        $list = AppReferList::where('referrer_user_id',Auth::user()->id)->where('status', null)->with('referred_to')->orderBy('id','desc');
         if($list->count() > 0){
             $list = $list->get()->toArray();
         }else{

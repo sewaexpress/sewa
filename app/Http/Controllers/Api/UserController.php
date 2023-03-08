@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\AppReferList;
 use App\Http\Resources\AppReferCollection;
 use App\Http\Resources\UserCollection;
+use App\RewardAmount;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,8 +34,16 @@ class UserController extends Controller
         }
 
     }
+    
+    public function getRewardAmount($id){
+        $reward_amount = RewardAmount::where('user_id', $id)->first();
+        return response()->json([
+            'amount' => ($reward_amount)?$reward_amount->amount:0,
+            'message' => 'Reward Amount retreived successfully'
+        ]);
+    }
     public function getRefers($id){
-        return new AppReferCollection(AppReferList::where('referrer_user_id', $id)->with('referred_by','referred_to')->get());
+        return new AppReferCollection(AppReferList::where('referrer_user_id', $id)->where('status', null)->with('referred_by','referred_to')->get());
     }
     public function updateImage(Request $request){
         //update user image

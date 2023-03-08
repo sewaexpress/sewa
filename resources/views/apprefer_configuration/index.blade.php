@@ -22,8 +22,8 @@
                         <tr>
                             <th>#</th>
                             <th>{{__('Referred By')}}</th>
-                            <th>{{__('Refers')}}</th>
-                            <th>{{__('Earnings')}}</th>
+                            <th>{{__('Total Refers')}}</th>
+                            <th>{{__('Reward Amount')}}</th>
                             <th width="10%">{{__('Options')}}</th>
                         </tr>
                     </thead>
@@ -34,7 +34,8 @@
                                     <td>{{$key+1}}</td>
                                     <td>{{$attribute['referred_by']['name']}}</td>
                                     <td>{{$attribute['count']}}</td>
-                                    <td>{{$attribute['count']*$app_refer_point}}</td>
+                                    {{-- <td>{{$attribute['count']*$app_refer_point}}</td> --}}
+                                    <td>{{(isset($attribute['reward_amount']['amount']))?$attribute['reward_amount']['amount']:0}}</td>
                                     <td>
                                         <button data-id="{{$attribute['referred_by']['id']}}" type="button" class="btn btn-primary get-list" data-toggle="modal" data-target=".bd-example-modal-lg">View</button>
                                        

@@ -78,7 +78,7 @@
                                     <div class="card-body table-responsive">
                                         <input type="hidden" value="{{$referral_code}}" id="referral-code">
                                         <p>Referral Code : {{$referral_code}} </p>
-                                        <p>Total Refers Points : {{count($list)}}</p>
+                                        <p>Total Reward Amount : {{count($list)}}</p>
                                         {{-- <i class="fa fa-copy copy-link" data-link="{{$referral_code}}"></i> --}}
 
                                         <span onclick="copyToClipboard('{{$referral_code}}')" style="cursor: pointer;" id="ref-cpurl-btn" class="btn btn-success" data-referral="{{$referral_code}} " data-attrcpy="{{__('Copied')}}">{{__('Copy Code')}}</span>
