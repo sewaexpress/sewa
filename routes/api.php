@@ -24,6 +24,7 @@ Route::prefix('v1')->group(function () {
 
     Route::get('pops', 'Api\SliderController@pop')->name('api.pop');
     
+    Route::get('/get-reward-range', 'Api\UserController@getRewardRange');
     Route::get('/get-reward-amount/{id}', 'Api\UserController@getRewardAmount')->middleware('auth:api');
     Route::get('/get-refer/{id}', 'Api\UserController@getRefers')->middleware('auth:api');
 

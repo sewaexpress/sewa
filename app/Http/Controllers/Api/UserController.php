@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\AppReferList;
 use App\Http\Resources\AppReferCollection;
+use App\Http\Resources\RewardRangeCollection;
 use App\Http\Resources\UserCollection;
 use App\RewardAmount;
+use App\RewardRange;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,6 +37,9 @@ class UserController extends Controller
 
     }
     
+    public function getRewardRange(){
+        return new RewardRangeCollection(RewardRange::get());
+    }
     public function getRewardAmount($id){
         $reward_amount = RewardAmount::where('user_id', $id)->first();
         return response()->json([
