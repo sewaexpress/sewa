@@ -193,14 +193,17 @@
                    </a>
                </li>
            @endif --}}
+           @if ($_SERVER['HTTP_HOST'] == 'localhost:8000')
            <li>
-                <a href="{{ route('customer.app.refer') }}" class="{{ areActiveRoutesHome(['customerAppRefer'])}}">
+                <a href="{{ route('customer.app.refer') }}" class="{{ areActiveRoutesHome(['customer.app.refer'])}}">
                     <i class="la la-dollar"></i>
                     <span class="category-name">
                         {{__('App Referrals')}}
                     </span>
                 </a>
             </li>
+               
+           @endif
            @if(Auth::user())
                 @php
                     $support_ticket = DB::table('tickets')
