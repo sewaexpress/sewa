@@ -202,7 +202,7 @@ class ProductController extends Controller
                 return $collection;
 
             default:
-                $collection = new ProductCollection(filter_products(Product::orderBy('num_of_sale', 'desc'))->paginate(20));
+                $collection = new ProductCollection(filter_products(Product::orderBy('num_of_sale', 'desc')->where('brand_id', $id))->paginate(20));
                 $collection->appends(['scope' => $scope]);
                 return $collection;
         }

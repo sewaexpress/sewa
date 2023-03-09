@@ -31,6 +31,7 @@ use App\Http\Controllers\SearchController;
 use App\Location;
 use App\Lucky;
 use App\Recommend;
+use App\RewardAmount;
 use App\State;
 use Carbon\Carbon;
 use ImageOptimizer;
@@ -225,12 +226,13 @@ class HomeController extends Controller
             $referral_code = Auth::user()->referral_code;
         }
         $list = AppReferList::where('referrer_user_id',Auth::user()->id)->where('status', null)->with('referred_to')->orderBy('id','desc');
+        $reward_amount = RewardAmount::where('user_id',Auth::user()->id)->first();
         if($list->count() > 0){
             $list = $list->get()->toArray();
         }else{
             $list = [];
         }
-        return view('frontend.app-referral.index', compact('list','referral_code'));
+        return view('frontend.app-referral.index', compact('list','referral_code','reward_amount'));
 
     }
     public function profile(Request $request)

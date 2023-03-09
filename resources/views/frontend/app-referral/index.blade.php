@@ -37,10 +37,9 @@
                         <div class="row">
                             <div class="col-md-8 col-sm-12">
                                 <div class="card no-border mt-3">
-                                    <div class="card-header py-3" style="display: flex;justify-content: space-between;">
+                                    {{-- <div class="card-header py-3" style="display: flex;justify-content: space-between;">
                                         <h4 class="mb-0 h6">{{__('Affiliate payment history')}}</h4>
-                                        {{-- <h4 class="mb-0 h6">{{'Total Referrals : '.count($list)}}</h4> --}}
-                                    </div>
+                                    </div> --}}
                                     <div class="card-body table-responsive">
                                         <table class="table table-sm  mb-0">
                                             <thead>
@@ -78,7 +77,7 @@
                                     <div class="card-body table-responsive">
                                         <input type="hidden" value="{{$referral_code}}" id="referral-code">
                                         <p>Referral Code : {{$referral_code}} </p>
-                                        <p>Total Reward Amount : {{count($list)}}</p>
+                                        <p>Total Reward Amount : {{($reward_amount)?$reward_amount->amount:0}}</p>
                                         {{-- <i class="fa fa-copy copy-link" data-link="{{$referral_code}}"></i> --}}
 
                                         <span onclick="copyToClipboard('{{$referral_code}}')" style="cursor: pointer;" id="ref-cpurl-btn" class="btn btn-success" data-referral="{{$referral_code}} " data-attrcpy="{{__('Copied')}}">{{__('Copy Code')}}</span>
