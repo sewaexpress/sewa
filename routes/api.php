@@ -28,7 +28,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/get-reward-range', 'Api\UserController@getRewardRange');
     Route::get('/get-reward-amount/{id}', 'Api\UserController@getRewardAmount')->middleware('auth:api');
     Route::get('/get-refer/{id}', 'Api\UserController@getRefers')->middleware('auth:api');
-
+    Route::get('/get-refer-info', 'Api\UserController@getReferInfo')->middleware('auth:api');
+    
     Route::apiResource('banners', 'Api\BannerController')->only('index');
 
     Route::get('notifications/{id}', 'Api\NotificationsController@getUserNotification');

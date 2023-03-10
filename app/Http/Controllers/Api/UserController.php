@@ -39,6 +39,16 @@ class UserController extends Controller
     }
     
     
+    public function getReferInfo(){
+        $id = Auth::user()->id;
+        $refer_count = AppReferList::where('referrer_user_id', $id)->where('status', null)->count();
+        $reward_amount = RewardAmount::where('user_id', $id)->first();
+        return response()->json([
+            'refer_count' => $refer_count,
+            'reward_amount' => ($reward_amount)?$reward_amount->amount:0,
+        ]);
+
+    }
     public function redeemReward(){
         $user_id = Auth::user()->id;
         $refer_count = AppReferList::where('referrer_user_id', $user_id)->where('status', null)->count();
