@@ -16,6 +16,8 @@ use App\Order;
 use App\OrderDetail;
 use App\OtpConfiguration;
 use App\Product;
+use App\RewardAmount;
+use App\RewardRange;
 use App\User;
 use Auth;
 // use CoreComponentRepository;
@@ -27,6 +29,7 @@ use Mail;
 // use MehediIitdu\CoreComponentRepository\CoreComponentRepository as CoreComponentRepositoryCoreComponentRepository;
 // use MehediIitdu\CoreComponentRepository\CoreComponentRepository as CoreComponentRepositoryCoreComponentRepository;
 use PDF;
+use PDO;
 use Session;
 
 class OrderController extends Controller
@@ -466,6 +469,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
+       
         $order = Order::where('id',decrypt($id))->first();
         if($order->viewed == 0){
             $order_update = Order::findOrFail(decrypt($id));

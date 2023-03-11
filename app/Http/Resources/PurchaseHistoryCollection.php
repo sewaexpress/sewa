@@ -26,6 +26,7 @@ class PurchaseHistoryCollection extends ResourceCollection
                     'payment_status' => $data->payment_status,
                     'grand_total' => (double) $data->grand_total,
                     'coupon_discount' => (double) $data->coupon_discount,
+                    'reward_amount_discount' => (double) $data->reward_amount_discount,
                     'shipping_cost' => (double) ($data->orderDetails->sum('shipping_cost')+($data->location_charge)),
                     'subtotal' => (double) $data->orderDetails->sum('price'),
                     'tax' => (integer) $data->orderDetails->sum('tax'),

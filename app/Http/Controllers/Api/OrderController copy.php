@@ -23,7 +23,6 @@ use PDF;
 use Session;
 use App\Mail\InvoiceEmailManager;
 use App\RewardAmount;
-use App\RewardRange;
 use Auth;
 
 class OrderController extends Controller
@@ -43,6 +42,18 @@ class OrderController extends Controller
             }
         }
 
+        $reward_discount = 0;
+        if ($request->use_reward_amount != '') {
+            $reward_amount = RewardAmount::where('user_id', $request->user_id)->first();
+            if(strtotime(date('d-m-Y')) <= $coupon->end_date){
+                $coupon_discount = $coupon->discount;
+            }else{
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Coupon Code Expired'
+                ]);
+            }
+        }
 
         $shippingAddress = json_decode($request->shipping_address,true);
 
@@ -167,52 +178,13 @@ class OrderController extends Controller
         }
         // calculate commission
         $commission_percentage = BusinessSetting::where('type', 'vendor_commission')->first()->value;
-        $reward_amount_discount = 0;
-        if(!empty($order->orderDetails)){
-            if ($request->use_reward_amount != '') {
-                $reward_amount = RewardAmount::where('user_id', $request->user_id)->first();                
-                $sub_total_of_order = single_price($order->orderDetails->sum('price'));
-                $reward_ranges = RewardRange::get();
-                $selected_range = [];
-                $customer_reward_amount = 0;
-                //if user has reward amount which is greater than 0
-                if(!empty($reward_amount) && $reward_amount->amount > 0){
-                    foreach($reward_ranges as $ranges){
-                        if($ranges->end_range != 'Above'){
-                            if($sub_total_of_order >= $ranges->start_range && $sub_total_of_order <= ($ranges->end_range)){
-                               $selected_range = $ranges;
-                            }
-                        }else{
-                            if($sub_total_of_order >= $ranges->start_range){
-                                $selected_range = $ranges;
-                            }
-                        }
-                    }
-                    if(!empty($selected_range)){
-                        $max_reward_discount = $selected_range->value;
-                        $customer_reward_amount = $reward_amount->amount;
-                        if($customer_reward_amount > $max_reward_discount){
-                            $reward_amount_discount = $max_reward_discount;
-                            $reward_amount->amount -= $reward_amount_discount;
-                            $reward_amount->save();
-                        }
-                    }
-                    if($reward_amount_discount > 0){
-                        $find_order = Order::where('id',$order->id)->update([
-                            'reward_amount_discount' => $reward_amount_discount
-                        ]);
-
-                    }
-                }
-            }
-            foreach ($order->orderDetails as $orderDetail) {
-                if ($orderDetail->product->user->user_type == 'seller') {
-                    $seller = $orderDetail->product->user->seller;
-                    $price = $orderDetail->price + $orderDetail->tax + $orderDetail->shipping_cost;
-                    $seller->update([
-                        'admin_to_pay' => ($request->payment_type == 'cash_on_delivery') ? $seller->admin_to_pay - ($price * $commission_percentage) / 100 : $seller->admin_to_pay + ($price * (100 - $commission_percentage)) / 100
-                    ]);
-                }
+        foreach ($order->orderDetails as $orderDetail) {
+            if ($orderDetail->product->user->user_type == 'seller') {
+                $seller = $orderDetail->product->user->seller;
+                $price = $orderDetail->price + $orderDetail->tax + $orderDetail->shipping_cost;
+                $seller->update([
+                    'admin_to_pay' => ($request->payment_type == 'cash_on_delivery') ? $seller->admin_to_pay - ($price * $commission_percentage) / 100 : $seller->admin_to_pay + ($price * (100 - $commission_percentage)) / 100
+                ]);
             }
         }
         // clear user's cart
@@ -220,27 +192,62 @@ class OrderController extends Controller
         $user->carts()->delete();
 
         set_time_limit(1500);
-        
+
+        // $order = Order::where('id',161)->first();
+        // $shipping_address = json_decode($request->shipping_address,true);
+        // return $shipping_address;
         $user = [
             'id' => Auth::user()->id,
             'email' => Auth::user()->email,
             'name' => Auth::user()->name
         ];
         $user = User::where('id',($user['id']))->first();
-        
+
+
+        // $order = Order::where('id',213)->first();
         $products = '';
+        if(!empty($order->orderDetails)){
+            foreach($order->orderDetails as $a => $b){
+                $product_name = Product::where('id',$b['product_id'])->first();
+                $products .= '<br>'.$product_name->name.'</n>';
+            }
+        }
         $total_amount = $order->grand_total;
         
+        // $array['view'] = 'emails.newsletter';
+        // $array['subject'] = 'New Order Placed';
+        // $array['from'] = 'nextnepal271@gmail.com';
+        // $array['content'] = 'Thank you for ordering from Sewa Digital Express. An order of total amount Rs. '.$total_amount.' has been placed for following items.';
+        // $array['content'] .= $products;
+        // $array['content'] .= '.</br>You can download the invoice to this order from https://www.sewaexpress.com/purchase_history';
+        // Mail::to(Auth::user()->email)->queue(new EmailManager($array));
+        
         set_time_limit(1500);
+        //stores the pdf for invoice
+        // $pdf = PDF::setOptions([
+        //     'isHtml5ParserEnabled' => true, 
+        //     'isRemoteEnabled' => true,
+        //     "isPhpEnabled"=>true,
+        //     'logOutputFile' => storage_path('logs/log.htm'),
+        //     'tempDir' => storage_path('logs/'),
+        // ])->loadView('invoices.customer_invoice', compact('order','user'));
+        // $output = $pdf->output();
+        // file_put_contents(public_path('/invoices/Order#' . $order->code . '.pdf'), $output);
+
+        // $pdf->download('Order-'.$order->code.'.pdf');
         $data['view'] = 'emails.invoice';
         $data['subject'] = 'Sewa Express - Order Placed - ' . $order->code;
         $data['from'] = Config::get('mail.username');
         $data['content'] = 'Hi. Thank you for ordering from Sewa Express. Your order code is '.$order->code;
+        // $data['file'] = public_path('invoices/' . 'Order#' . $order->code . '.pdf');
+        // $data['file_name'] = 'Order#' . $order->code . '.pdf';
 
         if (Config::get('mail.username') != null) {
             try {
                 Mail::to(Auth::user()->email)->queue(new InvoiceEmailManager($data));
                 Log::info('Mail Sent to '.Auth::user()->email);
+                // Mail::to($request->session()->get('shipping_info')['email'])->send(new InvoiceEmailManager($data));
+                // Mail::to(User::where('user_type', 'admin')->first()->email)->queue(new InvoiceEmailManager($data));
             } catch (\Exception $e) {
                 Log::info($e->getMessage());
             }
@@ -279,7 +286,6 @@ class OrderController extends Controller
                     'payment_status' => $data->payment_status,
                     'grand_total' => (double) $data->grand_total,
                     'coupon_discount' => (double) $data->coupon_discount,
-                    'reward_amount_discount' => (double) $data->reward_amount_discount,
                     'shipping_cost' => (double) $data->orderDetails->sum('shipping_cost'),
                     'subtotal' => (double) $data->orderDetails->sum('price'),
                     'tax' => (double) $data->orderDetails->sum('tax'),
