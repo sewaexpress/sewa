@@ -227,8 +227,9 @@ class ProductController extends Controller
 
     public function featured()
     {
-        $products =  filter_products(\App\Product::orderBy('id','DESC')->where('featured', 1)->where('current_stock','>',0)->with('stocks'))->get();;
+        $products =  filter_products(\App\Product::orderBy('id','DESC')->where('featured', 1)->where('current_stock','>',0)->with('stocks')->paginate(20));
         return new ProductCollection($products);
+        // ->get();
         // return new ProductCollection(filter_products(Product::orderBy('id','DESC')->where('featured', 1)->get()));
     }
 
