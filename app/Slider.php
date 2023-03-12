@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Slider extends Model
 {
-  //
+  protected $fillable = ['app_pop_url','app_point_link'];
 }

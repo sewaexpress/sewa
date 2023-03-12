@@ -1,3 +1,5 @@
+<form class="form-horizontal" action="{{ route('sliders.update',$slider->id) }}" method="POST" enctype="multipart/form-data">
+    @csrf
 <div class="panel">
     <div class="panel-heading">
         <h3 class="panel-title">{{__('Slider Information')}}</h3>
@@ -5,8 +7,7 @@
 
     <!--Horizontal Form-->
     <!--===================================================-->
-    <form class="form-horizontal" action="{{ route('sliders.update',$slider->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
+  
         <input type="hidden" name="_method" value="PATCH">
 
         <div class="panel-body">
@@ -37,17 +38,68 @@
                 </div>
             </div>
         </div>
-        <div class="panel-footer text-right">
-            <button class="btn btn-purple" type="submit">{{__('Save')}}</button>
-        </div>
-    </form>
     <!--===================================================-->
     <!--End Horizontal Form-->
 
 </div>
-
+<div class="panel">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{__('App Redirection')}}</h3>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            <label class="col-sm-3" for="url">{{__('Redirect To')}}</label>
+            <div class="col-sm-9">
+                <select name="app_pop_url" id="url" class="form-control app_pop_url">
+                    <option {{($slider->app_pop_url == 'flash_deal')?'selected':''}} value="flash_deal">Flash Deal</option>
+                    <option {{($slider->app_pop_url == 'category')?'selected':''}} value="category">Category</option>
+                    <option {{($slider->app_pop_url == 'subcategory')?'selected':''}} value="subcategory">SubCategory</option>
+                    <option {{($slider->app_pop_url == 'subsubcategory')?'selected':''}} value="subsubcategory">SubSubCategory</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group category-options {{($slider->app_pop_url != 'flash_deal')?'':'hidden'}}">
+            <label class="col-sm-3" for="url">Select</label>
+            <div class="col-sm-9">
+                <select name="custom_point" id="custom_point" class="form-control custom_point">
+                    @if (isset($items) && !empty($items))
+                        @foreach ($items as $item)
+                            <option {{($slider->app_point_link == $item->id)?'selected':''}} value="{{$item->id}}">{{$item->name}}</option>
+                        @endforeach                            
+                    @endif
+                    {{-- <option {{($generalsetting->app_pop_url == 'flash_deal')?'selected':''}} value="flash_deal">Flash Deal</option> --}}
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer text-right">
+        <button class="btn btn-purple" type="submit">{{__('Save')}}</button>
+    </div>
+</div>
+</form>
 <script type="text/javascript">
     $(document).ready(function(){
+        
+        $(".app_pop_url").change(function() {
+            // console.log($(this).val());
+            
+            if ($(this).val() != "flash_deal") {        
+                $(".category-options").removeClass('hidden');
+                $.ajax({
+                type:"POST",
+                url:'{{ route('getSelectedItems') }}',
+                data:{
+                    'item' : $(this).val()
+                },
+                success: function(data){
+                    $('#custom_point').html(data);
+                }
+                });
+            } 
+            else {
+                $(".category-options").addClass('hidden');
+            }
+        });
         $("#photos").spartanMultiImagePicker({
             fieldName:        'photos[]',
             maxCount:         10,

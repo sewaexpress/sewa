@@ -41,6 +41,13 @@ class SliderController extends Controller
                 $slider = new Slider;
                 $slider->link = $request->url;
                 $slider->photo = $photo->store('uploads/sliders');
+                $slider->app_pop_url = $request->app_pop_url;
+                if($request->app_pop_url == 'flash_deal'){
+                    $custom_point = null;
+                }else{
+                    $custom_point = $request->custom_point;
+                }
+                $slider->app_point_link = $custom_point;
                 $slider->save();
             }
             flash(__('Slider has been inserted successfully'))->success();
@@ -88,6 +95,13 @@ class SliderController extends Controller
             $slider->photo = $request->photo->store('uploads/sliders');
         }
         $slider->link = $request->url;
+        $slider->app_pop_url = $request->app_pop_url;
+        if($request->app_pop_url == 'flash_deal'){
+            $custom_point = null;
+        }else{
+            $custom_point = $request->custom_point;
+        }
+        $slider->app_point_link = $custom_point;
         $slider->save();
         flash(__('Slider has been updated successfully'))->success();
         return redirect()->route('home_settings.index');
