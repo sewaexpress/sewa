@@ -7,6 +7,7 @@ use App\Http\Resources\AppReferCollection;
 use App\Http\Resources\RewardRangeCollection;
 use App\Http\Resources\UserCollection;
 use App\Models\BusinessSetting;
+use App\Models\Policy;
 use App\RewardAmount;
 use App\RewardRange;
 use App\User;
@@ -89,7 +90,27 @@ class UserController extends Controller
         }
     }
     public function getRewardRange(){
-        return new RewardRangeCollection(RewardRange::get());
+        // return new RewardRangeCollection(RewardRange::get());
+        $aaa = RewardRange::get();
+        $policy = Policy::where('name','reward_policy')->get();
+        $data = [];
+        foreach($aaa as $range){
+            $data[] = [
+                'id' => (integer) $range->id,
+                'start_range' => (integer) $range->start_range,
+                'end_range' => (string) $range->end_range,
+                'value' => (integer) $range->value
+            ];
+        }
+        $policy = (isset($policy->content))?$policy->content:null;
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Success',
+            'data' => $data,
+            'policy' => $policy
+        ]);
+        dd($data);
     }
     public function validateReward(Request $request){
         $id = Auth::user()->id;
