@@ -135,7 +135,7 @@ class UserController extends Controller
                 }else{
                     return response()->json([
                         'success' => false,
-                        'message' => 'You have not enough reward balance.',
+                        'message' => 'You donot have enough reward balance.',
                     ]);
                     // if($selected_range_key != 0){
                     //     for($i = $selected_range_key; $i < 0; $i--){
