@@ -92,7 +92,7 @@ class UserController extends Controller
     public function getRewardRange(){
         // return new RewardRangeCollection(RewardRange::get());
         $aaa = RewardRange::get();
-        $policy = Policy::where('name','reward_policy')->get();
+        $policy = Policy::where('id',7)->get();
         $data = [];
         foreach($aaa as $range){
             $data[] = [
