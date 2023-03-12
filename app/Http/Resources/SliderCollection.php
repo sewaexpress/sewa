@@ -13,7 +13,7 @@ class SliderCollection extends ResourceCollection
                 return [
                     'photo' => $data->photo,
                     'url' => $data->app_pop_url,        
-                    'url_id' => $data->app_point_link,
+                    'url_id' => (integer) $data->app_point_link,
                 ];
             })
         ];
