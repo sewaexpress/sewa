@@ -11,6 +11,7 @@ class PolicyController extends Controller
     public function index($type)
     {
         $policy = Policy::where('name', $type)->first();
+        // dd($policy);
         return view('policies.index', compact('policy'));
     }
 

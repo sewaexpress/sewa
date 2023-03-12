@@ -438,6 +438,9 @@
                                         <li class="{{ areActiveRoutes(['privacypolicy.index'])}}">
                                             <a class="nav-link" href="{{route('privacypolicy.index', 'privacy_policy')}}">{{__('Privacy Policy')}}</a>
                                         </li>
+                                        <li class="{{ areActiveRoutes(['rewardPolicy.index'])}}">
+                                            <a class="nav-link" href="{{route('rewardPolicy.index', 'reward_policy')}}">{{__('Reward Policy')}}</a>
+                                        </li>
                                     </ul>
 
                                 </li>

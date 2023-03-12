@@ -227,8 +227,30 @@ class ProductController extends Controller
 
     public function featured()
     {
-        $products =  filter_products(\App\Product::orderBy('id','DESC')->where('featured', 1)->where('current_stock','>',0)->with('stocks'))->paginate(20);
-        return new ProductCollection($products);
+        // $products =  filter_products(\App\Product::orderBy('id','DESC')->where('featured', 1)->where('current_stock','>',0)->with('stocks'))->paginate(20);
+        // return new ProductCollection($products);
+
+        
+        $scope = request('scope');
+
+        switch ($scope) {
+            case 'price_low_to_high':                
+                $product_get = filter_products(Product::selectRaw('*,case when discount_type = "amount" then (unit_price - discount) when discount_type = "percent" then (unit_price - (unit_price * (discount/100))) end as unit_price2')->where('featured', 1)->orderBy('unit_price2', 'asc'))->paginate(20);
+                $collection = new ProductCollection($product_get);
+                $collection->appends(['scope' => $scope]);
+                return $collection;
+
+            case 'price_high_to_low':
+                $product_get = filter_products(Product::selectRaw('*,case when discount_type = "amount" then (unit_price - discount) when discount_type = "percent" then (unit_price - (unit_price * (discount/100))) end as unit_price2')->where('featured', 1)->orderBy('unit_price2', 'desc'))->paginate(20);
+                $collection = new ProductCollection($product_get);
+                $collection->appends(['scope' => $scope]);
+                return $collection;
+
+            default:
+                $collection = new ProductCollection(filter_products(Product::orderBy('id', 'desc')->where('featured', 1))->paginate(20));
+                $collection->appends(['scope' => $scope]);
+                return $collection;
+        }
         // ->get();
         // return new ProductCollection(filter_products(Product::orderBy('id','DESC')->where('featured', 1)->get()));
     }
