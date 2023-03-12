@@ -14,7 +14,10 @@ class PolicyController extends Controller
     {
         return new PolicyCollection(Policy::where('name', 'seller_policy')->get());
     }
-
+    public function rewardPolicy()
+    {
+        return new PolicyCollection(Policy::where('name', 'reward_policy')->get());
+    }
     public function supportPolicy()
     {
         return new PolicyCollection(Policy::where('name', 'support_policy')->get());
