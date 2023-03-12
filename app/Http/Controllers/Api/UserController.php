@@ -102,7 +102,7 @@ class UserController extends Controller
                 'value' => (integer) $range->value
             ];
         }
-        $policy = (isset($policy->content))?$policy->content:null;
+        // $policy = (isset($policy->content))?$policy->content:null;
         
         return response()->json([
             'success' => true,
