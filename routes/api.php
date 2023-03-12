@@ -23,7 +23,9 @@ Route::prefix('v1')->group(function () {
     Route::post('/verify/otp', 'Api\AuthController@verifyOTP')->middleware('auth:api');
 
     Route::get('pops', 'Api\SliderController@pop')->name('api.pop');
-    
+
+
+    Route::post('/validate-reward', 'Api\UserController@validateReward')->middleware('auth:api');
     Route::post('/redeem-reward', 'Api\UserController@redeemReward')->middleware('auth:api');
     Route::get('/get-reward-range', 'Api\UserController@getRewardRange');
     Route::get('/get-reward-amount/{id}', 'Api\UserController@getRewardAmount')->middleware('auth:api');

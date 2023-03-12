@@ -91,6 +91,71 @@ class UserController extends Controller
     public function getRewardRange(){
         return new RewardRangeCollection(RewardRange::get());
     }
+    public function validateReward(Request $request){
+        $id = Auth::user()->id;
+        $sub_total_amount = $request->sub_total;
+        $reward_amount_discount = 0;
+        
+        $reward_amount = RewardAmount::where('user_id', $id)->first();                
+        $sub_total_of_order = $sub_total_amount;
+        $reward_ranges = RewardRange::get();
+        $selected_range = [];
+        $customer_reward_amount = 0;
+        $minimum_reward_amount = 0;
+        $selected_range_key = 0;
+        //if user has reward amount which is greater than 0
+        if(!empty($reward_amount) && $reward_amount->amount > 0){
+            foreach($reward_ranges as $key => $ranges){
+                if($key == 0){
+                    $minimum_reward_amount = $ranges->value;
+                }
+                if($ranges->end_range != 'Above'){
+                    if($sub_total_of_order >= $ranges->start_range && $sub_total_of_order <= ($ranges->end_range)){
+                        $selected_range = $ranges;
+                        $selected_range_key = $key;
+                    }
+                }else{
+                    if($sub_total_of_order >= $ranges->start_range){
+                        $selected_range = $ranges;
+                        $selected_range_key = $key;
+                    }
+                }
+            }
+            if(!empty($selected_range)){
+                $max_reward_discount = $selected_range->value;
+                $customer_reward_amount = $reward_amount->amount;
+                if($customer_reward_amount >= $max_reward_discount){
+                    return response()->json([
+                        'success' => true,
+                        'max_reward_discount' => $max_reward_discount,
+                        'customer_reward_amount' => $customer_reward_amount,
+                        'reward_range' => $selected_range,
+                        'message' => 'You can use your reward amount',
+                    ]);
+                }else{
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'You have not enough reward balance.',
+                    ]);
+                    // if($selected_range_key != 0){
+                    //     for($i = $selected_range_key; $i < 0; $i--){
+                    //         $reward_ranges
+                    //     }
+                    // }else{
+                    //     return response()->json([
+                    //         'success' => false,
+                    //         'message' => 'You have no reward point balance.',
+                    //     ]);
+                    // }
+                }
+            }
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'You have no reward point balance.',
+            ]);
+        }
+    }
     public function getRewardAmount($id){
         $reward_amount = RewardAmount::where('user_id', $id)->first();
         return response()->json([

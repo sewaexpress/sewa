@@ -191,7 +191,7 @@ class OrderController extends Controller
                     if(!empty($selected_range)){
                         $max_reward_discount = $selected_range->value;
                         $customer_reward_amount = $reward_amount->amount;
-                        if($customer_reward_amount > $max_reward_discount){
+                        if($customer_reward_amount >= $max_reward_discount){
                             $reward_amount_discount = $max_reward_discount;
                             $reward_amount->amount -= $reward_amount_discount;
                             $reward_amount->save();
