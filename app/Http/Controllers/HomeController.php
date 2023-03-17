@@ -700,7 +700,11 @@ class HomeController extends Controller
         if($query != null){
             $searchController = new SearchController;
             $searchController->store($request);
-            $products = $products->where('name', 'like', '% '.$query.' %')->orWhere('tags', 'like', '%'.$query.'%');
+            $products = $products->where(function ($query2) use ($query) {
+                $query2->where('name', 'like', '% ' . $query . ' %')
+                      ->orWhere('tags', 'like', '% ' . $query . ' %');
+            });      
+            // $products = $products->where('name', 'like', '% '.$query.' %')->orWhere('tags', 'like', '%'.$query.'%');
         }
 
         if($sort_by != null){
