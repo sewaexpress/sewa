@@ -17,8 +17,8 @@
                         <label class="col-lg-3 control-label" for="name">{{__('Coupon Type')}}</label>
                         <div class="col-lg-9">
                             <select name="coupon_type" id="coupon_type" class="form-control demo-select2-placeholder" onchange="coupon_form()" required>
-                                @if ($coupon->type == "product_base"))
-                                    <option value="product_base" selected>{{__('For Products')}}</option>
+                                @if ($coupon->type == "product_base")
+                                    {{-- <option value="product_base" selected>{{__('For Products')}}</option> --}}
                                 @elseif ($coupon->type == "cart_base")
                                     <option value="cart_base">{{__('For Total Orders')}}</option>
                                 @endif
