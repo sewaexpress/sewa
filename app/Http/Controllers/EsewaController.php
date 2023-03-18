@@ -49,7 +49,7 @@ class EsewaController extends Controller
         $amt = $_GET['amt'];
         $refId=$_GET['refId'];
         $order = Order::where('code',$oid)->first();
-    
+    // dd($order);
         if($amt == $order->grand_total ){
             $order_details = OrderDetail::where('order_id',$order->id)->update(['payment_status'=>'paid']);
             $order->payment_status = 'paid';

@@ -107,7 +107,7 @@ class CheckoutController extends Controller
         $order->commission_calculated = 1;
         $order->save(); 
 
-        Log::info('aaa');
+        Log::info('reached to nic call back');
         set_time_limit(1500);
         //stores the pdf for invoice
         $pdf = PDF::setOptions([
