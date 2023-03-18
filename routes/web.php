@@ -114,7 +114,7 @@ Route::post('/wallet_payment_done_khalti', 'WalletController@wallet_payment_done
 
 Route::get('/nic-pay', 'CheckoutController@test')->name('nic');
 Route::post('/nic-callback', 'CheckoutController@nicCallback')->name('nic_callback');
-Route::get('/nic-cancel', 'CheckoutController@niccancel')->name('nic_callback');
+Route::post('/nic-cancel', 'CheckoutController@niccancel')->name('nic_callback');
 
 
 //Esewa
