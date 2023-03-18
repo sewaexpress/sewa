@@ -58,11 +58,11 @@
 		<thead>
 			<tr>
 				<th style="text-align: center;" colspan="2">
-					<img class="" src="https://barcode.tec-it.com/barcode.ashx?data=20230224-00361477">
+					<img class="" src="https://barcode.tec-it.com/barcode.ashx?data={{$order->code}}">
 				</th>
 			</tr>
 			<tr>
-				<td style="text-align: center;" colspan="2">Tracking Code : 1234567890</td>
+				<td style="text-align: center;" colspan="2">Tracking Code : {{$order->code}}</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -75,7 +75,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td style="text-align: center;"><img class="qr" src="https://qrcode.tec-it.com/API/QRCode?data=20230224-00361477"></td>
+				<td style="text-align: center;"><img class="qr" src="https://qrcode.tec-it.com/API/QRCode?data={{ $shipping_address->address }}, {{ $shipping_address->city }}, {{ $shipping_address->country }}"></td>
 				<td>
 					<p><b>Shipping Location:</b> {{ $shipping_address->address }}, {{ $shipping_address->city }}, {{ $shipping_address->country }}</p>
 					<p><b>Shipping Email:</b> {{ (isset($shipping_address->name))?$shipping_address->email:$user['email'] }}</p>
