@@ -122,6 +122,17 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function generateSKU(){
+
+        $products = Product::get();
+        foreach($products as $product){
+            if($product->sku == '' || $product->sku == null){
+                $product->sku = strtoupper(substr($product->name, 0, 3)). "-". str_pad($product->id, 3, "0", STR_PAD_LEFT);
+                $product->save();
+            }   
+        }
+        die;
+    }
     public function create()
     {
         $categories = Category::all();
@@ -390,7 +401,9 @@ class ProductController extends Controller
         //     $data[$string]=$string;
         //     saveJSONFile($language->code, $data);
         // }
-
+        $last_id = Product::max('id');
+        $product->sku = strtoupper(substr($product->name, 0, 3)). "-". str_pad($last_id, 5, "0", STR_PAD_LEFT);
+        // dd($product->sku);
         $product->save();
         $id = encrypt($product->id);
         flash(__('Product has been inserted successfully'))->success();

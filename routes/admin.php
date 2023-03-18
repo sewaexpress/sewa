@@ -11,6 +11,7 @@
 |
 */
 //Shipping Configuration
+Route::get('/generate-sku-for-products', 'ProductController@generateSKU')->name('generateSKU')->middleware(['auth']);
 
 Route::get('/orders/{id}/label', 'InvoiceController@label')->name('orders.label')->middleware(['auth']);
 Route::get('/orders/{id}/invoice', 'InvoiceController@invoice')->name('orders.invoice')->middleware(['auth']);

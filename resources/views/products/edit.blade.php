@@ -144,6 +144,12 @@
 							</select>
 						</div>
 					</div>
+					<div class="form-group">
+						<label for="sku" class="col-lg-2 control-label">{{ __('SKU') }}</label>
+						<div class="col-lg-7">
+								<input type="text" class="form-control" name="sku" value="{{ $product->sku }}" readonly>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="panel">

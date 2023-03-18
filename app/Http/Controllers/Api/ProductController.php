@@ -283,7 +283,7 @@ class ProductController extends Controller
 
             case 'price_low_to_high':
                 
-                $product_get = Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->selectRaw('*,case when discount_type = "amount" then (unit_price - discount) when discount_type = "percent" then (unit_price - (unit_price * (discount/100))) end as unit_price2')->orderBy('unit_price2', 'asc')->paginate(20);
+                $product_get = Product::where('name', 'like', "% {$key} %")->orWhere('tags', 'like', "%{$key}%")->selectRaw('*,case when discount_type = "amount" then (unit_price - discount) when discount_type = "percent" then (unit_price - (unit_price * (discount/100))) end as unit_price2')->orderBy('unit_price2', 'asc')->paginate(20);
                 $collection = new SearchProductCollection($product_get);
                 // $product_get->orderBy('unit_price', 'asc');
                 // $product_get->selectRaw('*,case 

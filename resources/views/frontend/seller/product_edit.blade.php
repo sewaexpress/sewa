@@ -96,6 +96,12 @@
                                             <input type="text" class="form-control mb-3 tagsInput" name="tags[]" placeholder="Type & hit enter" data-role="tagsinput" value="{{ $product->tags }}">
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="sku" class="col-lg-2 control-label">{{ __('SKU') }}</label>
+                                        <div class="col-lg-7">
+                                                <input type="text" class="form-control" name="sku" value="{{ $product->sku }}" readonly>
+                                        </div>
+                                    </div>
                                     @php
                                         $pos_addon = \App\Addon::where('unique_identifier', 'pos_system')->first();
                                     @endphp
