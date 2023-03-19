@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\SubCategory;
+use App\Models\SubSubCategory;
 use Illuminate\Http\Request;
 use App\Slider;
 
@@ -76,7 +80,20 @@ class SliderController extends Controller
     {
         // dd('hi');
         $slider = Slider::find($id);
-        return view('sliders.edit',compact('slider'));
+        $items = [];
+        if($slider->app_pop_url != 'flash_deal'){
+            $items = [];
+            if($slider->app_pop_url == 'category'){
+                $items = Category::get();
+            }elseif($slider->app_pop_url == 'subcategory'){
+                $items = SubCategory::get();
+            }elseif($slider->app_pop_url == 'subsubcategory'){
+                $items = SubSubCategory::get();
+            }elseif($slider->app_pop_url == 'product'){
+                $items = Product::orderBy('name','asc')->get();
+            }
+        }
+        return view('sliders.edit',compact('slider','items'));
         
     }
 

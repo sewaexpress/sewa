@@ -52,6 +52,7 @@
                 <div class="col-sm-9">
                     <select name="app_pop_url" id="url" class="form-control app_pop_url">
                         <option value="flash_deal">Flash Deal</option>
+                        <option value="product">Product</option>
                         <option value="category">Category</option>
                         <option value="subcategory">SubCategory</option>
                         <option value="subsubcategory">SubSubCategory</option>

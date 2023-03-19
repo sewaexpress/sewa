@@ -88,6 +88,8 @@ class BannerController extends Controller
                 $items = SubCategory::get();
             }elseif($banner->app_pop_url == 'subsubcategory'){
                 $items = SubSubCategory::get();
+            }elseif($banner->app_pop_url == 'product'){
+                $items = Product::orderBy('name','asc')->get();
             }
         }
         return view('banners.edit', compact('banner','items'));
