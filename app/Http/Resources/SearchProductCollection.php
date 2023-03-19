@@ -34,6 +34,7 @@ class SearchProductCollection extends ResourceCollection
                     'id' => (integer) $data->id,
                     'name' => $data->name,
                     'photos' => $photo,
+                    'sku' => $data->sku,
                     'unit_price2' => $data->unit_price2,
                     'category_id' => $data->category_id,
                     'thumbnail_image' => file_exists($data->featured_img) ? $data->featured_img : $placeholder_img,

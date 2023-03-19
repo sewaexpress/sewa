@@ -8,6 +8,7 @@ use App\GeneralSetting;
 use ImageOptimizer;
 use App\Http\Controllers\BusinessSettingsController;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\SubSubCategory;
 
@@ -38,6 +39,8 @@ class GeneralSettingController extends Controller
             $categories = SubCategory::get();
         }elseif($data['item'] == 'subsubcategory'){
             $categories = SubSubCategory::get();
+        }elseif($data['item'] == 'product'){
+            $categories = Product::orderBy('name','asc')->get();
         }
         $options = '';
         foreach($categories as $a => $cat){

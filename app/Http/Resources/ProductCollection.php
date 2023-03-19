@@ -34,6 +34,7 @@ class ProductCollection extends ResourceCollection
                     'id' => (integer) $data->id,
                     'name' => $data->name,
                     'photos' => $photo,
+                    'sku' => $data->sku,
                     'thumbnail_image' => file_exists($data->thumbnail_img) ? $data->thumbnail_img : $placeholder_img,
                     'featured_image' => file_exists($data->featured_img) ? $data->featured_img : $placeholder_img,
                     'flash_deal_image' => file_exists($data->flash_deal_img) ? $data->flash_deal_img : $placeholder_img,

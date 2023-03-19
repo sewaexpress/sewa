@@ -285,6 +285,11 @@ td {
                                                 </span>
                                             </div>
                                         </div>
+                                        <div class="d-flex flex-wrap align-items-center">
+                                            SKU : 
+                                            {{-- {{ ($detailedProduct->variant_product == 0)?$detailedProduct->sku:'' }} --}}
+                                            {{ ($detailedProduct->sku != '' || $detailedProduct->sku != null)?$detailedProduct->sku : '' }}
+                                        </div>
                                         <!-- Rating Ends -->
                                         
                                         {{-- <div class="font-weight-bold d-inline-flex align-items-center">
@@ -469,7 +474,8 @@ td {
                                                         </button>
                                                     </span>
                                                 </div>
-                                                <div class="avialable-amount">(<span id="available-quantity">{{ $qty }}</span> {{ __('available') }})</div>
+                                                <div class="avialable-amount">
+                                                    (<span id="available-quantity">{{ $qty }}</span> {{ __('available') }})</div>
                                             </div>
                                         </div>
                                     </div>
@@ -1284,57 +1290,56 @@ td {
 @section('script')
     <script type="text/javascript">
     $(document).ready(function(){
-    $('#district').on('change', function() {
-        $('#location').prop('disabled', false);
-        var district_id = $(this).val();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        var ajaxurl = '/location/getLocation';
-        $.ajax({
-            type: 'POST',
-            url: ajaxurl,
-            data: {
-                "district_id": district_id,
-            },
-            dataType: 'json',
-            beforeSend: function() {},
-            success: function(data) {
-
-                if (data != 'false') {
-                    optionLoop = '<option disabled selected>Select Location</option>';
-                    options = data;
-                    options.forEach(function(index) {
-                        optionLoop +=
-                            '<option data-charge="'+index.delivery_charge+'" value="'+index.id+'">'+index.name+'</option>';
-                    });
-                } else {
-                    optionLoop = '<option disabled>No Locations</option>';
+        $('#district').on('change', function() {
+            $('#location').prop('disabled', false);
+            var district_id = $(this).val();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
-                $(".address-location").html(optionLoop);
-                $('#charge').text('Rs. 0');
+            });
+            var ajaxurl = '/location/getLocation';
+            $.ajax({
+                type: 'POST',
+                url: ajaxurl,
+                data: {
+                    "district_id": district_id,
+                },
+                dataType: 'json',
+                beforeSend: function() {},
+                success: function(data) {
 
-            },
-            error: function(data) {
-                showFrontendAlert('error',data.responseText);
-            }
+                    if (data != 'false') {
+                        optionLoop = '<option disabled selected>Select Location</option>';
+                        options = data;
+                        options.forEach(function(index) {
+                            optionLoop +=
+                                '<option data-charge="'+index.delivery_charge+'" value="'+index.id+'">'+index.name+'</option>';
+                        });
+                    } else {
+                        optionLoop = '<option disabled>No Locations</option>';
+                    }
+                    $(".address-location").html(optionLoop);
+                    $('#charge').text('Rs. 0');
+
+                },
+                error: function(data) {
+                    showFrontendAlert('error',data.responseText);
+                }
+            });
         });
+        $('#location').on('change', function() {
+            var charge = $(this).find(':selected').data('charge');
+            $('#charge').text('Rs. '+charge);
+        });
+        $('#share').jsSocials({
+            showLabel: false,
+            showCount: false,
+            shares: ["email", "twitter", "facebook", "linkedin", "pinterest", "stumbleupon", "whatsapp"]
+        });
+
+        getVariantPrice();
     });
-    $('#location').on('change', function() {
-        var charge = $(this).find(':selected').data('charge');
-        $('#charge').text('Rs. '+charge);
-    });
-});
-        $(document).ready(function() {
-    		$('#share').jsSocials({
-    			showLabel: false,
-                showCount: false,
-                shares: ["email", "twitter", "facebook", "linkedin", "pinterest", "stumbleupon", "whatsapp"]
-    		});
-            getVariantPrice();
-    	});
         
         function showCheckoutModal() {
             $('#GuestCheckout').modal();
@@ -1364,7 +1369,7 @@ td {
                 $('#chat_modal').modal('show');
             @else
                 $('#login_modal').modal('show'); @endif
-            }
+        }
 
 
         </script>

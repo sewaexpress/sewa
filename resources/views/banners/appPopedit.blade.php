@@ -26,6 +26,7 @@
                 <div class="col-sm-9">
                     <select name="app_pop_url" id="url" class="form-control app_pop_url">
                         <option {{($generalsetting->app_pop_url == 'flash_deal')?'selected':''}} value="flash_deal">Flash Deal</option>
+                        <option {{($generalsetting->app_pop_url == 'product')?'selected':''}} value="product">Product</option>
                         <option {{($generalsetting->app_pop_url == 'category')?'selected':''}} value="category">Category</option>
                         <option {{($generalsetting->app_pop_url == 'subcategory')?'selected':''}} value="subcategory">SubCategory</option>
                         <option {{($generalsetting->app_pop_url == 'subsubcategory')?'selected':''}} value="subsubcategory">SubSubCategory</option>

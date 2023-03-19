@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Banner;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\SubCategory;
 use App\Models\SubSubCategory;
 
@@ -107,6 +108,8 @@ class BannerController extends Controller
                 $items = SubCategory::get();
             }elseif($generalsetting->app_pop_url == 'subsubcategory'){
                 $items = SubSubCategory::get();
+            }elseif($generalsetting->app_pop_url == 'product'){
+                $items = Product::orderBy('name','asc')->get();
             }
         }
         return view('banners.appPopedit', compact('generalsetting','items'));
