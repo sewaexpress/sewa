@@ -1185,6 +1185,49 @@ $('.address-district').on('change',function(e){
             }
         }
 
+        function confirmRedeem(type, message) {
+            Swal.fire({
+            title: 'Confirm ?',
+            text: "This action will convert your remaining refer points to reward amount.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+            }).then((result) => {
+                console.log(result);
+                if (result.isConfirmed) {   
+                }else{             
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    var ajaxurl = '/redeemReward';
+                    $.ajax({
+                        type: 'POST',
+                        url: ajaxurl,
+                        data: {
+                        },
+                        dataType: 'json',
+                        beforeSend: function() {},
+                        success: function(data) {
+
+                            if (data.success != false) {
+                                showFrontendAlert('success','Refer Points Redeemed.');
+                                location.reload();
+                            }else{
+                                showFrontendAlert('error',data.message);
+                            }
+                        },
+                        error: function(data) {
+                            showFrontendAlert('error',data.responseText);
+                        }
+                    });
+
+                }
+            })
+        }
         function show_reward_policy() {
             $.get('{{ route('rewardPolicy') }}', {
                   

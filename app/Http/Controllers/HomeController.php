@@ -207,10 +207,53 @@ class HomeController extends Controller
                 $referral_code = Auth::user()->referral_code;
             }
             $reward_amount = RewardAmount::where('user_id',Auth::user()->id)->first();
-            return view('frontend.customer.dashboard',compact('referral_code','reward_amount'));
+            $refer_count = AppReferList::where('referrer_user_id',Auth::user()->id)->where('status',null)->count();
+            return view('frontend.customer.dashboard',compact('referral_code','reward_amount','refer_count'));
         }
         else {
             abort(404);
+        }
+    }
+    public function redeemReward(){
+        $user_id = Auth::user()->id;
+        $refer_count = AppReferList::where('referrer_user_id', $user_id)->where('status', null)->count();
+        if($refer_count > 0){    
+            $reward_amount = RewardAmount::where('user_id', $user_id)->count();
+            $business_settings = BusinessSetting::where('type', 'app_refer_point')->first();
+            $final_amount = 0;
+            if($reward_amount > 0){
+                $reward_amount = RewardAmount::where('user_id', $user_id)->first();
+                $reward_amount->amount +=  $refer_count * $business_settings->value;
+                $final_amount = $reward_amount->amount;
+                $reward_amount->save();
+            }else{                
+                $reward_amount = new RewardAmount;
+                $reward_amount->user_id = strval(Auth::user()->id);
+                $reward_amount->amount =  $refer_count * $business_settings->value;
+                $final_amount = $reward_amount->amount;
+                $reward_amount->save();
+            }
+                
+            $refer_count = AppReferList::where('referrer_user_id', $user_id)->update(['status' => 'redeemed']);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Successfully Redeemed',
+                'data'=> $final_amount,
+            ]); 
+
+        }else{       
+            $reward_amount = RewardAmount::where('user_id', $user_id)->count();
+            $final_amount = 0;
+            if($reward_amount > 0){
+                $reward_amount = RewardAmount::where('user_id', $user_id)->first();
+                $final_amount =  $reward_amount->amount;
+            }
+            return response()->json([
+                'success' => false,
+                'message' => 'You have no refers left.',
+                'data'=> $final_amount,
+            ]); 
         }
     }
     

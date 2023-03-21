@@ -177,15 +177,19 @@
                                             <tr>
                                                 <td>{{ __('Reward Amount') }}:</td>
                                                 <td class="p-2">
-                                                    <span style="    background: #0acf97;
+                                                    <span style="    background: #28a745;
                                                     padding: 2px 5px 2px 5px;
                                                     color: white;">Rs. {{($reward_amount)?$reward_amount->amount:0}}</span>
                                                 </td>
                                             </tr>
                                         </table>
+                                        @if ($refer_count > 0)
+                                            <button style="margin-bottom: 25px;" class="btn btn-success" onclick="confirmRedeem()">Redeem Refer Points</button>
+                                        @endif
+
                                         <p>You can use this earned reward when ordering products.Please view our Refer & Earn Policy to know more.</p>
-                                        <a href="javascript:void(0);" class="btn btn-sm btn-success" onclick="show_reward_policy()">Reward Policy</a>
-                                        
+                                        {{-- <a href="javascript:void(0);" class="btn btn-sm btn-success" onclick="show_reward_policy()">Reward Policy</a> --}}
+                                        <button class="btn btn-primary" onclick="show_reward_policy()">Reward Policy</button>
                                     </div>
                                 </div>
                             </div>
