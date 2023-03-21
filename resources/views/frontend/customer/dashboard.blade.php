@@ -169,13 +169,14 @@
                                             $address = Auth::user()
                                                 ->addresses->where('set_default', 1)
                                                 ->first();
-                                                dd($address);
                                             $delivery_location = 'empty';
-                                            if($address->delivery_location){
-                                                $delivery_location1  = \App\Location::where('id', $address->delivery_location)->first();
-                                                $delivery_location = isset($delivery_location1->name)?$delivery_location1->name:'Empty';
-                                                $delivery_disctrict = isset($delivery_location1->district)?$delivery_location1->district:'Empty';
-                                                $district  = \App\State::where('id', $delivery_disctrict)->first();
+                                            if ($address != null){
+                                                if($address->delivery_location){
+                                                    $delivery_location1  = \App\Location::where('id', $address->delivery_location)->first();
+                                                    $delivery_location = isset($delivery_location1->name)?$delivery_location1->name:'Empty';
+                                                    $delivery_disctrict = isset($delivery_location1->district)?$delivery_location1->district:'Empty';
+                                                    $district  = \App\State::where('id', $delivery_disctrict)->first();
+                                                }
                                             }
                                         @endphp
                                         @if ($address != null)
