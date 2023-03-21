@@ -366,16 +366,28 @@ class BusinessSettingsController extends Controller
         return view('apprefer_configuration.index',compact('list'));
     }
     public function appReferralUpdate(Request $request){
-        if(BusinessSetting::where('type', $request->type)->count() > 0){
-            $business_settings = BusinessSetting::where('type', $request->type)->first();
-            $business_settings->value = $request[$request->type];
+        if(BusinessSetting::where('type', 'app_refer_point')->count() > 0){
+            $business_settings = BusinessSetting::where('type', 'app_refer_point')->first();
+            $business_settings->value = $request->app_refer_point;
             $business_settings->save();
         }else{
             $business_settings = BusinessSetting::create([
-                'type' => $request->type,
-                'value' => $request[$request->type],
+                'type' => 'app_refer_point',
+                'value' =>  $request->app_refer_point
             ]);
         }
+        
+        if(BusinessSetting::where('type', 'app_refer_status')->count() > 0){
+            $business_settings = BusinessSetting::where('type', 'app_refer_status')->first();
+            $business_settings->value = $request->app_refer_status;
+            $business_settings->save();
+        }else{
+            $business_settings = BusinessSetting::create([
+                'type' => 'app_refer_status',
+                'value' =>  $request->app_refer_status
+            ]);
+        }
+        
         return back();
     }
     public function shipping_configuration_update(Request $request){

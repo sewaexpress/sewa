@@ -15,6 +15,11 @@
                 }else{
                     $app_refer_point = 0;
                 }
+                if(\App\BusinessSetting::where('type', 'app_refer_status')->count() > 0){
+                    $app_refer_status = \App\BusinessSetting::where('type', 'app_refer_status')->first()->value;
+                }else{
+                    $app_refer_status = 0;
+                }
             @endphp
             <div class="panel-body">
                 <table class="table table-striped table-bordered demo-dt-basic" cellspacing="0" width="100%">
@@ -60,16 +65,27 @@
     <div class="col-lg-3">
         <div class="panel">
             <div class="panel-heading bord-btm">
-                <h3 class="panel-title">{{__('App Refer Point Cost')}}</h3>
+                <h3 class="panel-title">{{__('App Referrel Settings')}}</h3>
             </div>
             <form action="{{ route('app_referral.update') }}" method="POST" enctype="multipart/form-data">
             <div class="panel-body">
                 @csrf
-                <input type="hidden" name="type" value="app_refer_point">
-                <div class="form-group">
-                    <div class="col-lg-12">
+                <p>Every Refer will be multiplied by this amount.</p>
+                {{-- <input type="hidden" name="type" value="app_refer_point"> --}}
+                <div class="form-group" style="margin-top: 5px">
+                    <label for="app_refer_status">App Refer Rate</label>
+                    {{-- <div class="col-lg-12"> --}}
                         <input class="form-control" type="number" name="app_refer_point" value="{{ $app_refer_point }}">
-                    </div>
+                    {{-- </div> --}}
+                </div>
+                <div class="form-group" style="margin-top: 5px">
+                    <label for="app_refer_status">App Refer Status</label>
+                    {{-- <div class="col-lg-12"> --}}
+                        <select class="form-control" name="app_refer_status" id="app_refer_status">
+                            <option {{ ($app_refer_status == 1)?'selected':'' }} value="1">On</option>
+                            <option {{ ($app_refer_status == 0)?'selected':'' }} value="0">Off</option>
+                        </select>
+                    {{-- </div> --}}
                 </div>
             </div>
             <div class="panel-footer">
