@@ -101,7 +101,7 @@
                <a href="{{ route('purchase_history.index') }}" class="{{ areActiveRoutesHome(['purchase_history.index'])}}">
                    <i class="la la-file-text"></i>
                    <span class="category-name">
-                       {{__('Purchase History')}} @if($delivery_viewed > 0 || $payment_status_viewed > 0)<span class="ml-2" style="color:green"><strong>({{ __('New Notifications') }})</strong></span>@endif
+                       {{__('Purchase History')}} @if($delivery_viewed > 0 || $payment_status_viewed > 0)<span class="ml-2" style="color:green"><strong>({{ __('New') }})</strong></span>@endif
                    </span>
                </a>
            </li>
@@ -193,17 +193,17 @@
                    </a>
                </li>
            @endif --}}
-           @if ($_SERVER['HTTP_HOST'] == 'localhost:8000')
+           {{-- @if ($_SERVER['HTTP_HOST'] == 'localhost:8000')
            <li>
                 <a href="{{ route('customer.app.refer') }}" class="{{ areActiveRoutesHome(['customer.app.refer'])}}">
                     <i class="la la-dollar"></i>
                     <span class="category-name">
-                        {{__('App Referrals')}}
+                        {{__('Referrals')}}
                     </span>
                 </a>
             </li>
                
-           @endif
+           @endif --}}
            @if(Auth::user())
                 @php
                     $support_ticket = DB::table('tickets')

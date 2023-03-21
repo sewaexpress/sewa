@@ -1185,6 +1185,16 @@ $('.address-district').on('change',function(e){
             }
         }
 
+        function show_reward_policy() {
+            $.get('{{ route('rewardPolicy') }}', {
+                  
+                },
+                function(data) {
+                    $('#order-details-modal-body').html(data);
+                    $('#order_details').modal();
+                    $('.c-preloader').hide();
+                });
+        }
         function show_purchase_history_details(order_id) {
             $('#order-details-modal-body').html(null);
 

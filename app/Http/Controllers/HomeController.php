@@ -30,8 +30,10 @@ use App\Faq;
 use App\Http\Controllers\SearchController;
 use App\Location;
 use App\Lucky;
+use App\Models\Policy;
 use App\Recommend;
 use App\RewardAmount;
+use App\RewardRange;
 use App\State;
 use Carbon\Carbon;
 use ImageOptimizer;
@@ -198,8 +200,14 @@ class HomeController extends Controller
         if(Auth::user()->user_type == 'seller'){
             return view('frontend.seller.dashboard');
         }
-        elseif(Auth::user()->user_type == 'customer'){
-            return view('frontend.customer.dashboard');
+        elseif(Auth::user()->user_type == 'customer'){            
+            if(Auth::user()->referral_code == ''){
+                $referral_code = $this->createReferralCode();
+            }else{
+                $referral_code = Auth::user()->referral_code;
+            }
+            $reward_amount = RewardAmount::where('user_id',Auth::user()->id)->first();
+            return view('frontend.customer.dashboard',compact('referral_code','reward_amount'));
         }
         else {
             abort(404);
@@ -1009,6 +1017,17 @@ class HomeController extends Controller
         return view('frontend.customer_packages_lists', compact('customer_packages'));
     }
 
+    public function rewardPolicy()
+    {
+        $reward_policy = '';
+        $policy = Policy::where('name','reward_policy')->first();
+        if(isset($policy->content)){
+            $reward_policy = $policy->content;
+        }
+        $rewardRange = RewardRange::get();
+
+        return view('frontend.partials.reward_policy', compact('reward_policy','rewardRange'));
+    }
     public function seller_digital_product_list(Request $request)
     {
         $products = Product::where('user_id', Auth::user()->id)->where('digital', 1)->orderBy('created_at', 'desc')->paginate(10);

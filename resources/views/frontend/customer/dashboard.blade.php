@@ -51,10 +51,10 @@
                                 <a href="javascript:;" class="d-block">
                                     <i class="fa fa-shopping-cart"></i>
                                     @if (Session::has('cart'))
-                                        <span class="d-block title">{{ count(Session::get('cart')) }}
+                                        <span class="d-block">{{ count(Session::get('cart')) }}
                                             {{ __('Product(s)') }}</span>
                                     @else
-                                        <span class="d-block title">0 {{ __('Product') }}</span>
+                                        <span class="d-block">0 {{ __('Product') }}</span>
                                     @endif
                                     <span class="d-block sub-title">{{ __('in your cart') }}</span>
                                 </a>
@@ -64,7 +64,7 @@
                             <div class="dashboard-widget text-center red-widget mt-4 c-pointer">
                                 <a href="javascript:;" class="d-block">
                                     <i class="fa fa-heart"></i>
-                                    <span class="d-block title">{{ count(Auth::user()->wishlists) }}
+                                    <span class="d-block">{{ count(Auth::user()->wishlists) }}
                                         {{ __('Product(s)') }}</span>
                                     <span class="d-block sub-title">{{ __('in your wishlist') }}</span>
                                 </a>
@@ -81,7 +81,7 @@
                                             $total += count($order->orderDetails);
                                         }
                                     @endphp
-                                    <span class="d-block title">{{ $total }} {{ __('Product(s)') }}</span>
+                                    <span class="d-block">{{ $total }} {{ __('Product(s)') }}</span>
                                     <span class="d-block sub-title">{{ __('you ordered') }}</span>
                                 </a>
                             </div>
@@ -154,6 +154,44 @@
                         </div>
                     @endif
                     <div class="row">
+                        @if ($_SERVER['HTTP_HOST'] == 'localhost:8000' || Auth::user()->id == 709)
+                            @php
+                                $business_settings = App\BusinessSetting::where('type', 'app_refer_status')->first();
+                            @endphp
+                            @if (isset($business_settings->value) && $business_settings->value == 1)
+                            <div class="col-md-6">
+                                <div class="form-box bg-white mt-4">
+                                    <div class="form-box-title px-3 py-2 clearfix ">
+                                        {{ __('Refer and Earn') }}
+                                        <div class="float-right">
+                                            <a href="javascript:void(0);" onclick="copyToClipboard('{{$referral_code}}')" style="cursor: pointer;" id="ref-cpurl-btn"  class="btn btn-link btn-sm" data-referral="{{$referral_code}} " data-attrcpy="{{__('Copied')}}">{{ __('Copy Code') }}</a>
+                                        </div>
+                                    </div>
+                                    <div class="form-box-content p-3">
+                                        <table>
+                                            <tr>
+                                                <input type="hidden" value="{{$referral_code}}" id="referral-code">
+                                                <td>{{ __('Referral Code') }}:</td>
+                                                <td class="p-2">{{$referral_code}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>{{ __('Reward Amount') }}:</td>
+                                                <td class="p-2">
+                                                    <span style="    background: #0acf97;
+                                                    padding: 2px 5px 2px 5px;
+                                                    color: white;">Rs. {{($reward_amount)?$reward_amount->amount:0}}</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <p>You can use this earned reward when ordering products.Please view our Refer & Earn Policy to know more.</p>
+                                        <a href="javascript:void(0);" class="btn btn-sm btn-success" onclick="show_reward_policy()">Reward Policy</a>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                                
+                            @endif
+                        @endif
                         <div class="col-md-6">
                             <div class="form-box bg-white mt-4">
                                 <div class="form-box-title px-3 py-2 clearfix ">
@@ -272,4 +310,17 @@
      </section>
   </section>
 
+
+  <div class="modal fade" id="order_details" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-zoom product-modal" id="modal-size" role="document">
+        <div class="modal-content position-relative">
+            <div class="c-preloader">
+                <i class="fa fa-spin fa-spinner"></i>
+            </div>
+            <div id="order-details-modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

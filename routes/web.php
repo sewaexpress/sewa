@@ -170,6 +170,7 @@ Route::post('/products/variant_product_update', 'ProductController@updateVariant
 Route::group(['middleware' => ['user', 'verified']], function(){
 	Route::get('/dashboard', 'HomeController@dashboard')->name('dashboard');
 	Route::get('/customer-app-refer', 'HomeController@customerAppRefer')->name('customer.app.refer');
+	Route::get('/reward-policy', 'HomeController@rewardPolicy')->name('rewardPolicy');
 
 	Route::get('/profile', 'HomeController@profile')->name('profile');
 	Route::post('/customer/update-profile', 'HomeController@customer_update_profile')->name('customer.profile.update');
