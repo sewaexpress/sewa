@@ -169,7 +169,7 @@
                                             $address = Auth::user()
                                                 ->addresses->where('set_default', 1)
                                                 ->first();
-                                                // dd($address);
+                                                dd($address);
                                             $delivery_location = 'empty';
                                             if($address->delivery_location){
                                                 $delivery_location1  = \App\Location::where('id', $address->delivery_location)->first();
