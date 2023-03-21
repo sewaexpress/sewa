@@ -493,7 +493,6 @@ class CheckoutController extends Controller
     }
 
     public function apply_coupon_code(Request $request){
-        //dd($request->all());
         $coupon = Coupon::where('code', $request->code)->first();
 
         
@@ -529,11 +528,14 @@ class CheckoutController extends Controller
                                 $request->session()->put('coupon_id', $coupon->id);
                                 $request->session()->put('coupon_discount', $coupon_discount);
                                 flash('Coupon has been applied')->success();
+                            }else{
+                                flash('Total buying should be greater than Rs.'.$coupon_details->min_buy.' to use this code.')->warning();
                             }
                         }
                         elseif ($coupon->type == 'product_base')
                         {
                             $coupon_discount = 0;
+                            $invalid = 0;
                             foreach (Session::get('cart') as $key => $cartItem){
                                 foreach ($coupon_details as $key => $coupon_detail) {
                                     if($coupon_detail->product_id == $cartItem['id']){
@@ -543,12 +545,17 @@ class CheckoutController extends Controller
                                         elseif ($coupon->discount_type == 'amount') {
                                             $coupon_discount += $coupon->discount;
                                         }
+                                        $invalid = 1;
                                     }
                                 }
                             }
-                            $request->session()->put('coupon_id', $coupon->id);
-                            $request->session()->put('coupon_discount', $coupon_discount);
-                            flash('Coupon has been applied')->success();
+                            if($invalid == 0){
+                                flash('Coupon invalid !')->warning();
+                            }else{
+                                $request->session()->put('coupon_id', $coupon->id);
+                                $request->session()->put('coupon_discount', $coupon_discount);
+                                flash('Coupon has been applied')->success();
+                            }
                         }
                     }
                     else{

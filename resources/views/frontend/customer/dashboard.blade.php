@@ -89,8 +89,9 @@
                     </div>
                     @php
                         $newCustomerCoupon = \App\Coupon::where('new_customer', 1)->get();
+                        $order_count = App\Order::where('user_id',Auth::user()->id)->count();
                     @endphp
-                    @if ($newCustomerCoupon)
+                    @if ($order_count == 0)
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-box bg-white mt-4">
@@ -168,12 +169,20 @@
                                             $address = Auth::user()
                                                 ->addresses->where('set_default', 1)
                                                 ->first();
+                                                // dd($address);
+                                            $delivery_location = 'empty';
+                                            if($address->delivery_location){
+                                                $delivery_location1  = \App\Location::where('id', $address->delivery_location)->first();
+                                                $delivery_location = isset($delivery_location1->name)?$delivery_location1->name:'Empty';
+                                                $delivery_disctrict = isset($delivery_location1->district)?$delivery_location1->district:'Empty';
+                                                $district  = \App\State::where('id', $delivery_disctrict)->first();
+                                            }
                                         @endphp
                                         @if ($address != null)
                                             <table>
                                                 <tr>
-                                                    <td>{{ __('Address') }}:</td>
-                                                    <td class="p-2">{{ $address->address }}</td>
+                                                    <td>{{ __('Delivery Location') }}:</td>
+                                                    <td class="p-2">{{ isset($address)?$delivery_location:'' }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>{{ __('Country') }}:</td>
@@ -182,13 +191,18 @@
                                                     </td>
                                                 </tr>
                                                 <tr>
+                                                    <td>{{ __('District') }}:</td>
+                                                    <td class="p-2">{{ isset($district)?$district->name:'' }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{ __('Address') }}:</td>
+                                                    <td class="p-2">{{ isset($address)?$address->address:'' }}</td>
+                                                </tr>
+                                                <tr>
                                                     <td>{{ __('City') }}:</td>
                                                     <td class="p-2">{{ $address->city }}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>{{ __('Postal Code') }}:</td>
-                                                    <td class="p-2">{{ $address->postal_code }}</td>
-                                                </tr>
+                                                
                                                 <tr>
                                                     <td>{{ __('Phone') }}:</td>
                                                     <td class="p-2">{{ $address->phone }}</td>
