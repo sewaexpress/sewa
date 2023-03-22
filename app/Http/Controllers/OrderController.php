@@ -369,9 +369,45 @@ class OrderController extends Controller
                 $product->num_of_sale++;
                 $product->save();
             }
-
+            $reward_amount_discount = 0;
+            if (isset($request->reward_discount) && $request->reward_discount != '' && $request->reward_discount == 'on') {
+                           $reward_amount = RewardAmount::where('user_id', Auth::user()->id)->first();                
+                           $sub_total_of_order = (integer) ($order->orderDetails->sum('price'));
+                           $reward_ranges = RewardRange::get();
+                           $selected_range = [];
+                           $customer_reward_amount = 0;
+                           //if user has reward amount which is greater than 0
+                           if(!empty($reward_amount) && $reward_amount->amount > 0){
+                               foreach($reward_ranges as $ranges){
+                                   if($ranges->end_range != 'Above'){
+                                       if($sub_total_of_order >= $ranges->start_range && $sub_total_of_order <= ($ranges->end_range)){
+                                          $selected_range = $ranges;
+                                       }
+                                   }else{
+                                       if($sub_total_of_order >= $ranges->start_range){
+                                           $selected_range = $ranges;
+                                       }
+                                   }
+                               }
+                               if(!empty($selected_range)){
+                                   $max_reward_discount = $selected_range->value;
+                                   $customer_reward_amount = $reward_amount->amount;
+                                   if($customer_reward_amount >= $max_reward_discount){
+                                       $reward_amount_discount = $max_reward_discount;
+                                       $reward_amount->amount -= $reward_amount_discount;
+                                       $reward_amount->save();
+                                   }
+                               }
+                               if($reward_amount_discount > 0){
+                                    $order->reward_amount_discount = $reward_amount_discount;
+           
+                               }
+                           }
+                       }
             $order->grand_total = $subtotal + $tax + $shipping;
-
+            if(isset($reward_amount_discount) && $reward_amount_discount > 0){
+                $order->grand_total -= $reward_amount_discount;
+            }
             if (Session::has('coupon_discount')) {
                 $order->grand_total -= Session::get('coupon_discount');
                 $order->coupon_discount = Session::get('coupon_discount');
@@ -386,37 +422,37 @@ class OrderController extends Controller
 
             if($request->payment_option == 'cash_on_delivery'){
 
-                set_time_limit(1500);
-                //stores the pdf for invoice
-                $pdf = PDF::setOptions([
-                    'isHtml5ParserEnabled' => true, 
-                    'isRemoteEnabled' => true,
-                    "isPhpEnabled"=>true,
-                    'logOutputFile' => storage_path('logs/log.htm'),
-                    'tempDir' => storage_path('logs/'),
-                ])->loadView('invoices.customer_invoice', compact('order'));
-                $output = $pdf->output();
-                file_put_contents(public_path('/invoices/Order#' . $order->code . '.pdf'), $output);
+                // set_time_limit(1500);
+                // //stores the pdf for invoice
+                // $pdf = PDF::setOptions([
+                //     'isHtml5ParserEnabled' => true, 
+                //     'isRemoteEnabled' => true,
+                //     "isPhpEnabled"=>true,
+                //     'logOutputFile' => storage_path('logs/log.htm'),
+                //     'tempDir' => storage_path('logs/'),
+                // ])->loadView('invoices.customer_invoice', compact('order'));
+                // $output = $pdf->output();
+                // file_put_contents(public_path('/invoices/Order#' . $order->code . '.pdf'), $output);
 
-                // $pdf->download('Order-'.$order->code.'.pdf');
-                $data['view'] = 'emails.invoice';
-                $data['subject'] = 'Sewa Digital Express - Order Placed - ' . $order->code;
-                $data['from'] = Config::get('mail.username');
-                $data['content'] = 'Hi. Thank you for ordering from Sewa Digital Express. Here is the pdf of the invoice.';
-                $data['file'] = public_path('invoices/' . 'Order#' . $order->code . '.pdf');
-                $data['file_name'] = 'Order#' . $order->code . '.pdf';
+                // // $pdf->download('Order-'.$order->code.'.pdf');
+                // $data['view'] = 'emails.invoice';
+                // $data['subject'] = 'Sewa Digital Express - Order Placed - ' . $order->code;
+                // $data['from'] = Config::get('mail.username');
+                // $data['content'] = 'Hi. Thank you for ordering from Sewa Digital Express. Here is the pdf of the invoice.';
+                // $data['file'] = public_path('invoices/' . 'Order#' . $order->code . '.pdf');
+                // $data['file_name'] = 'Order#' . $order->code . '.pdf';
 
-                if (Config::get('mail.username') != null) {
-                    try {
-                        // Mail::to($request->session()->get('shipping_info')['email'])->send(new InvoiceEmailManager($data));
-                        Mail::to($request->session()->get('shipping_info')['email'])->queue(new InvoiceEmailManager($data));
-                        Mail::to(User::where('user_type', 'admin')->first()->email)->queue(new InvoiceEmailManager($data));
-                        Log::info('Mail Sent');
-                    } catch (\Exception $e) {
-                        Log::info($e->getMessage());
-                    }
-                }
-                unlink($data['file']);
+                // if (Config::get('mail.username') != null) {
+                //     try {
+                //         // Mail::to($request->session()->get('shipping_info')['email'])->send(new InvoiceEmailManager($data));
+                //         Mail::to($request->session()->get('shipping_info')['email'])->queue(new InvoiceEmailManager($data));
+                //         Mail::to(User::where('user_type', 'admin')->first()->email)->queue(new InvoiceEmailManager($data));
+                //         Log::info('Mail Sent');
+                //     } catch (\Exception $e) {
+                //         Log::info($e->getMessage());
+                //     }
+                // }
+                // unlink($data['file']);
             }
             // dd($data['file']);
             // foreach ($seller_products as $key => $seller_product) {

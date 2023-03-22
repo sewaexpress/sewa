@@ -265,6 +265,29 @@
                     @endif
                     </div>
                  </div>
+                 @if ($_SERVER['HTTP_HOST'] == 'localhost:8000' || Auth::user()->id == 709)
+                    @php
+                        $business_settings = App\BusinessSetting::where('type', 'app_refer_status')->first();
+                    @endphp
+                    @if (isset($business_settings->value) && $business_settings->value == 1)
+                        <div class="title_delivery mb-2">
+                            <h6>Reward Amount</h6>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                    <div class="form-group">
+                                        <label for="reward_option">
+                                            <input type="checkbox" name="reward_discount">
+                                            Use your Reward Point Discount
+                                        </label>
+                                        <p>You can use your earned reward discounts on the order. Note: Discount will be applied as per the Refer and Earn Policy</p>
+                                        <a style="background: #1e7e34;
+                                        color: white;" class="btn btn-sm btn-success show_reward_policy_2">Read Policy</a>
+                                    </div>
+                            </div>
+                        </div>
+                    @endif
+                 @endif
                  <div class="col-md-12">
                     <div class="button_block d-flex justify-content-between align-items-center">
                        <a href=""> <span><i class="fa fa-reply-all"></i></span> Return to shop</a>
@@ -290,9 +313,5 @@
         //     $('input[name=payment_option]').val('wallet');
         //     $('#checkout-form').submit();
         // }
-        function submitOrder(el){
-            $(el).prop('disabled', true);
-            $('#checkout-form').submit();
-        }
     </script>
 @endsection

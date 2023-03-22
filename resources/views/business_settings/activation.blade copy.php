@@ -157,7 +157,7 @@
 </div>
 
 <h3 class="text-center">{{__('Payment Related')}}</h3>
-<div class="row">
+<!-- <div class="row">
     <div class="col-lg-4">
         <div class="panel">
             <div class="panel-heading text-center bord-btm">
@@ -298,6 +298,9 @@
             </div>
         </div>
     </div>
+</div> -->
+
+<div class="row">
     <div class="col-lg-4">
         <div class="panel">
             <div class="panel-heading">
@@ -314,9 +317,6 @@
             </div>
         </div>
     </div>
-</div>
-
-<div class="row">
     <div class="col-lg-4">
         <div class="panel">
             <div class="panel-heading text-center bord-btm">
@@ -340,7 +340,7 @@
     </div>
 </div>
 
-<div class="row">
+<!-- <div class="row">
     <h3 class="text-center">{{__('Social Media Login')}}</h3>
     <div class="col-lg-4">
         <div class="panel">
@@ -390,7 +390,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 @endsection
 

@@ -170,8 +170,8 @@ class OrderController extends Controller
         $reward_amount_discount = 0;
         if(!empty($order->orderDetails)){
             if ($request->use_reward_amount != '') {
-                $reward_amount = RewardAmount::where('user_id', $request->user_id)->first();                
-                $sub_total_of_order = single_price($order->orderDetails->sum('price'));
+                $reward_amount = RewardAmount::where('user_id', $request->user_id)->first();                    
+                $sub_total_of_order = (integer) ($order->orderDetails->sum('price'));
                 $reward_ranges = RewardRange::get();
                 $selected_range = [];
                 $customer_reward_amount = 0;

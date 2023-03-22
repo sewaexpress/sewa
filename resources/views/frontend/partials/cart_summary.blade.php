@@ -215,6 +215,20 @@
             </tfoot>
         </table>
 
+        {{-- @if (Auth::check() && \App\BusinessSetting::where('type', 'reward_system')->first()->value == 1)
+            @if (Session::has('reward_discount')) --}}
+                {{-- <div class="mt-3">
+                    <div class="form-group flex-grow-1">
+                        <label for="reward_option">
+                            <input type="checkbox" name="reward_discount">
+                            Use your Reward Points
+                        </label>
+                        <button class="btn btn-sm btn-success show_reward_policy_2">Read Policy</button>
+                    </div>
+                </div> --}}
+            {{-- @endif
+        @endif --}}
+
         @if (Auth::check() && \App\BusinessSetting::where('type', 'coupon_system')->first()->value == 1)
             @if (Session::has('coupon_discount'))
                 <div class="mt-3">
@@ -238,7 +252,6 @@
                 </div>
             @endif
         @endif
-
        {{-- @php
        $subtotal = 0;
        $tax = 0;
@@ -347,3 +360,40 @@
          @endif --}}
    </div>
  {{-- </div> --}}
+
+ <div class="modal fade" id="order_details" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-zoom product-modal" id="modal-size" role="document">
+        <div class="modal-content position-relative">
+            <div class="c-preloader">
+                <i class="fa fa-spin fa-spinner"></i>
+            </div>
+            <div id="order-details-modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+ @section('script')
+    <script type="text/javascript">
+    $(document).on('click','body .show_reward_policy_2',function(){
+    //   $(document).ready(function () {
+        // function show_reward_policy_2() {
+            $.get('{{ route('rewardPolicy') }}', {
+                  
+                },
+                function(data) {
+                    $('#order-details-modal-body').html(data);
+                    $('#order_details').modal();
+                    $('.c-preloader').hide();
+                });
+
+                
+        // }
+    });
+    
+    function submitOrder(el){
+            $(el).prop('disabled', true);
+            $('#checkout-form').submit();
+        }
+    </script>
+@endsection

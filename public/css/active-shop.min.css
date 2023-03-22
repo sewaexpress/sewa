@@ -2336,7 +2336,7 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 {
 	min-width:100px
 }
 #container .invoice-total {
-	max-width:320px;
+	max-width:340px;
 	float:right
 }
 #container .invoice-total>tbody>tr td {

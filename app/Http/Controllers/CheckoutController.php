@@ -158,7 +158,6 @@ class CheckoutController extends Controller
     //check the selected payment gateway and redirect to that controller accordingly
     public function checkout(Request $request)
     {
-        // dd($request->all());
         if ($request->payment_option != null) {
 
             $orderController = new OrderController;
@@ -215,7 +214,7 @@ class CheckoutController extends Controller
                 }
             }
         }else {
-            flash(__('Select Payment Option.'))->success();
+            flash(__('Select Payment Option.'))->error();
             return back();
         }
     }
