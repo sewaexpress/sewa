@@ -201,12 +201,22 @@
                                     </span>
                                 </td>
                             </tr>
-                            <tr>
-                                <th>{{__('Coupon Discount')}}</th>
-                                <td class="text-right">
-                                    <span class="text-italic">{{ single_price($order->coupon_discount) }}</span>
-                                </td>
-                            </tr>
+                            @if ($order->coupon_discount > 0)
+                                <tr>
+                                    <th>{{__('Coupon Discount')}}</th>
+                                    <td class="text-right">
+                                        <span class="text-italic">{{ single_price($order->coupon_discount) }}</span>
+                                    </td>
+                                </tr>                                                        
+                            @endif
+                            @if ($order->reward_amount_discount > 0)
+                                <tr>
+                                    <th>{{__('Reward Discount')}}</th>
+                                    <td class="text-right">
+                                        <span class="text-italic">{{ single_price($order->reward_amount_discount) }}</span>
+                                    </td>
+                                </tr>                                                        
+                            @endif
                             <tr>
                                 <th><span class="strong-600">{{__('Total')}}</span></th>
                                 <td class="text-right">
