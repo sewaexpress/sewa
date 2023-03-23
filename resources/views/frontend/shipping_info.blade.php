@@ -131,8 +131,8 @@
                                     @if($existing_addresses >= 3)
                                     @else
                                         <div class="col-md-6">
-                                        <button type="button" class="btn add_btn_img" onclick="add_new_address()">
-                                            <img src="https://www.mcicon.com/wp-content/uploads/2020/12/Abstract_Add_1-copy.jpg" alt="Add new address" class="img-fluid"> 
+                                        <button type="button" class="btn add_btn_img new-address" >
+                                            <img src="{{asset('frontend/images/add-icon.png')}}" alt="Add new address" class="img-fluid "> 
                                             
                                         </button>
                                         </div>
@@ -354,34 +354,7 @@
         e.preventDefault();
         return false;
     });
-    function add_new_address(){
-        $('#new-address-modal').modal('show');
-    }
-
     $(document).ready(function() {
-        $('.delivery').select2();
-
-        $('.delete-address').on('click',function(e){
-            e.preventDefault();
-            var red = $(this).data('src');
-            Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-            }).then((result) => {
-                console.log(result);
-                if (result===false) {
-                    console.log('no0');
-                } else {
-                    console.log('asdf');
-                    window.location.href = red;
-                }
-            });
-        });
     });
 </script>
 @endsection

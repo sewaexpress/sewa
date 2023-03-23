@@ -673,6 +673,30 @@
     <script>
         $(document).ready(function () {
             
+        $('.delivery').select2();
+        $(document).on('click','.delete-address',function(e){
+            e.preventDefault();
+            var red = $(this).data('src');
+            Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                // console.log(result.value);
+                if (result.isConfirmed) {
+                }  else if (result.dismiss === Swal.DismissReason.cancel) {
+                }else{
+                    window.location.href = red;
+                }
+            });
+        });
+    $(document).on('click','.new-address',function(e){
+        $('#new-address-modal').modal('show');
+    });
             $('.removeFromWishlist').on('click',function(){
                 var cid = $(this).data('id');
             $.post('{{ route('wishlists.remove') }}',{_token:'{{ csrf_token() }}', id:cid}, function(data){
