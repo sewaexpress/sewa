@@ -355,15 +355,18 @@
     // }
 
     @endphp
-        @if($popUpStatus == 0)
+        {{-- @if($popUpStatus == 0) --}}
             <div class="modal fade coming-soon-modal" id="abc" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="z-index: 99999;">    
                 <div class="modal-dialog modal-lg" role="document" style="max-width: 600px">
                     <div class="modal-content">
-                        {{-- <div class="p-0 modal-header w-100">
-                            <button type="button" class="close m-0 custom-close" data-dismiss="modal" aria-label="Close">
+                        <div class="p-0 modal-header w-100">
+                            <button style="    z-index: 9;
+                            background: #ff00008a;
+                            padding: 0px 5px 0 5px;
+                            top: 7px;" type="button" class="close m-0 custom-close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                        </div> --}}
+                        </div>
                         <div class="modal-body p-0">
                             
                             <a href="{{($generalsetting->pop_url)}}">
@@ -376,7 +379,7 @@
                     </div>
                 </div>
             </div>
-        @endif
+        {{-- @endif --}}
     @endif
     <!-- MAIN WRAPPER -->
     <div class="body-wrap shop-default shop-cards shop-tech">
