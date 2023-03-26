@@ -44,7 +44,7 @@
     
     <div class="panel">
         <div class="panel-heading">
-            <h3 class="panel-title">{{__('App Redirection')}}</h3>
+            <h3 class="panel-title">{{__('App Settings')}}</h3>
         </div>
         <div class="panel-body">
             <div class="form-group">
@@ -64,6 +64,23 @@
                 <div class="col-sm-9">
                     <select name="custom_point" id="custom_point" class="form-control custom_point">
                     </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3">
+                    <label class="control-label">{{__('App Image')}}</label>
+                    <strong></strong>
+                </div>
+                <div class="col-sm-9">
+                    {{-- <div class="col-md-4 col-sm-4 col-xs-6">
+                        <div class="img-upload-preview">
+                            <input type="hidden" name="previous_app_photo" value="">
+                            <button type="button" class="btn btn-danger close-btn remove-files"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div> --}}
+                    <div id="app_photo">
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -100,6 +117,22 @@
 
         $("#photo").spartanMultiImagePicker({
             fieldName:        'photo',
+            maxCount:         1,
+            rowHeight:        '200px',
+            groupClassName:   'col-md-4 col-sm-9 col-xs-6',
+            maxFileSize:      '',
+            dropFileLabel : "Drop Here",
+            onExtensionErr : function(index, file){
+                console.log(index, file,  'extension err');
+                alert('Please only input png or jpg type file')
+            },
+            onSizeErr : function(index, file){
+                console.log(index, file,  'file size too big');
+                alert('File size too big');
+            }
+        });
+        $("#app_photo").spartanMultiImagePicker({
+            fieldName:        'app_photo',
             maxCount:         1,
             rowHeight:        '200px',
             groupClassName:   'col-md-4 col-sm-9 col-xs-6',

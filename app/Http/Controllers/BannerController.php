@@ -186,6 +186,10 @@ class BannerController extends Controller
         if($request->hasFile('photo')){
             $banner->photo = $request->photo->store('uploads/banners');
         }
+        if($request->hasFile('app_photo')){
+            $banner->app_photo = $request->app_photo->store('uploads/banners');
+        }
+        
         $banner->url = $request->url;
         
         $banner->app_pop_url = $request->app_pop_url;
