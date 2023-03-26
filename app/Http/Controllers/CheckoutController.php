@@ -656,67 +656,34 @@ class CheckoutController extends Controller
         $payment_details = $_POST['payment_details'];
 
         $order = Order::findOrFail(Session::get('order_id'));
-        $order->payment_status = 'paid';
         $order->payment_details=json_encode($payment_details);
-
+        $payment_details = json_decode($payment_details,true);
+        $khalti_secret=\App\BusinessSetting::where('type','khalti_secret')->first();
+        $payment_status = 0;
+        //verify transaction
+        $args = http_build_query(array(
+            'token' => $payment_details['token'],
+            'amount'  => $payment_details['amount'],
+        ));            
+        $url = "https://khalti.com/api/v2/payment/verify/";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $args);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);            
+        $headers = ['Authorization: Key '.$khalti_secret];
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $response = curl_exec($ch);
+        $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+        if ($status_code == 200) {
+            $payment_status = 1;
+        } else{
+            $payment_status = 0;
+        }
+        
+        $order->payment_status = $payment_status;
         // $order->payment_details = $payment_details;
-        $order->save();
-
-        if (\App\Addon::where('unique_identifier', 'affiliate_system')->first() != null && \App\Addon::where('unique_identifier', 'affiliate_system')->first()->activated) {
-            $affiliateController = new AffiliateController;
-            $affiliateController->processAffiliatePoints($order);
-        }
-
-        if (\App\Addon::where('unique_identifier', 'club_point')->first() != null && \App\Addon::where('unique_identifier', 'club_point')->first()->activated) {
-            $clubpointController = new ClubPointController;
-            $clubpointController->processClubPoints($order);
-        }
-
-        if(\App\Addon::where('unique_identifier', 'seller_subscription')->first() == null || !\App\Addon::where('unique_identifier', 'seller_subscription')->first()->activated){
-            if (BusinessSetting::where('type', 'category_wise_commission')->first()->value != 1) {
-                $commission_percentage = BusinessSetting::where('type', 'vendor_commission')->first()->value;
-                foreach ($order->orderDetails as $key => $orderDetail) {
-                    $orderDetail->payment_status = 'paid';
-                    $orderDetail->save();
-                    if($orderDetail->product->user->user_type == 'seller'){
-                        $seller = $orderDetail->product->user->seller;
-                        $commission_price=($orderDetail->price * $commission_percentage) / 100;
-                        $seller->commission_price = $seller->commission_price + $commission_price;
-                        $seller->admin_to_pay = $seller->admin_to_pay + ($orderDetail->price*(100-$commission_percentage))/100 + $orderDetail->tax + $orderDetail->shipping_cost;
-                        $seller->save();
-                    }
-                }
-            }
-            else{
-                foreach ($order->orderDetails as $key => $orderDetail) {
-                    $orderDetail->payment_status = 'paid';
-                    $orderDetail->save();
-                    if($orderDetail->product->user->user_type == 'seller'){
-                        $commission_percentage = $orderDetail->product->category->commision_rate;
-                        $seller = $orderDetail->product->user->seller;
-                        $commission_price=($orderDetail->price * $commission_percentage) / 100;
-
-                        $seller->commission_price = $seller->commission_price + $commission_price;
-
-                        $seller->admin_to_pay = $seller->admin_to_pay + ($orderDetail->price*(100-$commission_percentage))/100  + $orderDetail->tax + $orderDetail->shipping_cost;
-                        $seller->save();
-                    }
-                }
-            }
-        }
-        else {
-            foreach ($order->orderDetails as $key => $orderDetail) {
-                $orderDetail->payment_status = 'paid';
-                $orderDetail->save();
-                if($orderDetail->product->user->user_type == 'seller'){
-                    $seller = $orderDetail->product->user->seller;
-                    $seller->admin_to_pay = $seller->admin_to_pay + $orderDetail->price + $orderDetail->tax + $orderDetail->shipping_cost;
-                    $seller->save();
-                }
-            }
-        }
-
-        $order->commission_calculated = 1;
         $order->save();
 
         // Session::forget('payment_data');
@@ -727,8 +694,72 @@ class CheckoutController extends Controller
         Session::forget('coupon_id');
         Session::forget('coupon_discount');
 
-        return Response::json('true');
-        flash(__('Payment completed'))->success();
-        return redirect()->route('order_confirmed');
+        if($payment_status == 1){
+
+            if (\App\Addon::where('unique_identifier', 'affiliate_system')->first() != null && \App\Addon::where('unique_identifier', 'affiliate_system')->first()->activated) {
+                $affiliateController = new AffiliateController;
+                $affiliateController->processAffiliatePoints($order);
+            }
+    
+            if (\App\Addon::where('unique_identifier', 'club_point')->first() != null && \App\Addon::where('unique_identifier', 'club_point')->first()->activated) {
+                $clubpointController = new ClubPointController;
+                $clubpointController->processClubPoints($order);
+            }
+
+            if(\App\Addon::where('unique_identifier', 'seller_subscription')->first() == null || !\App\Addon::where('unique_identifier', 'seller_subscription')->first()->activated){
+                if (BusinessSetting::where('type', 'category_wise_commission')->first()->value != 1) {
+                    $commission_percentage = BusinessSetting::where('type', 'vendor_commission')->first()->value;
+                    foreach ($order->orderDetails as $key => $orderDetail) {
+                        $orderDetail->payment_status = 'paid';
+                        $orderDetail->save();
+                        if($orderDetail->product->user->user_type == 'seller'){
+                            $seller = $orderDetail->product->user->seller;
+                            $commission_price=($orderDetail->price * $commission_percentage) / 100;
+                            $seller->commission_price = $seller->commission_price + $commission_price;
+                            $seller->admin_to_pay = $seller->admin_to_pay + ($orderDetail->price*(100-$commission_percentage))/100 + $orderDetail->tax + $orderDetail->shipping_cost;
+                            $seller->save();
+                        }
+                    }
+                }
+                else{
+                    foreach ($order->orderDetails as $key => $orderDetail) {
+                        $orderDetail->payment_status = 'paid';
+                        $orderDetail->save();
+                        if($orderDetail->product->user->user_type == 'seller'){
+                            $commission_percentage = $orderDetail->product->category->commision_rate;
+                            $seller = $orderDetail->product->user->seller;
+                            $commission_price=($orderDetail->price * $commission_percentage) / 100;
+
+                            $seller->commission_price = $seller->commission_price + $commission_price;
+
+                            $seller->admin_to_pay = $seller->admin_to_pay + ($orderDetail->price*(100-$commission_percentage))/100  + $orderDetail->tax + $orderDetail->shipping_cost;
+                            $seller->save();
+                        }
+                    }
+                }
+            }
+            else {
+                foreach ($order->orderDetails as $key => $orderDetail) {
+                    $orderDetail->payment_status = 'paid';
+                    $orderDetail->save();
+                    if($orderDetail->product->user->user_type == 'seller'){
+                        $seller = $orderDetail->product->user->seller;
+                        $seller->admin_to_pay = $seller->admin_to_pay + $orderDetail->price + $orderDetail->tax + $orderDetail->shipping_cost;
+                        $seller->save();
+                    }
+                }
+            }
+            $order->commission_calculated = 1;
+            $order->save();
+            flash(__('Payment completed'))->success();
+            return redirect()->route('order_confirmed');
+        }else{            
+            flash(__('Error : Sorry we could not verify the transaction with khalti.'))->success();
+            return redirect()->route('order_confirmed');
+        }
+
+
+
+        // return Response::json('true');
     }
 }
