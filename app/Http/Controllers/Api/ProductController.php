@@ -283,7 +283,7 @@ class ProductController extends Controller
 
             case 'price_low_to_high':
                 
-                $product_get = Product::where('name', 'like', "% {$key} %")->orWhere('tags', 'like', "%{$key}%")->selectRaw('*,case when discount_type = "amount" then (unit_price - discount) when discount_type = "percent" then (unit_price - (unit_price * (discount/100))) end as unit_price2')->orderBy('unit_price2', 'asc')->paginate(20);
+                $product_get = Product::where('name', 'like', "% {$key} %")->orWhere('tags', 'like', "% {$key} %")->selectRaw('*,case when discount_type = "amount" then (unit_price - discount) when discount_type = "percent" then (unit_price - (unit_price * (discount/100))) end as unit_price2')->orderBy('unit_price2', 'asc')->paginate(20);
                 $collection = new SearchProductCollection($product_get);
                 // $product_get->orderBy('unit_price', 'asc');
                 // $product_get->selectRaw('*,case 
@@ -294,57 +294,57 @@ class ProductController extends Controller
                 // $product_get->orderBy('unit_price', 'asc');
                 // $product_get->get();
                 // return \Response::json($product_get);
-                // $collection = new SearchProductCollection(Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->orderBy('unit_price', 'asc')->paginate(20));
+                // $collection = new SearchProductCollection(Product::where('name', 'like', "% {$key} %")->orWhere('tags', 'like', "% {$key} %")->orderBy('unit_price', 'asc')->paginate(20));
                 // $collection->appends(['key' =>  $key, 'scope' => $scope]);
                 return $collection;
 
             case 'price_high_to_low':
-                $product_get = Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->selectRaw('*,case when discount_type = "amount" then (unit_price - discount) when discount_type = "percent" then (unit_price - (unit_price * (discount/100))) end as unit_price2')->orderBy('unit_price2', 'desc')->paginate(20);
+                $product_get = Product::where('name', 'like', "% {$key} %")->orWhere('tags', 'like', "% {$key} %")->selectRaw('*,case when discount_type = "amount" then (unit_price - discount) when discount_type = "percent" then (unit_price - (unit_price * (discount/100))) end as unit_price2')->orderBy('unit_price2', 'desc')->paginate(20);
                 $collection = new SearchProductCollection($product_get);
-                // $collection = new SearchProductCollection(Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->orderBy('unit_price', 'asc')->paginate(20));
+                // $collection = new SearchProductCollection(Product::where('name', 'like', "% {$key} %")->orWhere('tags', 'like', "% {$key} %")->orderBy('unit_price', 'asc')->paginate(20));
 
-                // $collection = new SearchProductCollection(Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->orderBy('unit_price', 'desc')->paginate(20));
+                // $collection = new SearchProductCollection(Product::where('name', 'like', "% {$key} %")->orWhere('tags', 'like', "% {$key} %")->orderBy('unit_price', 'desc')->paginate(20));
                 // $collection->appends(['key' =>  $key, 'scope' => $scope]);
                 return $collection;
 
             case 'new_arrival':
-                $collection = new SearchProductCollection(Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->orderBy('created_at', 'desc')->paginate(20));
+                $collection = new SearchProductCollection(Product::where('name', 'like', "% {$key} %")->orWhere('tags', 'like', "% {$key} %")->orderBy('created_at', 'desc')->paginate(20));
                 $collection->appends(['key' =>  $key, 'scope' => $scope]);
                 return $collection;
 
             case 'popularity':
-                $collection = new SearchProductCollection(Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->orderBy('num_of_sale', 'desc')->paginate(20));
+                $collection = new SearchProductCollection(Product::where('name', 'like', "% {$key} %")->orWhere('tags', 'like', "% {$key} %")->orderBy('num_of_sale', 'desc')->paginate(20));
                 $collection->appends(['key' =>  $key, 'scope' => $scope]);
                 return $collection;
 
             case 'top_rated':
-                $collection = new SearchProductCollection(Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->orderBy('rating', 'desc')->paginate(20));
+                $collection = new SearchProductCollection(Product::where('name', 'like', "% {$key} %")->orWhere('tags', 'like', "% {$key} %")->orderBy('rating', 'desc')->paginate(20));
                 $collection->appends(['key' =>  $key, 'scope' => $scope]);
                 return $collection;
 
             // case 'category':
             //
-            //     $categories = Category::select('id')->where('name', 'like', "%{$key}%")->get()->toArray();
+            //     $categories = Category::select('id')->where('name', 'like', "% {$key} %")->get()->toArray();
             //     $collection = new SearchProductCollection(Product::where('category_id', $categories)->orderBy('num_of_sale', 'desc')->paginate(20));
             //     $collection->appends(['key' =>  $key, 'scope' => $scope]);
             //     return $collection;
             //
             // case 'brand':
             //
-            //     $brands = Brand::select('id')->where('name', 'like', "%{$key}%")->get()->toArray();
+            //     $brands = Brand::select('id')->where('name', 'like', "% {$key} %")->get()->toArray();
             //     $collection = new SearchProductCollection(Product::where('brand_id', $brands)->orderBy('num_of_sale', 'desc')->paginate(20));
             //     $collection->appends(['key' =>  $key, 'scope' => $scope]);
             //     return $collection;
             //
             case 'shop':
             
-                $shops = Shop::select('user_id')->where('name', 'like', "%{$key}%")->get()->toArray();
+                $shops = Shop::select('user_id')->where('name', 'like', "% {$key} %")->get()->toArray();
                 $collection = new SearchProductCollection(Product::where('user_id', $shops)->orderBy('num_of_sale', 'desc')->paginate(20));
                 $collection->appends(['key' =>  $key, 'scope' => $scope]);
                 return $collection;
 
             default:
-                $collection = new SearchProductCollection(Product::where('name', 'like', "%{$key}%")->orWhere('tags', 'like', "%{$key}%")->orderBy('num_of_sale', 'desc')->paginate(20));
+                $collection = new SearchProductCollection(Product::where('name', 'like', "% {$key} %")->orWhere('tags', 'like', "% {$key} %")->orderBy('num_of_sale', 'desc')->paginate(20));
                 $collection->appends(['key' =>  $key, 'scope' => $scope]);
                 return $collection;
         }

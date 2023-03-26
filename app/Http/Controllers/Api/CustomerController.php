@@ -262,7 +262,15 @@ class CustomerController extends Controller
         }
     }
     public function request_store(Request $request, $id){
-        $order_detail = OrderDetail::where('id', $id)->first();
+        $order_detail = OrderDetail::where('id', $id);
+        if($order_detail->count() > 0){
+            $order_detail = $order_detail->first();
+        }else{
+            return response()->json([
+                'success' => false,
+                'message' => 'Order Detail not found.'
+            ]);
+        }
         $refund = new RefundRequest();
         $refund->user_id = Auth::user()->id;
         $refund->order_id = $order_detail->order_id;
