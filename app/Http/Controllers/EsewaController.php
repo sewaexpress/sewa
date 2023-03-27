@@ -22,6 +22,7 @@ use App\Mail\InvoiceEmailManager;
 use App\User;
 use Mail;
 use PDF;
+use SimpleXMLElement;
 
 class EsewaController extends Controller
 {
@@ -49,108 +50,62 @@ class EsewaController extends Controller
         $amt = $_GET['amt'];
         $refId=$_GET['refId'];
         $order = Order::where('code',$oid)->first();
-    // dd($order);
+        // dd($order);
         if($amt == $order->grand_total ){
             $order_details = OrderDetail::where('order_id',$order->id)->update(['payment_status'=>'paid']);
-            $order->payment_status = 'paid';
+          
             $json =json_encode([
                 'refid id' =>$refId,
                 'order id' =>$oid,
                 'amt' =>$amt,
             ]);
             $order->payment_details =$json;
-          
+            $payment_status = 0;
+            $esewa=json_decode(\App\BusinessSetting::where('type','esewa_payment')->first()->value);
+
+            $data =[
+                'amt'=>$amt,
+                'rid'=> $refId,
+                'pid'=> $oid,
+                'scd'=> $esewa->esewa_key
+            ];
+            
+            $url = "https://uat.esewa.com.np/epay/transrec";
+            
+            $curl = curl_init($url);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($curl);
+    
+            $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            
+            // Close the handle
+            curl_close($curl);
+            
+            // Process the response
+            if ($status_code == 200) {
+                $response = new SimpleXMLElement($response);
+                if(trim($response->response_code) == 'failure'){
+                    $payment_status = 0;
+                }elseif(trim($response->response_code) == 'success'){
+                    $payment_status = 1;
+                }else{
+                    $payment_status = 0;
+                }
+            } else {
+                $payment_status = 0;
+            }
+
+            $order->payment_status = $payment_status;
         	$order->save();
             $payment=$json;
 
            
             $order = Order::findOrFail($order->id);
-            $order->payment_status = 'paid';
+            $order->payment_status = $payment_status;
             $order->payment_details = $payment;
             $order->save();
-
-            if (\App\Addon::where('unique_identifier', 'affiliate_system')->first() != null && \App\Addon::where('unique_identifier', 'affiliate_system')->first()->activated) {
-                $affiliateController = new AffiliateController;
-                $affiliateController->processAffiliatePoints($order);
-            }
-
-            if (\App\Addon::where('unique_identifier', 'club_point')->first() != null && \App\Addon::where('unique_identifier', 'club_point')->first()->activated) {
-                $clubpointController = new ClubPointController;
-                $clubpointController->processClubPoints($order);
-            }
-
-            if(\App\Addon::where('unique_identifier', 'seller_subscription')->first() == null || !\App\Addon::where('unique_identifier', 'seller_subscription')->first()->activated){
-                if (BusinessSetting::where('type', 'category_wise_commission')->first()->value != 1) {
-                    $commission_percentage = BusinessSetting::where('type', 'vendor_commission')->first()->value;
-                    foreach ($order->orderDetails as $key => $orderDetail) {
-                        $orderDetail->payment_status = 'paid';
-                        $orderDetail->save();
-                        if($orderDetail->product->user->user_type == 'seller'){
-                            $seller = $orderDetail->product->user->seller;
-                            $seller->admin_to_pay = $seller->admin_to_pay + ($orderDetail->price*(100-$commission_percentage))/100 + $orderDetail->tax + $orderDetail->shipping_cost;
-                            $seller->save();
-                        }
-                    }
-                }
-                else{
-                    foreach ($order->orderDetails as $key => $orderDetail) {
-                        $orderDetail->payment_status = 'paid';
-                        $orderDetail->save();
-                        if($orderDetail->product->user->user_type == 'seller'){
-                            $commission_percentage = $orderDetail->product->category->commision_rate;
-                            $seller = $orderDetail->product->user->seller;
-                            $seller->admin_to_pay = $seller->admin_to_pay + ($orderDetail->price*(100-$commission_percentage))/100  + $orderDetail->tax + $orderDetail->shipping_cost;
-                            $seller->save();
-                        }
-                    }
-                }
-            }
-            else {
-                foreach ($order->orderDetails as $key => $orderDetail) {
-                    $orderDetail->payment_status = 'paid';
-                    $orderDetail->save();
-                    if($orderDetail->product->user->user_type == 'seller'){
-                        $seller = $orderDetail->product->user->seller;
-                        $seller->admin_to_pay = $seller->admin_to_pay + $orderDetail->price + $orderDetail->tax + $orderDetail->shipping_cost;
-                        $seller->save();
-                    }
-                }
-            }
-
-            $order->commission_calculated = 1;
-            $order->save();
-
-            set_time_limit(1500);
-            //stores the pdf for invoice
-            $pdf = PDF::setOptions([
-                'isHtml5ParserEnabled' => true, 
-                'isRemoteEnabled' => true,
-                "isPhpEnabled"=>true,
-                'logOutputFile' => storage_path('logs/log.htm'),
-                'tempDir' => storage_path('logs/'),
-            ])->loadView('invoices.customer_invoice', compact('order'));
-            $output = $pdf->output();
-            file_put_contents(public_path('/invoices/Order#' . $order->code . '.pdf'), $output);
-
-            // $pdf->download('Order-'.$order->code.'.pdf');
-            $data['view'] = 'emails.invoice';
-            $data['subject'] = 'Sewa Digital Express - Order Placed - ' . $order->code;
-            $data['from'] = Config::get('mail.username');
-            $data['content'] = 'Hi. Thank you for ordering from Sewa Digital Express. Here is the pdf of the invoice.';
-            $data['file'] = public_path('invoices/' . 'Order#' . $order->code . '.pdf');
-            $data['file_name'] = 'Order#' . $order->code . '.pdf';
-
-            if (Config::get('mail.username') != null) {
-                try {
-                    // Mail::to($request->session()->get('shipping_info')['email'])->send(new InvoiceEmailManager($data));
-                    Mail::to($request->session()->get('shipping_info')['email'])->queue(new InvoiceEmailManager($data));
-                    Mail::to(User::where('user_type', 'admin')->first()->email)->queue(new InvoiceEmailManager($data));
-                    Log::info('Mail Sent');
-                } catch (\Exception $e) {
-                    Log::info($e->getMessage());
-                }
-            }
-            unlink($data['file']);
 
             Session::put('cart', collect([]));
             // Session::forget('order_id');
@@ -158,10 +113,96 @@ class EsewaController extends Controller
             Session::forget('delivery_info');
             Session::forget('coupon_id');
             Session::forget('coupon_discount');
+            if($payment_status == 1){
+                if (\App\Addon::where('unique_identifier', 'affiliate_system')->first() != null && \App\Addon::where('unique_identifier', 'affiliate_system')->first()->activated) {
+                    $affiliateController = new AffiliateController;
+                    $affiliateController->processAffiliatePoints($order);
+                }
 
-            flash(__('Payment completed'))->success();
-    
+                if (\App\Addon::where('unique_identifier', 'club_point')->first() != null && \App\Addon::where('unique_identifier', 'club_point')->first()->activated) {
+                    $clubpointController = new ClubPointController;
+                    $clubpointController->processClubPoints($order);
+                }
+
+                if(\App\Addon::where('unique_identifier', 'seller_subscription')->first() == null || !\App\Addon::where('unique_identifier', 'seller_subscription')->first()->activated){
+                    if (BusinessSetting::where('type', 'category_wise_commission')->first()->value != 1) {
+                        $commission_percentage = BusinessSetting::where('type', 'vendor_commission')->first()->value;
+                        foreach ($order->orderDetails as $key => $orderDetail) {
+                            $orderDetail->payment_status = 'paid';
+                            $orderDetail->save();
+                            if($orderDetail->product->user->user_type == 'seller'){
+                                $seller = $orderDetail->product->user->seller;
+                                $seller->admin_to_pay = $seller->admin_to_pay + ($orderDetail->price*(100-$commission_percentage))/100 + $orderDetail->tax + $orderDetail->shipping_cost;
+                                $seller->save();
+                            }
+                        }
+                    }
+                    else{
+                        foreach ($order->orderDetails as $key => $orderDetail) {
+                            $orderDetail->payment_status = 'paid';
+                            $orderDetail->save();
+                            if($orderDetail->product->user->user_type == 'seller'){
+                                $commission_percentage = $orderDetail->product->category->commision_rate;
+                                $seller = $orderDetail->product->user->seller;
+                                $seller->admin_to_pay = $seller->admin_to_pay + ($orderDetail->price*(100-$commission_percentage))/100  + $orderDetail->tax + $orderDetail->shipping_cost;
+                                $seller->save();
+                            }
+                        }
+                    }
+                }
+                else {
+                    foreach ($order->orderDetails as $key => $orderDetail) {
+                        $orderDetail->payment_status = 'paid';
+                        $orderDetail->save();
+                        if($orderDetail->product->user->user_type == 'seller'){
+                            $seller = $orderDetail->product->user->seller;
+                            $seller->admin_to_pay = $seller->admin_to_pay + $orderDetail->price + $orderDetail->tax + $orderDetail->shipping_cost;
+                            $seller->save();
+                        }
+                    }
+                }
+
+                $order->commission_calculated = 1;
+                $order->save();
+
+                set_time_limit(1500);
+                //stores the pdf for invoice
+                $pdf = PDF::setOptions([
+                    'isHtml5ParserEnabled' => true, 
+                    'isRemoteEnabled' => true,
+                    "isPhpEnabled"=>true,
+                    'logOutputFile' => storage_path('logs/log.htm'),
+                    'tempDir' => storage_path('logs/'),
+                ])->loadView('invoices.customer_invoice', compact('order'));
+                $output = $pdf->output();
+                file_put_contents(public_path('/invoices/Order#' . $order->code . '.pdf'), $output);
+
+                // $pdf->download('Order-'.$order->code.'.pdf');
+                $data['view'] = 'emails.invoice';
+                $data['subject'] = 'Sewa Digital Express - Order Placed - ' . $order->code;
+                $data['from'] = Config::get('mail.username');
+                $data['content'] = 'Hi. Thank you for ordering from Sewa Digital Express. Here is the pdf of the invoice.';
+                $data['file'] = public_path('invoices/' . 'Order#' . $order->code . '.pdf');
+                $data['file_name'] = 'Order#' . $order->code . '.pdf';
+
+                if (Config::get('mail.username') != null) {
+                    try {
+                        // Mail::to($request->session()->get('shipping_info')['email'])->send(new InvoiceEmailManager($data));
+                        Mail::to($request->session()->get('shipping_info')['email'])->queue(new InvoiceEmailManager($data));
+                        Mail::to(User::where('user_type', 'admin')->first()->email)->queue(new InvoiceEmailManager($data));
+                        Log::info('Mail Sent');
+                    } catch (\Exception $e) {
+                        Log::info($e->getMessage());
+                    }
+                }
+                unlink($data['file']);
+                flash(__('Payment completed'))->success();
+            }else{
+                flash(__('Error : Sorry we could not verify the transaction with esewa.'))->success(); 
+            }
+        
             return redirect()->route('order_confirmed');
+
 
         }
       

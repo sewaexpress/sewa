@@ -14,6 +14,12 @@ class PurchaseHistoryController extends Controller
     }
     public function updateTransaction(Request $request){
         $order_code = $request->code;
+        if($request->details == null || $request->code == null){
+            return response()->json([
+                'success' => false,
+                'message' => "We couldn't process your payment, payment failed!",
+            ]); 
+        }
         $order = Order::where('code',$order_code)->count();
         if($order > 0){
             $data = Order::where('code',$order_code)->first();
@@ -21,7 +27,7 @@ class PurchaseHistoryController extends Controller
             $payment_details = json_decode($request->details,true);
             $khalti_secret=\App\BusinessSetting::where('type','khalti_secret')->first();
             
-            if($order->payment_type == 'khalti'){
+            if(!empty($payment_details) && $order->payment_type == 'khalti'){
                 $args = http_build_query(array(
                     'token' => $payment_details['token'],
                     'amount'  => $payment_details['amount'],
@@ -52,21 +58,8 @@ class PurchaseHistoryController extends Controller
                 } else{
                     $data->payment_status = 'Unpaid';
                 }
-                // else {
-                //     $response = json_decode($response,true);
-                //     if(isset($response['error_key'])){
+            }elseif($order->payment_type == 'esewa'){
 
-                //     // There was an error
-                //     echo json_encode($response);
-                //     }else{
-
-                //     // There was an error
-                //     echo json_encode($status_code);
-                //     // There was an error
-                //     echo json_encode($status_code);
-                //     }
-                // }
-                // dd($ch);
             }
             // $data->payment_status = 'paid';
             if($data->save()){
@@ -79,14 +72,12 @@ class PurchaseHistoryController extends Controller
                 return response()->json([
                     'success' => false,
                     'message' => 'Order not found',
-                    'order_code' => ''
                 ]);
             }
         }else{
             return response()->json([
                 'success' => false,
                 'message' => 'Order not found',
-                'order_code' => ''
             ]);
         }
     }

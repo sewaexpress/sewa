@@ -751,6 +751,7 @@ class CheckoutController extends Controller
             }
             $order->commission_calculated = 1;
             $order->save();
+            
             flash(__('Payment completed'))->success();
             return redirect()->route('order_confirmed');
         }else{            
