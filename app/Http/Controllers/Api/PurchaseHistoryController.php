@@ -29,7 +29,7 @@ class PurchaseHistoryController extends Controller
             
             if(!empty($payment_details) && $data->payment_type == 'khalti'){
                 $args = http_build_query(array(
-                    'token' => "'".trim($request->token)."'",
+                    'token' => $request->token,
                     'amount'  => $request->amount,
                 ));
                 
