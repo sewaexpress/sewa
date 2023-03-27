@@ -75,20 +75,17 @@ class PurchaseHistoryController extends Controller
                     'success' => true,
                     'message' => 'Your payment is Successful,Thank you for your payment.',
                     'order_code' => $order_code,
-                    'payment_type' => $order->payment_type
                 ]);
             }else{
                 return response()->json([
                     'success' => false,
                     'message' => "We couldn't process your payment, payment failed!!",
-                    'payment_type' => $order->payment_type
                 ]);
             }
         }else{
             return response()->json([
                 'success' => false,
                 'message' => "We couldn't process your payment, payment failed!!",
-                'payment_type' => $order->payment_type
             ]);
         }
     }
