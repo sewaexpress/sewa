@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Policy;
+use Illuminate\Support\Facades\Auth;
 use SimpleXMLElement;
 
 class PolicyController extends Controller
@@ -11,6 +12,7 @@ class PolicyController extends Controller
 
     public function index($type)
     {
+        // dd(Auth::check());
         // $khalti_secret=\App\BusinessSetting::where('type','khalti_secret')->first();
         // $token = '2753TnkomJnnGRw3WVsBPzSc2';
         // $amount = 1500;

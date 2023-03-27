@@ -647,7 +647,9 @@ class CheckoutController extends Controller
 
     public function order_confirmed(){
         //removefrom table
-        Cart::where('user_id',Auth::user()->id)->delete();
+        if(Auth::check()){
+            Cart::where('user_id',Auth::user()->id)->delete();
+        }
         $order = Order::findOrFail(Session::get('order_id'));
         return view('frontend.order_confirmed', compact('order'));
     }
