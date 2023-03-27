@@ -61,7 +61,8 @@ class PurchaseHistoryController extends Controller
                         'response_from_khalti' => $response,
                         'token_trimmed' => trim($request->token),
                         'token_untrimmed' => $request->token,
-                        'amout' => $request->amount
+                        'amount' => $request->amount,
+                        'payment_type' => $order->payment_type
                     ]);
                     // $data->payment_status = 'unpaid';
                 }
@@ -74,18 +75,21 @@ class PurchaseHistoryController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Your payment is Successful,Thank you for your payment.',
-                    'order_code' => $order_code
+                    'order_code' => $order_code,
+                    'payment_type' => $order->payment_type
                 ]);
             }else{
                 return response()->json([
                     'success' => false,
                     'message' => "We couldn't process your payment, payment failed!!",
+                    'payment_type' => $order->payment_type
                 ]);
             }
         }else{
             return response()->json([
                 'success' => false,
                 'message' => "We couldn't process your payment, payment failed!!",
+                'payment_type' => $order->payment_type
             ]);
         }
     }
