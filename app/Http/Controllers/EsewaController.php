@@ -37,7 +37,6 @@ class EsewaController extends Controller
     
       $ordercode = Order::where('id', $order_id)->first();
       
-   
       return view('frontend.payment.esewa',compact('ordercode'));
      
       
@@ -63,14 +62,25 @@ class EsewaController extends Controller
             $payment_status = 0;
             $esewa=json_decode(\App\BusinessSetting::where('type','esewa_payment')->first()->value);
 
-            $data =[
-                'amt'=>$amt,
-                'rid'=> $refId,
-                'pid'=> $oid,
-                'scd'=> $esewa->esewa_key
-            ];
+           
             
-            $url = "https://uat.esewa.com.np/epay/transrec";
+            if($_SERVER['HTTP_HOST'] == 'localhost:8000'){
+                $url = "https://uat.esewa.com.np/epay/transrec";
+                $data =[
+                    'amt'=>$amt,
+                    'rid'=> $refId,
+                    'pid'=> $oid,
+                    'scd'=> 'EPAYTEST'
+                ];
+            }else{
+                $url = "https://esewa.com.np/epay/transrec";
+                $data =[
+                    'amt'=>$amt,
+                    'rid'=> $refId,
+                    'pid'=> $oid,
+                    'scd'=> $esewa->esewa_key
+                ];
+            }
             
             $curl = curl_init($url);
             curl_setopt($curl, CURLOPT_POST, true);
@@ -80,23 +90,19 @@ class EsewaController extends Controller
     
             $status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
             
-            // Close the handle
-            curl_close($curl);
-            
             // Process the response
             if ($status_code == 200) {
                 $response = new SimpleXMLElement($response);
                 if(trim($response->response_code) == 'failure'){
-                    $payment_status = 0;
-                }elseif(trim($response->response_code) == 'success'){
-                    $payment_status = 1;
+                    $payment_status = 'unpaid';
+                }elseif(trim($response->response_code) == 'Success'){
+                    $payment_status = 'paid';
                 }else{
-                    $payment_status = 0;
+                    $payment_status = 'unpaid';
                 }
             } else {
-                $payment_status = 0;
+                $payment_status = 'unpaid';
             }
-
             $order->payment_status = $payment_status;
         	$order->save();
             $payment=$json;
@@ -113,7 +119,7 @@ class EsewaController extends Controller
             Session::forget('delivery_info');
             Session::forget('coupon_id');
             Session::forget('coupon_discount');
-            if($payment_status == 1){
+            if($payment_status == 'paid'){
                 if (\App\Addon::where('unique_identifier', 'affiliate_system')->first() != null && \App\Addon::where('unique_identifier', 'affiliate_system')->first()->activated) {
                     $affiliateController = new AffiliateController;
                     $affiliateController->processAffiliatePoints($order);
@@ -198,7 +204,7 @@ class EsewaController extends Controller
                 unlink($data['file']);
                 flash(__('Payment completed'))->success();
             }else{
-                flash(__('Error : Sorry we could not verify the transaction with esewa.'))->success(); 
+                flash(__('Error : Sorry we could not complete the payment.'))->error(); 
             }
         
             return redirect()->route('order_confirmed');
