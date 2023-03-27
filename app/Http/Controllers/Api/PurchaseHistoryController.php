@@ -30,7 +30,7 @@ class PurchaseHistoryController extends Controller
             if(!empty($payment_details) && $data->payment_type == 'khalti'){
                 $args = http_build_query(array(
                     'token' => $payment_details['token'],
-                    'amount'  => $payment_details['amount'],
+                    'amount'  => $request->amount,
                 ));
                 
                 $url = "https://khalti.com/api/v2/payment/verify/";
