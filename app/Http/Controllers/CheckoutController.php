@@ -671,15 +671,15 @@ class CheckoutController extends Controller
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $args);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);            
-        $headers = ['Authorization: Key '.$khalti_secret];
+        $headers = ['Authorization: Key '.$khalti_secret->value];
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         $response = curl_exec($ch);
         $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
         if ($status_code == 200) {
-            $payment_status = 1;
+            $payment_status = 'paid';
         } else{
-            $payment_status = 0;
+            $payment_status = 'unpaid';
         }
         
         $order->payment_status = $payment_status;
@@ -694,7 +694,7 @@ class CheckoutController extends Controller
         Session::forget('coupon_id');
         Session::forget('coupon_discount');
 
-        if($payment_status == 1){
+        if($payment_status == 'paid'){
 
             if (\App\Addon::where('unique_identifier', 'affiliate_system')->first() != null && \App\Addon::where('unique_identifier', 'affiliate_system')->first()->activated) {
                 $affiliateController = new AffiliateController;

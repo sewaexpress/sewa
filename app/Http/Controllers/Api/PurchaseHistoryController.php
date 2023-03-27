@@ -56,14 +56,14 @@ class PurchaseHistoryController extends Controller
                 if ($status_code == 200) {
                     $data->payment_status = 'paid';
                 } else{
-                    $data->payment_status = json_encode([
-                        'arugements_to_khalti' => $args,
-                        'response_from_khalti' => $response,
-                        'token_trimmed' => trim($request->token),
-                        'token_untrimmed' => $request->token,
-                        'amount' => $request->amount,
-                    ]);
-                    // $data->payment_status = 'unpaid';
+                    // $data->payment_status = json_encode([
+                    //     'arugements_to_khalti' => $args,
+                    //     'response_from_khalti' => $response,
+                    //     'token_trimmed' => trim($request->token),
+                    //     'token_untrimmed' => $request->token,
+                    //     'amount' => $request->amount,
+                    // ]);
+                    $data->payment_status = 'unpaid';
                 }
             }
             elseif($data->payment_type == 'esewa'){
