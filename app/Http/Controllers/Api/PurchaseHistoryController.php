@@ -27,7 +27,7 @@ class PurchaseHistoryController extends Controller
             $payment_details = json_decode($request->details,true);
             $khalti_secret=\App\BusinessSetting::where('type','khalti_secret')->first();
             
-            if(!empty($payment_details) && $order->payment_type == 'khalti'){
+            if(!empty($payment_details) && $data->payment_type == 'khalti'){
                 $args = http_build_query(array(
                     'token' => $payment_details['token'],
                     'amount'  => $payment_details['amount'],
