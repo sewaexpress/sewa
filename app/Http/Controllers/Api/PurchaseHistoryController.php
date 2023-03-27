@@ -62,12 +62,11 @@ class PurchaseHistoryController extends Controller
                         'token_trimmed' => trim($request->token),
                         'token_untrimmed' => $request->token,
                         'amount' => $request->amount,
-                        'payment_type' => $order->payment_type
                     ]);
                     // $data->payment_status = 'unpaid';
                 }
             }
-            elseif($order->payment_type == 'esewa'){
+            elseif($data->payment_type == 'esewa'){
                 $data->payment_status = 'paid';
             }
             // $data->payment_status = 'paid';
