@@ -42,7 +42,7 @@ class PurchaseHistoryController extends Controller
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $args);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 
-                $headers = ['Authorization: Key '.$khalti_secret];
+                $headers = ['Authorization: Key '.$khalti_secret->value];
                 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
                 
                 // Response

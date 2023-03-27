@@ -11,37 +11,37 @@ class PolicyController extends Controller
 
     public function index($type)
     {
-        $khalti_secret=\App\BusinessSetting::where('type','khalti_secret')->first();
-        $args = http_build_query(array(
-            'token' => "'".trim($request->token)."'",
-            'amount'  => $request->amount,
-        ));
+        // $khalti_secret=\App\BusinessSetting::where('type','khalti_secret')->first();
+        // $token = '2753TnkomJnnGRw3WVsBPzSc2';
+        // $amount = 1500;
+        // $args = http_build_query(array('token'=>'2753TnkomJnnGRw3WVsBPzSc2','amount'=>$amount));
         
-        $url = "https://khalti.com/api/v2/payment/verify/";
+        // $url = "https://khalti.com/api/v2/payment/verify/";
         
-        # Make the call using API.
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $args);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        // # Make the call using API.
+        // $ch = curl_init();
+        // curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_POST, 1);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, $args);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         
-        $headers = ['Authorization: Key '.$khalti_secret];
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        // $headers = ['Authorization: Key '.$khalti_secret->value];
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         
-        // Response
-        $response = curl_exec($ch);
-        $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        // // Response
+        // $response = curl_exec($ch);
+        // $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         
-        // Close the handle
-        curl_close($ch);
-        dd([
-            'arugements_to_khalti' => $args,
-            'response_from_khalti' => $response,
-            'token_trimmed' => trim($request->token),
-            'token_untrimmed' => $request->token,
-            'amout' => $request->amount
-        ]);
+        // // Close the handle
+        // curl_close($ch);
+        // dd([
+        //     'arugements_to_khalti' => $args,
+        //     'response_from_khalti' => $response,
+        //     'token_trimmed' => trim($token),
+        //     'token_untrimmed' => $token,
+        //     'amout' => $amount,
+        //     'khalti_secret' => $khalti_secret->value
+        // ]);
         $policy = Policy::where('name', $type)->first();
         // dd($policy);
         return view('policies.index', compact('policy'));
