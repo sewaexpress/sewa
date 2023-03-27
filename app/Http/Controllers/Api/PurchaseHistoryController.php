@@ -56,8 +56,8 @@ class PurchaseHistoryController extends Controller
                 if ($status_code == 200) {
                     $data->payment_status = 'paid';
                 } else{
-                    // $data->payment_status = json_encode($response);
-                    $data->payment_status = 'unpaid';
+                    $data->payment_status = json_encode([$args,$response]);
+                    // $data->payment_status = 'unpaid';
                 }
             }
             elseif($order->payment_type == 'esewa'){
