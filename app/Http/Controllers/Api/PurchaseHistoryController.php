@@ -67,19 +67,19 @@ class PurchaseHistoryController extends Controller
             if($data->save()){
                 return response()->json([
                     'success' => true,
-                    'message' => 'Order updated successfully',
+                    'message' => 'Your payment is Successful,Thank you for your payment.',
                     'order_code' => $order_code
                 ]);
             }else{
                 return response()->json([
                     'success' => false,
-                    'message' => 'Order not found',
+                    'message' => "We couldn't process your payment, payment failed!!",
                 ]);
             }
         }else{
             return response()->json([
                 'success' => false,
-                'message' => 'Order not found',
+                'message' => "We couldn't process your payment, payment failed!!",
             ]);
         }
     }
