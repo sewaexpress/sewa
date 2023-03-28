@@ -628,7 +628,7 @@ class HomeController extends Controller
     public function ajax_search(Request $request)
     {
         $keywords = array();
-        $products = Product::where('published', 1)->where('tags', 'like', '%'.$request->search.'%')->get();
+        $products = Product::where('published', 1)->where('tags', 'like', '% '.$request->search.' %')->get();
         foreach ($products as $key => $product) {
             foreach (explode(',',$product->tags) as $key => $tag) {
                 if(stripos($tag, $request->search) !== false){
@@ -644,11 +644,11 @@ class HomeController extends Controller
             }
         }
 
-        $products = filter_products(Product::where('published', 1)->where('name', 'like', '%'.$request->search.'%'))->get()->take(3);
+        $products = filter_products(Product::where('published', 1)->where('name', 'like', '% '.$request->search.' %'))->get()->take(3);
 
-        $subsubcategories = SubSubCategory::where('name', 'like', '%'.$request->search.'%')->get()->take(3);
+        $subsubcategories = SubSubCategory::where('name', 'like', '% '.$request->search.' %')->get()->take(3);
 
-        $shops = Shop::whereIn('user_id', verified_sellers_id())->where('name', 'like', '%'.$request->search.'%')->get()->take(3);
+        $shops = Shop::whereIn('user_id', verified_sellers_id())->where('name', 'like', '% '.$request->search.' %')->get()->take(3);
 
         if(sizeof($keywords)>0 || sizeof($subsubcategories)>0 || sizeof($products)>0 || sizeof($shops) >0){
             return view('frontend.partials.search_content', compact('products', 'subsubcategories', 'keywords', 'shops'));
