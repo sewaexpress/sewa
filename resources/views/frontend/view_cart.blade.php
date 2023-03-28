@@ -135,7 +135,7 @@
                                                 <span>{{ single_price($cartItem['price']*$cartItem['quantity']) }}</span>
                                             </td>
                                             <td class="product-remove">
-                                                <a href="#" onclick="removeFromCartView(event, {{ $key }})" class="text-right pl-4">
+                                                <a href="#" data-key='{{$key}}'  class="removeFromCartView text-right pl-4">
                                                     <i class="la la-trash"></i>
                                                 </a>
                                             </td>
@@ -517,10 +517,7 @@
 
 @section('script')
     <script type="text/javascript">
-        function removeFromCartView(e, key) {
-            e.preventDefault();
-            removeFromCart(key);
-        }
+    //  $(document).ready(function () {
 
         function updateQuantity(key, element) {
             $.post('{{ route('cart.updateQuantity') }}', {
@@ -536,5 +533,6 @@
         function showCheckoutModal() {
             $('#GuestCheckout').modal();
         }
+    // });
     </script>
 @endsection

@@ -694,6 +694,12 @@
                 }
             });
         });
+        
+        $(document).on('click','.removeFromCartView',function(e){
+            var key = $(this).attr('data-key');
+            e.preventDefault();
+            removeFromCart(key);
+        });
     $(document).on('click','.new-address',function(e){
         $('#new-address-modal').modal('show');
     });
