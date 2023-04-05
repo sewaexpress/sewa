@@ -73,54 +73,54 @@
 @endif
 
 @if((Auth::user()->user_type == 'admin' || in_array('5', json_decode(Auth::user()->staff->role->permissions))) && \App\BusinessSetting::where('type', 'vendor_system_activation')->first()->value == 1)
-    <div class="row">
-    <div class="col-md-4">
-        <div class="panel">
-            <div class="panel-body text-center dash-widget dash-widget-left">
-                <div class="dash-widget-vertical">
-                    <div class="rorate">{{__('SELLERS')}}</div>
+    {{-- <div class="row">
+        <div class="col-md-4">
+            <div class="panel">
+                <div class="panel-body text-center dash-widget dash-widget-left">
+                    <div class="dash-widget-vertical">
+                        <div class="rorate">{{__('SELLERS')}}</div>
+                    </div>
+                    <br>
+                    <p class="text-normal text-main">{{__('Total sellers')}}</p>
+                    <p class="text-semibold text-3x text-main">{{ \App\Seller::all()->count() }}</p>
+                    <br>
+                    <a href="{{ route('sellers.index') }}" class="btn-link">{{__('Manage Sellers')}} <i class="fa fa-long-arrow-right"></i></a>
+                    <br>
+                    <br>
                 </div>
-                <br>
-                <p class="text-normal text-main">{{__('Total sellers')}}</p>
-                <p class="text-semibold text-3x text-main">{{ \App\Seller::all()->count() }}</p>
-                <br>
-                <a href="{{ route('sellers.index') }}" class="btn-link">{{__('Manage Sellers')}} <i class="fa fa-long-arrow-right"></i></a>
-                <br>
-                <br>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="panel">
-            <div class="panel-body text-center dash-widget">
-                <br>
-                <p class="text-normal text-main">{{__('Total approved sellers')}}</p>
-                <p class="text-semibold text-3x text-main">{{ \App\Seller::where('verification_status', 1)->get()->count() }}</p>
-                <br>
-                <a href="{{ route('sellers.index') }}" class="btn-link">{{__('Manage Sellers')}} <i class="fa fa-long-arrow-right"></i></a>
-                <br>
-                <br>
+        <div class="col-md-4">
+            <div class="panel">
+                <div class="panel-body text-center dash-widget">
+                    <br>
+                    <p class="text-normal text-main">{{__('Total approved sellers')}}</p>
+                    <p class="text-semibold text-3x text-main">{{ \App\Seller::where('verification_status', 1)->get()->count() }}</p>
+                    <br>
+                    <a href="{{ route('sellers.index') }}" class="btn-link">{{__('Manage Sellers')}} <i class="fa fa-long-arrow-right"></i></a>
+                    <br>
+                    <br>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="panel">
-            <div class="panel-body text-center dash-widget">
-                <br>
-                <p class="text-normal text-main">{{__('Total pending sellers')}}</p>
-                <p class="text-semibold text-3x text-main">{{ \App\Seller::where('verification_status', 0)->count() }}</p>
-                <br>
-                <a href="{{ route('sellers.index') }}" class="btn-link">{{__('Manage Sellers')}} <i class="fa fa-long-arrow-right"></i></a>
-                <br>
-                <br>
+        <div class="col-md-4">
+            <div class="panel">
+                <div class="panel-body text-center dash-widget">
+                    <br>
+                    <p class="text-normal text-main">{{__('Total pending sellers')}}</p>
+                    <p class="text-semibold text-3x text-main">{{ \App\Seller::where('verification_status', 0)->count() }}</p>
+                    <br>
+                    <a href="{{ route('sellers.index') }}" class="btn-link">{{__('Manage Sellers')}} <i class="fa fa-long-arrow-right"></i></a>
+                    <br>
+                    <br>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </div> --}}
 @endif
 
 @if(Auth::user()->user_type == 'admin' || in_array('1', json_decode(Auth::user()->staff->role->permissions)))
-    <div class="row">
+    {{-- <div class="row">
     <div class="col-md-6">
         <div class="panel">
             <!--Panel heading-->
@@ -195,7 +195,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 @endif
 
 @if(Auth::user()->user_type == 'admin' || in_array('9', json_decode(Auth::user()->staff->role->permissions)))
