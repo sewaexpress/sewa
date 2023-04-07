@@ -72,6 +72,14 @@
     @if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
         <link type="text/css" href="{{ asset('frontend/css/active.rtl.css') }}" rel="stylesheet" media="all">
     @endif
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8CNX9CMZQE"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-8CNX9CMZQE');
+    </script>   
 
   <noscript><img height="1" width="1" style="display:none"
     src="https://www.facebook.com/tr?id=518595586902025&ev=PageView&noscript=1"
