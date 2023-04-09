@@ -793,7 +793,9 @@
     @endif
 
     <script>
-        $(document).ready(function() {
+        $(window).on('load', function() {
+
+        // $(document).ready(function() {
             $(".slider_feature").slick({
                 infinite: true,
                 autoplay: true,
