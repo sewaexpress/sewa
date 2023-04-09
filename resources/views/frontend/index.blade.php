@@ -183,7 +183,7 @@
                                                             @endphp
                                                             @if (isset($filepath))
                                                                 @if (file_exists(public_path($filepath)))
-                                                                    <img src="{{ asset($product->featured_img) }}"
+                                                                    <img src="{{ asset('uploads/No_Image.jpg') }}"
                                                                         alt="{{ $product->name }}"
                                                                         data-src="{{ asset($product->featured_img) }}"
                                                                         class="img-fluid pic-1">
@@ -348,7 +348,7 @@
 
                                                 @if (isset($filepath))
                                                     @if (file_exists(public_path($filepath)))
-                                                        <img src="{{ asset($product->featured_img) }}"
+                                                        <img src="{{ asset('uploads/No_Image.jpg') }}"
                                                             alt="{{ $product->name }}"
                                                             data-src="{{ asset($product->featured_img) }}"
                                                             class="img-fluid pic-1">
@@ -568,7 +568,7 @@
 
                                                             @if (isset($filepath))
                                                                 @if (file_exists(public_path($filepath)))
-                                                                    <img src="{{ asset($product->featured_img) }}"
+                                                                    <img src="{{ asset('uploads/No_Image.jpg') }}"
                                                                         alt="{{ $product->name }}"
                                                                         data-src="{{ asset($product->featured_img) }}"
                                                                         class="img-fluid pic-1">
