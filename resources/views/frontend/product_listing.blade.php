@@ -512,7 +512,7 @@
                                                             @if (file_exists($product->thumbnail_img))
                                                                 <img class="pic-1 img-fit lazyload"
                                                                     src="{{ asset('frontend/images/placeholder.jpg') }}"
-                                                                    data-src="{{ asset($product->thumbnail_img) }}"
+                                                                    data-lazy="{{ asset($product->thumbnail_img) }}"
                                                                     alt="{{ __($product->name) }}">
                                                             @else                                           
                                                                 @if (!empty($product->photos))
@@ -535,7 +535,7 @@
                                                             @if (!empty($product->photos))
                                                                 @if (count(json_decode($product->photos)) > 0)
                                                                     @if (file_exists(json_decode($product->photos)[0]))
-                                                                        <img class="pic-1 img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset(json_decode($product->photos)[0]) }}" alt="{{ __($product->name) }}">
+                                                                        <img class="pic-1 img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-lazy="{{ asset(json_decode($product->photos)[0]) }}" alt="{{ __($product->name) }}">
                                                                     @else
                                                                         <img class="pic-1 img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}"  alt="{{ __($product->name) }}">
                                                                     @endif
