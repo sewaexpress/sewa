@@ -1038,7 +1038,7 @@ td {
                                                                 @endphp
                                                                 @if (isset($filepath))
                                                                     @if (file_exists(public_path($filepath)))
-                                                                        <img src="{{ asset($related_product->featured_img) }}" alt="{{ $related_product->name }}" data-src="{{ asset($related_product->featured_img) }}" class="img-fluid pic-1">
+                                                                        <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $related_product->name }}" data-src="{{ asset($related_product->featured_img) }}" class="img-fluid pic-1 lazyload">
                                                                     @else
                                                                         <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $related_product->name }}" data-src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid pic-1">
                                                                     @endif

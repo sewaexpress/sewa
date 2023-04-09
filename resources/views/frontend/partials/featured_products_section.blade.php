@@ -24,7 +24,7 @@ $featured_count = \App\Product::where('published', 1)->where('featured', '1')->c
                                 <a class="btn_view" href="{{route('products')}}"> View all featured products<span class="pl-2 "><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
                                 @endif
 
-                                </header>
+                                {{-- </header> --}}
                             </div>
                         </div>
                     </div>
