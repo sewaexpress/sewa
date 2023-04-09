@@ -45,29 +45,29 @@
     <link type="image/x-icon" href="{{ asset(\App\GeneralSetting::first()->favicon) }}" rel="shortcut icon" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/bootstrap-4.3.1/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/css/font-awesome.min.css') }}" type="text/css" media="none" onload="if(media!='all')media='all'">
-    <link rel="stylesheet" href="{{ asset('frontend/assets/slick/slick.css') }}" />
+    <link rel="stylesheet" href="{{ asset('frontend/assets/slick/slick.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/slick/slick-theme.css') }}" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Readex+Pro:wght@200&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/responsive.css') }}" />
-    <link rel="stylesheet" href="{{ asset('frontend/css/dashboard.css') }}" />
-    <link rel="stylesheet" href="{{ asset('frontend/css/dashboard-responsive.css') }}" />
-    <link rel="stylesheet" href="{{ asset('frontend/css/dashboard-two.css') }}" />
+    <link rel="stylesheet" href="{{ asset('frontend/css/dashboard.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('frontend/css/dashboard-responsive.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('frontend/css/dashboard-two.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/style2.css') }}" />
-    <link rel="stylesheet" href="{{ asset('frontend/assets/countdown/css/flipclock.css') }}" />
-    <link rel="stylesheet" href="{{ asset('frontend/assets/swiper/drift-basic.css') }}" />
+    <link rel="stylesheet" href="{{ asset('frontend/assets/countdown/css/flipclock.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('frontend/assets/swiper/drift-basic.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/swiper/swiper.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/css/line-awesome.min.css') }}" type="text/css" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('frontend/css/bootstrap-tagsinput.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('frontend/css/jodit.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('frontend/css/sweetalert2.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-    <link type="text/css" href="{{ asset('frontend/css/xzoom.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-    <link type="text/css" href="{{ asset('frontend/css/jssocials.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-    <link type="text/css" href="{{ asset('frontend/css/jssocials-theme-flat.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+    <link type="text/css" href="{{ asset('frontend/css/xzoom.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+    <link type="text/css" href="{{ asset('frontend/css/jssocials.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+    <link type="text/css" href="{{ asset('frontend/css/jssocials-theme-flat.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('frontend/css/intlTelInput.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('css/spectrum.css')}}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-    <link type="text/css" href="{{ asset('frontend/css/active-shop.css') }}" rel="stylesheet" media="all">
-    <link type="text/css" href="{{ asset('frontend/css/main.css') }}" rel="stylesheet" media="all">
+    <link type="text/css" href="{{ asset('frontend/css/active-shop.min.css') }}" rel="stylesheet" media="all">
+    <link type="text/css" href="{{ asset('frontend/css/main.min.css') }}" rel="stylesheet" media="all">
 
     @if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
         <link type="text/css" href="{{ asset('frontend/css/active.rtl.css') }}" rel="stylesheet" media="all">
