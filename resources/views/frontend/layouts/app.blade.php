@@ -65,7 +65,7 @@
     <link type="text/css" href="{{ asset('frontend/css/jssocials.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('frontend/css/jssocials-theme-flat.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('frontend/css/intlTelInput.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-    <link type="text/css" href="{{ asset('css/spectrum.css')}}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+    <link type="text/css" href="{{ asset('css/spectrum.min.css')}}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('frontend/css/active-shop.min.css') }}" rel="stylesheet" media="all">
     <link type="text/css" href="{{ asset('frontend/css/main.min.css') }}" rel="stylesheet" media="all">
 
@@ -594,10 +594,10 @@
     <script src="{{ asset('frontend/assets/swiper/drift.min.js') }}"></script>
 
     <script src="{{ asset('frontend/assets/swiper/swiper.min.js') }}"></script>
-    <script src="{{ asset('frontend/assets/js/main.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/main.min.js') }}"></script>
 
 
-    <script src="{{ asset('frontend/assets/js/secondary.js') }}"></script>
+    <script src="{{ asset('frontend/assets/js/secondary.min.js') }}"></script>
 
 
 
@@ -630,8 +630,8 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App JS -->
-    <script src="{{ asset('frontend/js/active-shop.js') }}"></script>
-    <script src="{{ asset('frontend/js/main.js') }}"></script>
+    <script src="{{ asset('frontend/js/active-shop.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/main.min.js') }}"></script>
 
     {{-- script-new js --}}
     {{-- <script src="{{ asset('frontend/js/script-new.js') }}"></script> --}}
