@@ -43,7 +43,7 @@
     @endif
 
     <link type="image/x-icon" href="{{ asset(\App\GeneralSetting::first()->favicon) }}" rel="shortcut icon" />
-    <link rel="stylesheet" href="{{ asset('frontend/assets/bootstrap-4.3.1/css/bootstrap.min.css') }}" />
+    {{-- <link rel="stylesheet" href="{{ asset('frontend/assets/bootstrap-4.3.1/css/bootstrap.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/css/font-awesome.min.css') }}" type="text/css" media="none" onload="if(media!='all')media='all'">
     <link rel="stylesheet" href="{{ asset('frontend/assets/slick/slick.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/slick/slick-theme.css') }}" />
@@ -67,7 +67,7 @@
     <link type="text/css" href="{{ asset('frontend/css/intlTelInput.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('css/spectrum.min.css')}}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
     <link type="text/css" href="{{ asset('frontend/css/active-shop.min.css') }}" rel="stylesheet" media="all">
-    <link type="text/css" href="{{ asset('frontend/css/main.min.css') }}" rel="stylesheet" media="all">
+    <link type="text/css" href="{{ asset('frontend/css/main.min.css') }}" rel="stylesheet" media="all"> --}}
 
     @if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
         <link type="text/css" href="{{ asset('frontend/css/active.rtl.css') }}" rel="stylesheet" media="all">
