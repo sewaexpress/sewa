@@ -186,7 +186,7 @@
                                                                     <img src="{{ asset('uploads/No_Image.jpg') }}"
                                                                         alt="{{ $product->name }}"
                                                                         data-src="{{ asset($product->featured_img) }}"
-                                                                        class="img-fluid pic-1">
+                                                                        class="img-fluid pic-1 lazyload">
                                                                 @else
                                                                     <img src="{{ asset('uploads/No_Image.jpg') }}"
                                                                         alt="{{ $product->name }}"
@@ -288,8 +288,8 @@
                                 }
                                 
                             @endphp
-                            <img src="{{ asset($banner) }}"
-                                style="width: 100%;object-fit:contain;min-height: 100%;max-height: 100%;" alt="">
+                            <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($banner) }}"
+                                style="width: 100%;object-fit:contain;min-height: 100%;max-height: 100%;" alt="" class="lazyload">
                         </div>
                     </div>
         </section>
@@ -351,7 +351,7 @@
                                                         <img src="{{ asset('uploads/No_Image.jpg') }}"
                                                             alt="{{ $product->name }}"
                                                             data-src="{{ asset($product->featured_img) }}"
-                                                            class="img-fluid pic-1">
+                                                            class="img-fluid pic-1 lazyload">
                                                     @else
                                                         <img src="{{ asset('uploads/No_Image.jpg') }}"
                                                             alt="{{ $product->name }}"
@@ -490,15 +490,15 @@
                                         <div class="item">
                                             @if (!empty($brand->logo))
                                                 @if (file_exists($brand->logo))
-                                                    <img src="{{ asset($brand->logo) }}" alt="{{ $brand->name }}"
-                                                        class="img-fluid img-fit lazyloaded">
+                                                    <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($brand->logo) }}" alt="{{ $brand->name }}"
+                                                        class="img-fluid img-fit lazyload">
                                                 @else
                                                     <img src="{{ asset('frontend/images/placeholder.jpg') }}"
-                                                        alt="{{ $brand->name }}" class="img-fluid img-fit lazyloaded">
+                                                        alt="{{ $brand->name }}" class="img-fluid img-fit lazyload">
                                                 @endif
                                             @else
                                                 <img src="{{ asset('frontend/images/placeholder.jpg') }}"
-                                                    alt="{{ $brand->name }}" class="img-fluid img-fit lazyloaded">
+                                                    alt="{{ $brand->name }}" class="img-fluid img-fit lazyload">
                                             @endif
 
                                         </div>
@@ -696,7 +696,7 @@
                         <a href="{{ $banner->url }}">
                             {{-- two_banner_img --}}
                             <div class="">
-                                <img src="{{ asset($banner->photo) }}" class="img-fluid banner-img"
+                                <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($banner->photo) }}" class="img-fluid banner-img lazyload"
                                     alt="{{ env('APP_NAME') }} promo">
                             </div>
                         </a>
