@@ -855,6 +855,7 @@
                     // console.log(data);
                     $('#section_featured').html(data);
                     $(".featured-section").slick({
+                        lazyLoad: 'ondemand',
                         infinite: true,
                         autoplay: true,
                         slidesToShow: 5,

@@ -680,7 +680,15 @@
     @endforeach
     <script>
         $(document).ready(function () {
-            
+        function loadLazyImages() {
+            var lazyImages = document.querySelectorAll('img[data-lazy]');
+            lazyImages.forEach(function(lazyImage) {
+                lazyImage.src = lazyImage.dataset.lazy;
+                lazyImage.removeAttribute('data-lazy');
+            });
+        }
+
+        window.addEventListener('load', loadLazyImages);
         $('.delivery').select2();
         $(document).on('click','.delete-address',function(e){
             e.preventDefault();
