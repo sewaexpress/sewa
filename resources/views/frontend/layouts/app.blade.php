@@ -685,6 +685,7 @@
             lazyImages.forEach(function(lazyImage) {
                 lazyImage.src = lazyImage.dataset.lazy;
                 lazyImage.removeAttribute('data-lazy');
+                lazyImage.addClass('lazyLoaded');
             });
         }
 
