@@ -960,52 +960,52 @@
                 },
                 function(data) {
                     $('#section_home_categories').html(data);
-                    $("#section_home_categories").slick({
-                        infinite: true,
-                        autoplay: true,
-                        slidesToShow: 5,
-                        slidesToScroll: 1,
-                        arrows: true,
-                        dots: false,
-                        responsive: [{
-                                breakpoint: 1400,
-                                settings: {
-                                    slidesToShow: 5,
-                                    slidesToScroll: 1,
-                                },
-                            },
-                            {
-                                breakpoint: 1080,
-                                settings: {
-                                    slidesToShow: 5,
-                                    slidesToScroll: 1,
-                                },
-                            },
-                            {
-                                breakpoint: 780,
-                                settings: {
-                                    slidesToShow: 2,
-                                    slidesToScroll: 1,
-                                },
-                            },
-                            {
-                                breakpoint: 600,
-                                settings: {
-                                    slidesToShow: 1,
-                                    slidesToScroll: 1,
-                                    dots: true,
-                                },
-                            },
-                            {
-                                breakpoint: 480,
-                                settings: {
-                                    slidesToShow: 1,
-                                    slidesToScroll: 1,
-                                    dots: true,
-                                },
-                            },
-                        ],
-                    });
+                    // $("#section_home_categories").slick({
+                    //     infinite: true,
+                    //     autoplay: true,
+                    //     slidesToShow: 5,
+                    //     slidesToScroll: 1,
+                    //     arrows: true,
+                    //     dots: false,
+                    //     responsive: [{
+                    //             breakpoint: 1400,
+                    //             settings: {
+                    //                 slidesToShow: 5,
+                    //                 slidesToScroll: 1,
+                    //             },
+                    //         },
+                    //         {
+                    //             breakpoint: 1080,
+                    //             settings: {
+                    //                 slidesToShow: 5,
+                    //                 slidesToScroll: 1,
+                    //             },
+                    //         },
+                    //         {
+                    //             breakpoint: 780,
+                    //             settings: {
+                    //                 slidesToShow: 2,
+                    //                 slidesToScroll: 1,
+                    //             },
+                    //         },
+                    //         {
+                    //             breakpoint: 600,
+                    //             settings: {
+                    //                 slidesToShow: 1,
+                    //                 slidesToScroll: 1,
+                    //                 dots: true,
+                    //             },
+                    //         },
+                    //         {
+                    //             breakpoint: 480,
+                    //             settings: {
+                    //                 slidesToShow: 1,
+                    //                 slidesToScroll: 1,
+                    //                 dots: true,
+                    //             },
+                    //         },
+                    //     ],
+                    // });
 
                 });
             $.post('{{ route('home.section.best_sellers') }}', {
