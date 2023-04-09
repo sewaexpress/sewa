@@ -1,6 +1,6 @@
 @foreach (\App\HomeCategory::where('status', 1)->get() as $key => $homeCategory)
    @if ($homeCategory->category != null)
-      @if(\App\Product::where('published', 1)->where('category_id', $homeCategory->category->id)->where('current_stock','>',0)->count()>0)
+      @if(\App\Product::where('published', 1)->where('category_id', $homeCategory->category_id)->where('current_stock','>',0)->count()>0)
          <section id="product-listing-wrapper" class="product_listing">
             <div class="container">
                <div class="product-lists">
@@ -14,7 +14,7 @@
                      </div>
                      <div class="col-xl-12">
                         <div class="slider_feature33">
-                           @foreach (filter_products(\App\Product::where('published', 1)->where('category_id', $homeCategory->category->id))->latest()->limit(15)->get() as $key => $product)
+                           @foreach (filter_products(\App\Product::where('published', 1)->where('category_id', $homeCategory->category_id))->latest()->limit(15)->get() as $key => $product)
                               <div class="grid-item">
                                  <div class="product-grid-item">
                                     <div class="product-grid-image">
