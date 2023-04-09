@@ -658,7 +658,7 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-        // dd($request);
+        dd($request);
 
         $query = $request->q;
         // Session::forget('key');
