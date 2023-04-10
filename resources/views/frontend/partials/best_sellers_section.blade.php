@@ -91,9 +91,9 @@
         foreach (\App\Seller::where('verification_status', 1)->get() as $key => $seller) {
             if($seller->user != null && $seller->user->shop != null){
                 $total_sale = 0;
-                foreach ($seller->user->products as $key => $product) {
-                    $total_sale += $product->num_of_sale;
-                }
+                // foreach ($seller->user->products as $key => $product) {
+                //     $total_sale += $product->num_of_sale;
+                // }
                 $array[$seller->id] = $total_sale;
             }
         }
@@ -131,10 +131,10 @@
                                     $seller = \App\Seller::find($key);
                                     $total = 0;
                                     $rating = 0;
-                                    foreach ($seller->user->products as $key => $seller_product) {
-                                        $total += $seller_product->reviews->count();
-                                        $rating += $seller_product->reviews->sum('rating');
-                                    }
+                                    // foreach ($seller->user->products as $key => $seller_product) {
+                                    //     $total += $seller_product->reviews->count();
+                                    //     $rating += $seller_product->reviews->sum('rating');
+                                    // }
                                 @endphp
                                 <div class="product-grid-item mb-3">
                                     <div class="product-grid-image mb-3" style="padding: 10px">
@@ -161,7 +161,7 @@
                                         </a>
                                             
                                     </div>
-                                    <div class="d-flex justify-content-center">
+                                    {{-- <div class="d-flex justify-content-center">
                                         <ul class="d-flex">
                                             @if ($total > 0)
                                                 {{ renderStarRating($rating/$total) }}
@@ -169,10 +169,10 @@
                                                 {{ renderStarRating(0) }}
                                             @endif
                                         </ul>
-                                    </div>
+                                    </div> --}}
                                 </div>
                         @endforeach
-                    </20>
+                    </div>
                 </div>
             </div>
         </div>

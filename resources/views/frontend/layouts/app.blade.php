@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-@if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
+{{-- @if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
 <html dir="rtl" lang="en">
-@else
+@else --}}
 <html lang="en">
-@endif
+{{-- @endif --}}
 <head>
 
     @php
