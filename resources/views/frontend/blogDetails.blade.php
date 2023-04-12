@@ -204,10 +204,10 @@
                             @if(file_exists($blog->photo))
                                 <img src="{{ asset($blog->photo) }}" class="img-fluid" alt=""> <span class="name">
                             @else
-                                <img src="{{ asset('frontend/images/placeholder.jpg') }}" class="img-fluid" alt=""> <span class="name">
+                                <img src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid" alt=""> <span class="name">
                             @endif
                         @else
-                            <img src="{{ asset('frontend/images/placeholder.jpg') }}" class="img-fluid" alt=""> <span class="name">
+                            <img src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid" alt=""> <span class="name">
                         @endif
                     </div>
                 </div>
@@ -257,10 +257,10 @@
                                         @if(file_exists($item->photo))
                                             <img src="{{ asset($item->photo) }}" class="img-fluid" alt=""> <span class="name">
                                         @else
-                                            <img src="{{ asset('frontend/images/placeholder.jpg') }}" class="img-fluid" alt=""> <span class="name">
+                                            <img src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid" alt=""> <span class="name">
                                         @endif
                                     @else
-                                        <img src="{{ asset('frontend/images/placeholder.jpg') }}" class="img-fluid" alt=""> <span class="name">
+                                        <img src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid" alt=""> <span class="name">
                                     @endif                                
                                 </div>
                                 <div class="post-content w-75">

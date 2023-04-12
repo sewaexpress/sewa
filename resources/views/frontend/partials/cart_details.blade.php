@@ -37,10 +37,10 @@
                                                     @if (file_exists($product->featured_img))
                                                         <img loading="lazy"  src="{{ asset($product->featured_img) }}" class="img-fluid">
                                                     @else
-                                                        <img loading="lazy"  src="{{ asset('frontend/images/placeholder.jpg') }}" class="img-fluid">    
+                                                        <img loading="lazy"  src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid">    
                                                     @endif
                                                 @else
-                                                    <img loading="lazy"  src="{{ asset('frontend/images/placeholder.jpg') }}" class="img-fluid">
+                                                    <img loading="lazy"  src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid">
                                                 @endif
                                             </a>
                                         </td>

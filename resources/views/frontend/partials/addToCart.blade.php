@@ -5,8 +5,8 @@
             <div class="product-gal sticky-top d-flex flex-row-reverse">
                 @if(is_array(json_decode($product->photos)) && count(json_decode($product->photos)) > 0)
                     <div class="product-gal-img">
-                        <img src="{{ asset('frontend/images/placeholder.jpg') }}" class="xzoom img-fluid lazyload"
-                             src="{{ asset('frontend/images/placeholder.jpg') }}"
+                        <img src="{{ asset('uploads/No_Image.jpg') }}" class="xzoom img-fluid lazyload"
+                             src="{{ asset('uploads/No_Image.jpg') }}"
                              data-src="{{ asset(json_decode($product->photos)[0]) }}"
                              xoriginal="{{ asset(json_decode($product->photos)[0]) }}"/>
                     </div>
@@ -14,9 +14,9 @@
                         <div class="xzoom-thumbs">
                             @foreach (json_decode($product->photos) as $key => $photo)
                                 <a href="{{ asset($photo) }}">
-                                    <img src="{{ asset('frontend/images/placeholder.jpg') }}"
+                                    <img src="{{ asset('uploads/No_Image.jpg') }}"
                                          class="xzoom-gallery lazyload"
-                                         src="{{ asset('frontend/images/placeholder.jpg') }}" width="80"
+                                         src="{{ asset('uploads/No_Image.jpg') }}" width="80"
                                          data-src="{{ asset($photo) }}"
                                          @if($key == 0) xpreview="{{ asset($photo) }}" @endif>
                                 </a>

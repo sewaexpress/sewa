@@ -210,7 +210,7 @@
                                 <div class="card-body p-0">
                                     <div class="card-image">
                                         <a href="{{ route('customer.product', $product->slug) }}" class="d-block">
-                                            <img class="img-fit lazyload mx-auto" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->thumbnail_img) }}" alt="{{ __($product->name) }}">
+                                            <img class="img-fit lazyload mx-auto" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($product->thumbnail_img) }}" alt="{{ __($product->name) }}">
                                         </a>
                                         </a>
                                     </div>

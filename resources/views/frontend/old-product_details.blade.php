@@ -46,13 +46,13 @@
                         <div class="product-gal sticky-top d-flex flex-row-reverse">
                             @if(is_array(json_decode($detailedProduct->photos)) && count(json_decode($detailedProduct->photos)) > 0)
                                 <div class="product-gal-img">
-                                    <img src="{{ asset('frontend/images/placeholder.jpg') }}" class="xzoom img-fluid lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset(json_decode($detailedProduct->photos)[0]) }}" xoriginal="{{ asset(json_decode($detailedProduct->photos)[0]) }}" />
+                                    <img src="{{ asset('uploads/No_Image.jpg') }}" class="xzoom img-fluid lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset(json_decode($detailedProduct->photos)[0]) }}" xoriginal="{{ asset(json_decode($detailedProduct->photos)[0]) }}" />
                                 </div>
                                 <div class="product-gal-thumb">
                                     <div class="xzoom-thumbs">
                                         @foreach (json_decode($detailedProduct->photos) as $key => $photo)
                                             <a href="{{ asset($photo) }}">
-                                                <img src="{{ asset('frontend/images/placeholder.jpg') }}" class="xzoom-gallery lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" width="80" data-src="{{ asset($photo) }}"  @if($key == 0) xpreview="{{ asset($photo) }}" @endif>
+                                                <img src="{{ asset('uploads/No_Image.jpg') }}" class="xzoom-gallery lazyload" src="{{ asset('uploads/No_Image.jpg') }}" width="80" data-src="{{ asset($photo) }}"  @if($key == 0) xpreview="{{ asset($photo) }}" @endif>
                                             </a>
                                         @endforeach
                                     </div>
@@ -366,19 +366,19 @@
                                 <div class="col-10">
                                     <ul class="inline-links">
                                         <!--<li>-->
-                                        <!--    <img src="{{ asset('frontend/images/placeholder.jpg') }}" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset('frontend/images/icons/cards/visa.png') }}" width="30" class="lazyload">-->
+                                        <!--    <img src="{{ asset('uploads/No_Image.jpg') }}" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset('frontend/images/icons/cards/visa.png') }}" width="30" class="lazyload">-->
                                         <!--</li>-->
                                         <!--<li>-->
-                                        <!--    <img src="{{ asset('frontend/images/placeholder.jpg') }}" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset('frontend/images/icons/cards/mastercard.png') }}" width="30" class="lazyload">-->
+                                        <!--    <img src="{{ asset('uploads/No_Image.jpg') }}" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset('frontend/images/icons/cards/mastercard.png') }}" width="30" class="lazyload">-->
                                         <!--</li>-->
                                         <!--<li>-->
-                                        <!--    <img src="{{ asset('frontend/images/placeholder.jpg') }}" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset('frontend/images/icons/cards/maestro.png') }}" width="30" class="lazyload">-->
+                                        <!--    <img src="{{ asset('uploads/No_Image.jpg') }}" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset('frontend/images/icons/cards/maestro.png') }}" width="30" class="lazyload">-->
                                         <!--</li>-->
                                         <!--<li>-->
-                                        <!--    <img src="{{ asset('frontend/images/placeholder.jpg') }}" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset('frontend/images/icons/cards/paypal.png') }}" width="30" class="lazyload">-->
+                                        <!--    <img src="{{ asset('uploads/No_Image.jpg') }}" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset('frontend/images/icons/cards/paypal.png') }}" width="30" class="lazyload">-->
                                         <!--</li>-->
                                         <!--<li>-->
-                                            <img src="{{ asset('frontend/images/placeholder.jpg') }}" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset('frontend/images/icons/cards/cod.png') }}" width="30" class="lazyload">
+                                            <img src="{{ asset('uploads/No_Image.jpg') }}" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset('frontend/images/icons/cards/cod.png') }}" width="30" class="lazyload">
                                         </li>
                                     </ul>
                                 </div>
@@ -503,7 +503,7 @@
                                 <div class="clearfix">
                                     <div class="product-image float-left">
                                         <a href="{{ route('product', $top_product->slug) }}">
-                                            <img class="img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($top_product->thumbnail_img) }}" alt="{{ __($top_product->name) }}">
+                                            <img class="img-fit lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($top_product->thumbnail_img) }}" alt="{{ __($top_product->name) }}">
                                         </a>
                                     </div>
                                     <div class="product-details float-left">
@@ -590,7 +590,7 @@
                                         @foreach ($detailedProduct->reviews as $key => $review)
                                             <div class="block block-comment">
                                                 <div class="block-image">
-                                                    <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($review->user->avatar_original) }}" class="rounded-circle lazyload">
+                                                    <img src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($review->user->avatar_original) }}" class="rounded-circle lazyload">
                                                 </div>
                                                 <div class="block-body">
                                                     <div class="block-body-inner">
@@ -716,7 +716,7 @@
                                         <div class="col-5">
                                             <div class="position-relative overflow-hidden h-100">
                                                 <a href="{{ route('product', $related_product->slug) }}" class="d-block product-image h-100 text-center">
-                                                    <img class="img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($related_product->thumbnail_img) }}" alt="{{ __($related_product->name) }}">
+                                                    <img class="img-fit lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($related_product->thumbnail_img) }}" alt="{{ __($related_product->name) }}">
                                                 </a>
                                             </div>
                                         </div>

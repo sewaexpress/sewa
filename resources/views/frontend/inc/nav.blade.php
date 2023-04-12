@@ -189,14 +189,14 @@
                      @endphp
                      <a href="" class="dropdown-toggle top-bar-item" data-toggle="dropdown" style="color:white">
                         {{$locale}}
-                         {{-- <img src="{{ asset('frontend/images/placeholder.jpg') }}" height="11" data-src="{{ asset('frontend/images/icons/flags/'.$locale.'.png') }}" class="flag lazyload text-light" alt="{{ \App\Language::where('code', $locale)->first()->name }}" height="11"> --}}
+                         {{-- <img src="{{ asset('uploads/No_Image.jpg') }}" height="11" data-src="{{ asset('frontend/images/icons/flags/'.$locale.'.png') }}" class="flag lazyload text-light" alt="{{ \App\Language::where('code', $locale)->first()->name }}" height="11"> --}}
                          {{-- <span class="language">{{ \App\Language::where('code', $locale)->first()->name }}</span> --}}
                      </a>
                      <ul class="dropdown-menu">
                          @foreach (\App\Language::all() as $key => $language)
                              <li class="dropdown-item text-light @if($locale == $language) active @endif">
                                  <a href="#" data-flag="{{ $language->code }}">
-                                    {{-- <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset('frontend/images/icons/flags/'.$language->code.'.png') }}" class="flag lazyload" alt="{{ $language->name }}" height="11"> --}}
+                                    {{-- <img src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset('frontend/images/icons/flags/'.$language->code.'.png') }}" class="flag lazyload" alt="{{ $language->name }}" height="11"> --}}
                                     <span class="language ml-1">{{ $language->name }}</span></a>
                              </li>
                          @endforeach
@@ -391,7 +391,7 @@
                                                                   @if (file_exists($product->featured_img)) 
                                                                      <img src="{{ asset($product->featured_img) }}" data-src="{{ asset($product->featured_img) }}" alt="{{ __($product->name) }}">
                                                                   @else
-                                                                     <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset('frontend/images/placeholder.jpg') }}" alt="{{ __($product->name) }}">
+                                                                     <img src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ __($product->name) }}">
                                                                   @endif
                                                                </a>
                                                             </div>
@@ -517,13 +517,13 @@
                                 @if(file_exists($category->icon))
                                     <img src="{{ $category->icon }}" class="img-fluid" alt=""> <span class="name">
                                 @else
-                                    <img src="{{ asset('frontend/images/placeholder.jpg') }}" class="img-fluid" alt=""> <span class="name">
+                                    <img src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid" alt=""> <span class="name">
                                 @endif
                                 
                                 {{-- <img class="cat-image lazyload" src="{{ $category->icon }}" data-src="{{ asset($category->icon) }}" width="30" alt="{{ __($category->name) }}"> --}}
                             @else
-                            <img src="{{ asset('frontend/images/placeholder.jpg') }}" class="img-fluid" alt=""> <span class="name">
-                                {{-- <img class="cat-image" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->icon) }}" width="30" alt="{{ __($category->name) }}"> --}}
+                            <img src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid" alt=""> <span class="name">
+                                {{-- <img class="cat-image" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($category->icon) }}" width="30" alt="{{ __($category->name) }}"> --}}
 
                             @endif
                            
@@ -581,7 +581,7 @@
                     <li class="dropdown-submenu">
                         <a href="{{ route('categories.all') }}" class="dropdown-item category_icon_img d-flex justify-content-between">
                             <div class="category_icon_img">
-                                {{-- <img src="{{ asset('frontend/images/placeholder.jpg') }}" class="img-fluid" alt=""> <span class="name"> --}}
+                                {{-- <img src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid" alt=""> <span class="name"> --}}
                                     <i class="fa fa-category" aria-hidden="true"></i>
                                     View All
                                </span>

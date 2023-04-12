@@ -26,10 +26,10 @@
                                              @if (file_exists(public_path($filepath)))
                                                 <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $product->name }}" data-src="{{ asset($product->featured_img) }}" class="img-fluid pic-1 lazyload">
                                              @else
-                                                <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $product->name }}" data-src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid pic-1">
+                                                <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $product->name }}" class="img-fluid pic-1">
                                              @endif
                                        @else
-                                             <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $product->name }}" data-src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid pic-1">
+                                             <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $product->name }}" class="img-fluid pic-1">
                                        @endif
                                        </a>
                                     </div>

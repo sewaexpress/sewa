@@ -15,12 +15,12 @@
                                 }
                             @endphp
                             <a href="" class="dropdown-toggle top-bar-item" data-toggle="dropdown">
-                                <img src="{{ asset('frontend/images/placeholder.jpg') }}" height="11" data-src="{{ asset('frontend/images/icons/flags/'.$locale.'.png') }}" class="flag lazyload" alt="{{ \App\Language::where('code', $locale)->first()->name }}" height="11"><span class="language">{{ \App\Language::where('code', $locale)->first()->name }}</span>
+                                <img src="{{ asset('uploads/No_Image.jpg') }}" height="11" data-src="{{ asset('frontend/images/icons/flags/'.$locale.'.png') }}" class="flag lazyload" alt="{{ \App\Language::where('code', $locale)->first()->name }}" height="11"><span class="language">{{ \App\Language::where('code', $locale)->first()->name }}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 @foreach (\App\Language::all() as $key => $language)
                                     <li class="dropdown-item @if($locale == $language) active @endif">
-                                        <a href="#" data-flag="{{ $language->code }}"><img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset('frontend/images/icons/flags/'.$language->code.'.png') }}" class="flag lazyload" alt="{{ $language->name }}" height="11"><span class="language">{{ $language->name }}</span></a>
+                                        <a href="#" data-flag="{{ $language->code }}"><img src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset('frontend/images/icons/flags/'.$language->code.'.png') }}" class="flag lazyload" alt="{{ $language->name }}" height="11"><span class="language">{{ $language->name }}</span></a>
                                     </li>
                                 @endforeach
                             </ul>
@@ -380,7 +380,7 @@
                         @foreach (\App\Category::all() as $key => $category)
                             <li>
                             <a href="{{ route('products.category', $category->slug) }}" class="text-truncate">
-                                <img class="cat-image lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->icon) }}" width="13" alt="{{ __($category->name) }}">
+                                <img class="cat-image lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($category->icon) }}" width="13" alt="{{ __($category->name) }}">
                                 <span>{{ __($category->name) }}</span>
                             </a>
                         </li>
@@ -541,7 +541,7 @@
                                                                     <div class="d-flex align-items-center">
                                                                         <div class="dc-image">
                                                                             <a href="{{ route('product', $product->slug) }}">
-                                                                                <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->thumbnail_img) }}" class="img-fluid lazyload" alt="{{ __($product->name) }}">
+                                                                                <img src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($product->thumbnail_img) }}" class="img-fluid lazyload" alt="{{ __($product->name) }}">
                                                                             </a>
                                                                         </div>
                                                                         <div class="dc-content">
@@ -620,7 +620,7 @@
                                 @endphp
                                 <li class="category-nav-element" data-id="{{ $category->id }}">
                                     <a href="{{ route('products.category', $category->slug) }}">
-                                        <img class="cat-image lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->icon) }}" width="30" alt="{{ __($category->name) }}">
+                                        <img class="cat-image lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($category->icon) }}" width="30" alt="{{ __($category->name) }}">
                                         <span class="cat-name">{{ __($category->name) }}</span>
                                     </a>
                                     @if(count($category->subcategories)>0)

@@ -46,7 +46,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="d-flex">
-                        <img height="70" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($shop->logo) }}" alt="Shop Logo">
+                        <img height="70" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($shop->logo) }}" alt="Shop Logo">
                         <div class="pl-4">
                             <h3 class="strong-700 heading-4 mb-0">{{ $shop->name }}
                                 @if ($shop->user->seller->verification_status == 1)

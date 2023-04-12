@@ -205,7 +205,7 @@
                                         <div class="product-box-2 bg-white alt-box my-md-2">
                                             <div class="position-relative overflow-hidden">
                                                 <a href="{{ route('customer.product', $product->slug) }}" class="d-block product-image h-100 text-center" tabindex="0">
-                                                    <img class="img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->thumbnail_img) }}" alt="{{ __($product->name . '-' . $product->unit_price ) }}">
+                                                    <img class="img-fit lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($product->thumbnail_img) }}" alt="{{ __($product->name . '-' . $product->unit_price ) }}">
                                                 </a>
                                             </div>
                                             <div class="p-md-3 p-2">

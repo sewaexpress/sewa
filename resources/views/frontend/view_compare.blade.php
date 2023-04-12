@@ -111,7 +111,7 @@
                                                             @endif
                                                         @endif
 
-                                                        {{-- @else <img class="pic-1 img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}"  alt="{{ __($product->name) }}"> --}}
+                                                        {{-- @else <img class="pic-1 img-fit lazyload" src="{{ asset('uploads/No_Image.jpg') }}"  alt="{{ __($product->name) }}"> --}}
                                                         {{-- @endif --}}
                                                     {{-- @else                                                        
                                                         @if (!empty($product->photos))
@@ -122,12 +122,12 @@
                                                                     <img class="pic-1 img-fit lazyload" src="{{ asset('uploads/No_Image.jpg') }}"  alt="{{ __($product->name) }}">
                                                                 @endif
                                                             @else
-                                                                <img class="pic-1 img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}"  alt="{{ __($product->name) }}">
+                                                                <img class="pic-1 img-fit lazyload" src="{{ asset('uploads/No_Image.jpg') }}"  alt="{{ __($product->name) }}">
                                                             @endif
                                                         @else
-                                                            <img class="pic-1 img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}"  alt="{{ __($product->name) }}">
+                                                            <img class="pic-1 img-fit lazyload" src="{{ asset('uploads/No_Image.jpg') }}"  alt="{{ __($product->name) }}">
                                                         @endif
-                                                        <img class="pic-1 img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" alt="{{ __($product->name) }}">
+                                                        <img class="pic-1 img-fit lazyload" src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ __($product->name) }}">
                                                     @endif --}}
 
                                                         {{-- @php

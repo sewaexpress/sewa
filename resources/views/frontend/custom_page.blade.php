@@ -118,7 +118,7 @@
                         <div class="product-box-2 bg-white alt-box my-2">
                             <div class="position-relative overflow-hidden">
                                 <a href="{{ route('product', $product->slug) }}" class="d-block product-image h-100 text-center">
-                                    <img class="img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset(json_decode($product->photos)[0]) }}" alt="{{ __($product->name) }}">
+                                    <img class="img-fit lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset(json_decode($product->photos)[0]) }}" alt="{{ __($product->name) }}">
                                 </a>
                                 <div class="product-btns clearfix">
                                     <button class="btn add-wishlist" title="Add to Wishlist" onclick="addToWishList({{ $product->id }})" tabindex="0">
@@ -190,7 +190,7 @@
                         <div class="product-box-2 bg-white alt-box my-2">
                             <div class="position-relative overflow-hidden">
                                 <a href="{{ route('product', $product->slug) }}" class="d-block product-image h-100 text-center">
-                                    <img class="img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset(json_decode($product->photos)[0]) }}" alt="{{ __($product->name) }}">
+                                    <img class="img-fit lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset(json_decode($product->photos)[0]) }}" alt="{{ __($product->name) }}">
                                 </a>
                                 <div class="product-btns clearfix">
                                     <button class="btn add-wishlist" title="Add to Wishlist" onclick="addToWishList({{ $product->id }})" tabindex="0">
@@ -261,7 +261,7 @@
                         <div class="product-box-2 bg-white alt-box my-2">
                             <div class="position-relative overflow-hidden">
                                 <a href="{{ route('product', $product->slug) }}" class="d-block product-image h-100 text-center">
-                                    <img class="img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset(json_decode($product->photos)[0]) }}" alt="{{ __($product->name) }}">
+                                    <img class="img-fit lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset(json_decode($product->photos)[0]) }}" alt="{{ __($product->name) }}">
                                 </a>
                                 <div class="product-btns clearfix">
                                     <button class="btn add-wishlist" title="Add to Wishlist" onclick="addToWishList({{ $product->id }})" tabindex="0">

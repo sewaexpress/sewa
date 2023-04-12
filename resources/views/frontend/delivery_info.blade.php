@@ -168,12 +168,12 @@
                                                    </a>
                                                 @else
                                                    <a href="{{ route('product', \App\Product::find($id)->slug) }}" target="_blank">
-                                                      <img loading="lazy" src="{{ asset('frontend/images/placeholder.jpg') }}" class="img-fluid">
+                                                      <img loading="lazy" src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid">
                                                    </a>
                                                 @endif
                                              @else
                                                 <a href="{{ route('product', \App\Product::find($id)->slug) }}" target="_blank">
-                                                   <img loading="lazy"  src="{{ asset('frontend/images/placeholder.jpg') }}">
+                                                   <img loading="lazy"  src="{{ asset('uploads/No_Image.jpg') }}">
                                                 </a>
                                              @endif
                                                   
@@ -256,10 +256,10 @@
                                                             @if(file_exists($filepath))
                                                                <img loading="lazy" src="{{ asset(\App\Product::find($id)->featured_img) }}" class="img-fluid">
                                                             @else
-                                                               <img loading="lazy" src="{{ asset('frontend/images/placeholder.jpg') }}" class="img-fluid">
+                                                               <img loading="lazy" src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid">
                                                             @endif
                                                          @else
-                                                               <img loading="lazy"  src="{{ asset('frontend/images/placeholder.jpg') }}">
+                                                               <img loading="lazy"  src="{{ asset('uploads/No_Image.jpg') }}">
                                                          @endif
                                                       {{-- <img loading="lazy"  src="{{ asset(\App\Product::find($id)->thumbnail_img) }}"> --}}
                                                       </a>

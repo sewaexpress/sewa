@@ -63,12 +63,12 @@
                     <div class="d-flex">
                         @if (!empty($shop->logo))
                             @if (file_exists($shop->logo))
-                                <img height="70" class="lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="@if ($shop->logo !== null) {{ asset($shop->logo) }} @else {{ asset('frontend/images/placeholder.jpg') }} @endif" alt="{{ $shop->name }}">
+                                <img height="70" class="lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="@if ($shop->logo !== null) {{ asset($shop->logo) }} @else {{ asset('uploads/No_Image.jpg') }} @endif" alt="{{ $shop->name }}">
                             @else
-                                <img height="70" class="lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" alt="{{ $shop->name }}"> 
+                                <img height="70" class="lazyload" src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $shop->name }}"> 
                             @endif
                         @else
-                            <img height="70" class="lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" alt="{{ $shop->name }}">  
+                            <img height="70" class="lazyload" src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $shop->name }}">  
                         @endif
                         
                         <div class="pl-4">
@@ -171,12 +171,12 @@
                             <div class="slider_item position-relative">
                                 @if (!empty($slider))
                                     @if (file_exists($slider))
-                                        <img class="d-block w-100 lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($slider) }}" alt="{{ $key }} slide" style="max-height:300px;">
+                                        <img class="d-block w-100 lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($slider) }}" alt="{{ $key }} slide" style="max-height:300px;">
                                     @else
-                                        <img class="d-block w-100 lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" alt="{{ $key }} slide" style="max-height:300px;">
+                                        <img class="d-block w-100 lazyload" src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $key }} slide" style="max-height:300px;">
                                     @endif
                                 @else
-                                    <img class="d-block w-100 lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" alt="{{ $key }} slide" style="max-height:300px;">
+                                    <img class="d-block w-100 lazyload" src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $key }} slide" style="max-height:300px;">
                                 @endif
                             </div>
                         @endforeach

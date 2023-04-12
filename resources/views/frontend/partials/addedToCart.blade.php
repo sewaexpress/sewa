@@ -10,9 +10,9 @@
                 @if (file_exists($product->featured_img)) 
                    <img class="lazyload" src="{{ asset($product->featured_img) }}" data-src="{{ asset($product->featured_img) }}" alt="{{ __($product->name) }}">
                 @else
-                   <img class="lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset('frontend/images/placeholder.jpg') }}" alt="{{ __($product->name) }}">
+                   <img class="lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ __($product->name) }}">
                 @endif
-                {{-- <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset(json_decode($product->featured_img)) }}" class="lazyload" alt="Product Image"> --}}
+                {{-- <img src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset(json_decode($product->featured_img)) }}" class="lazyload" alt="Product Image"> --}}
             </div>
             <div class="block-body">
                 <h6 class="strong-600">

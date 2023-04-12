@@ -791,7 +791,7 @@ $flash_deal = \App\FlashDeal::where('status', 1)->where('featured', 1)->first();
             <div class="card-body p-0">
                 <div class="card-image">
                     <a href="{{ route('customer.product', $customer_product->slug) }}" class="d-block">
-                        <img class="img-fit lazyload mx-auto" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset(json_decode($customer_product->photos)[0]) }}" alt="{{ __($customer_product->name) }}">
+                        <img class="img-fit lazyload mx-auto" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset(json_decode($customer_product->photos)[0]) }}" alt="{{ __($customer_product->name) }}">
                     </a>
                 </div>
                 <div class="p-sm-3 p-2">

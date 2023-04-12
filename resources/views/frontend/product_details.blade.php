@@ -168,12 +168,12 @@ td {
                                                 @if (file_exists($photo))
                                                     <img src="{{ asset($photo) }}" data-zoom="{{ asset($photo) }}" class="img-responsive asdf">
                                                 @else
-                                                    <img src="{{ asset('frontend/images/placeholder.jpg') }}"
-                                                    data-zoom="{{ asset('frontend/images/placeholder.jpg') }}" class="img-responsive asdf">
+                                                    <img src="{{ asset('uploads/No_Image.jpg') }}"
+                                                    data-zoom="{{ asset('uploads/No_Image.jpg') }}" class="img-responsive asdf">
                                                 @endif
                                             @else
-                                                <img src="{{ asset('frontend/images/placeholder.jpg') }}"
-                                                data-zoom="{{ asset('frontend/images/placeholder.jpg') }}" class="img-responsive asdf">
+                                                <img src="{{ asset('uploads/No_Image.jpg') }}"
+                                                data-zoom="{{ asset('uploads/No_Image.jpg') }}" class="img-responsive asdf">
                                             @endif
                                         </div>
                                         @php $count ++; @endphp
@@ -187,12 +187,12 @@ td {
                                                     @if (file_exists($photo['image']))
                                                         <img src="{{ asset($photo['image']) }}" data-zoom="{{ asset($photo['image']) }}" class="img-responsive asdf">
                                                     @else
-                                                        <img src="{{ asset('frontend/images/placeholder.jpg') }}"
-                                                        data-zoom="{{ asset('frontend/images/placeholder.jpg') }}" class="img-responsive asdf">
+                                                        <img src="{{ asset('uploads/No_Image.jpg') }}"
+                                                        data-zoom="{{ asset('uploads/No_Image.jpg') }}" class="img-responsive asdf">
                                                     @endif
                                                 @else
-                                                    <img src="{{ asset('frontend/images/placeholder.jpg') }}"
-                                                    data-zoom="{{ asset('frontend/images/placeholder.jpg') }}" class="img-responsive asdf">
+                                                    <img src="{{ asset('uploads/No_Image.jpg') }}"
+                                                    data-zoom="{{ asset('uploads/No_Image.jpg') }}" class="img-responsive asdf">
                                                 @endif
                                             </div>    
                                             @php 
@@ -219,11 +219,11 @@ td {
                                             <div class="swiper-slide" data-indexVal="{{ $count }}" style="background-image:url('{{ asset($photo) }}')">
                                             </div>
                                         @else
-                                            <div class="swiper-slide" data-indexVal="{{ $count }}" style="background-image:url('{{ asset('frontend/images/placeholder.jpg') }}')">
+                                            <div class="swiper-slide" data-indexVal="{{ $count }}" style="background-image:url('{{ asset('uploads/No_Image.jpg') }}')">
                                             </div>
                                         @endif                                    
                                     @else
-                                        <div class="swiper-slide"  data-indexVal="{{ $count }}" style="background-image:url('{{ asset('frontend/images/placeholder.jpg') }}')">
+                                        <div class="swiper-slide"  data-indexVal="{{ $count }}" style="background-image:url('{{ asset('uploads/No_Image.jpg') }}')">
                                     @endif
                                     @php $count ++; @endphp
                                 @endforeach
@@ -235,7 +235,7 @@ td {
                                                 <div class="swiper-slide color-image-{{ $photo['name'] }}" data-indexVal="{{ $count }}" style="background-image:url('{{ asset($photo['image']) }}')">
                                                 </div>
                                             @else
-                                            <div class="swiper-slide color-image-{{ $photo['name'] }}" data-indexVal="{{ $count }}" style="background-image:url('{{ asset('frontend/images/placeholder.jpg') }}')">
+                                            <div class="swiper-slide color-image-{{ $photo['name'] }}" data-indexVal="{{ $count }}" style="background-image:url('{{ asset('uploads/No_Image.jpg') }}')">
                                             </div>
                                             @endif
                                         @endif
@@ -1144,13 +1144,13 @@ td {
                                         <a href="{{ route('product', $top_product->slug) }}">
                                            @if (is_array(json_decode($top_product->photos)) && count(json_decode($top_product->photos)) > 0)
                                                 @if (file_exists(json_decode($top_product->photos)[0]))
-                                                    <img class="img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset(json_decode($top_product->photos)[0]) }}" alt="{{ __($top_product->name) }}">
+                                                    <img class="img-fit lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset(json_decode($top_product->photos)[0]) }}" alt="{{ __($top_product->name) }}">
                                                 @else
-                                                    <img class="img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" alt="{{ __($top_product->name) }}">
+                                                    <img class="img-fit lazyload" src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ __($top_product->name) }}">
                                                 @endif
 
                                             @else
-                                                <img class="img-fit lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" alt="{{ __($top_product->name) }}">
+                                                <img class="img-fit lazyload" src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ __($top_product->name) }}">
 
                                             @endif
                                         </a>

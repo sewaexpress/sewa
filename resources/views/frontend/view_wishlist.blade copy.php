@@ -46,7 +46,7 @@
                                             <div class="card-body p-3">
                                                 <div class="card-image">
                                                     <a href="{{ route('product', $wishlist->product->slug) }}" class="d-block">
-                                                        <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset(json_decode($wishlist->product->photos)[0]) }}" alt="{{ __($wishlist->product->name) }}" class="img-fluid img lazyload">
+                                                        <img src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset(json_decode($wishlist->product->photos)[0]) }}" alt="{{ __($wishlist->product->name) }}" class="img-fluid img lazyload">
                                                     </a>
                                                 </div>
 

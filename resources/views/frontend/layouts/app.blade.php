@@ -595,20 +595,7 @@
 
     <script src="{{ asset('frontend/assets/swiper/swiper.min.js') }}"></script>
     <script src="{{ asset('frontend/assets/js/main.min.js') }}"></script>
-
-
     <script src="{{ asset('frontend/assets/js/secondary.min.js') }}"></script>
-
-
-
-    {{-- <script src="https://k1ngzed.com/dist/swiper/swiper.min.js"></script>
-    <script src="https://k1ngzed.com/dist/EasyZoom/easyzoom.js"></script> --}}
-
-    <!-- Core -->
-    {{-- <script src="{{ asset('frontend/js/vendor/popper.min.js') }}"></script> --}}
-    {{-- <script src="{{ asset('frontend/js/vendor/bootstrap.min.js') }}"></script> --}}
-
-    <!-- Plugins: Sorted A-Z -->
     <script src="{{ asset('frontend/js/jquery.countdown.min.js') }}"></script>
     <script src="{{ asset('frontend/js/select2.min.js') }}"></script>
     <script src="{{ asset('frontend/js/nouislider.min.js') }}"></script>
@@ -1483,72 +1470,6 @@ $('.address-district').on('change',function(e){
             showFrontendAlert('success', 'Copied to clipboard');
         }
     </script>
-<script type="text/javascript">
-
-    $('#dashboard-phone2').on('keypress', function(e) {
-        var $this = $(this);
-        var regex = new RegExp("^[0-9\b]+$");
-        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-        // for 10 digit number only
-        if ($this.val().length > 9) {
-            e.preventDefault();
-            return false;
-        }
-        if (e.charCode < 57 && e.charCode > 47) {
-            if ($this.val().length == 0) {
-                e.preventDefault();
-                return false;
-            } else {
-                return true;
-            }
-        }
-        if (regex.test(str)) {
-            return true;
-        }
-        e.preventDefault();
-        return false;
-    });
-    $('.customer-dashboard-address').click(function(e){
-    // console.log('1');
-        e.stopImmediatePropagation();
-        var phone = $('#dashboard-phone2').val();
-        if(phone== ''){
-            showFrontendAlert('danger','Phone number cannot be Empty')
-            return false;
-        }
-        if(phone.length < 10){
-            showFrontendAlert('danger','Phone number format not correct')
-            return false;
-        }
-        $('#dashboard-customer-address-form').submit();
-    });
-    $('#dashboard-phone').on('keypress', function(e) {
-        var $this = $(this);
-        var regex = new RegExp("^[0-9\b]+$");
-        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
-        // for 10 digit number only
-        if ($this.val().length > 9) {
-            e.preventDefault();
-            return false;
-        }
-        if (e.charCode < 57 && e.charCode > 47) {
-            if ($this.val().length == 0) {
-                e.preventDefault();
-                return false;
-            } else {
-                return true;
-            }
-        }
-        if (regex.test(str)) {
-            return true;
-        }
-        e.preventDefault();
-        return false;
-    });
-    function add_new_address_dashboard(){
-        $('#new-address-modal').modal('show');
-    }
-</script>
     @yield('script')
 
 </body>

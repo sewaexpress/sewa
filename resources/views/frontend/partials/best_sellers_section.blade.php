@@ -52,7 +52,7 @@
                 <div class="vendor-wrap d-flex align-items-center">
                    <div class="image">
                     <img
-                     src="@if ($seller->user->shop->logo !== null) {{ asset($seller->user->shop->logo) }} @else {{ asset('frontend/images/placeholder.jpg') }} @endif"
+                     src="@if ($seller->user->shop->logo !== null) {{ asset($seller->user->shop->logo) }} @else {{ asset('uploads/No_Image.jpg') }} @endif"
                      alt="{{ $seller->user->shop->name }}"
                      class="img-fluid lazyload"
                     >
@@ -141,13 +141,13 @@
                                         <a href="{{ route('shop.visit', $seller->user->shop->slug) }}">
                                             @if (!empty($seller->user->shop->logo))
                                                 @if (file_exists($seller->user->shop->logo))
-                                                <img src="{{ asset($seller->user->shop->logo) }}" alt="{{ $seller->user->shop->name }}" class="img-fluid pic-1">
+                                                <img src="{{ asset('uploads/No_Image.jpg') }}" data-lazy="{{ asset($seller->user->shop->logo) }}" alt="{{ $seller->user->shop->name }}" class="img-fluid pic-1">
                                                 @else
-                                                <img src="{{ asset('frontend/images/placeholder.jpg') }}" alt="{{ $seller->user->shop->name }}" class="img-fluid pic-1">
+                                                <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $seller->user->shop->name }}" class="img-fluid pic-1">
                                                     
                                                 @endif
                                             @else
-                                            <img src="{{ asset('frontend/images/placeholder.jpg') }}" alt="{{ $seller->user->shop->name }}" class="img-fluid pic-1">
+                                            <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $seller->user->shop->name }}" class="img-fluid pic-1">
                                                 
                                             @endif
                                         

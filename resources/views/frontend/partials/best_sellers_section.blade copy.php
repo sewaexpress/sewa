@@ -46,8 +46,8 @@
                                         <div class="col-4">
                                             <a href="{{ route('shop.visit', $seller->user->shop->slug) }}" class="d-block product-image p-3">
                                                 <img
-                                                    src="{{ asset('frontend/images/placeholder.jpg') }}"
-                                                    data-src="@if ($seller->user->shop->logo !== null) {{ asset($seller->user->shop->logo) }} @else {{ asset('frontend/images/placeholder.jpg') }} @endif"
+                                                    src="{{ asset('uploads/No_Image.jpg') }}"
+                                                    data-src="@if ($seller->user->shop->logo !== null) {{ asset($seller->user->shop->logo) }} @else {{ asset('uploads/No_Image.jpg') }} @endif"
                                                     alt="{{ $seller->user->shop->name }}"
                                                     class="img-fluid lazyload"
                                                 >

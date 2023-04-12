@@ -30,10 +30,10 @@
                                 @if (file_exists($product->featured_img))
                                     <div class="image" style="background-image:url('{{ asset($product->featured_img) }}');">  
                                 @else
-                                    <div class="image" style="background-image:url('{{ asset('frontend/images/placeholder.jpg') }}');">  
+                                    <div class="image" style="background-image:url('{{ asset('uploads/No_Image.jpg') }}');">  
                                 @endif
                             @else
-                                <div class="image" style="background-image:url('{{ asset('frontend/images/placeholder.jpg') }}');">  
+                                <div class="image" style="background-image:url('{{ asset('uploads/No_Image.jpg') }}');">  
                             @endif
                             </div>
                             <div class="w-100 overflow--hidden">
@@ -84,10 +84,10 @@
                                     @if (file_exists($shop->logo))
                                         <div class="image" style="background-image:url('{{ asset($shop->logo) }}');">  
                                     @else
-                                        <div class="image" style="background-image:url('{{ asset('frontend/images/placeholder.jpg') }}');">  
+                                        <div class="image" style="background-image:url('{{ asset('uploads/No_Image.jpg') }}');">  
                                     @endif
                                 @else
-                                    <div class="image" style="background-image:url('{{ asset('frontend/images/placeholder.jpg') }}');">  
+                                    <div class="image" style="background-image:url('{{ asset('uploads/No_Image.jpg') }}');">  
                                 @endif
                                 </div>
                                 <div class="w-100 overflow--hidden ">

@@ -33,7 +33,8 @@ $featured_count = \App\Product::where('published', 1)->where('featured', '1')->c
                             <div class="product-lists">
                                 <div class="right-side-wrapper">
                                     <div class="featured-section">
-                                        @foreach (filter_products(\App\Product::where('published', 1)->where('featured', '1'))->limit(12)->get() as $key => $product)
+                                        @foreach (\App\Product::where('published', 1)->where('featured', '1')->limit(12)->get() as $key => $product)
+                                        {{-- @foreach (filter_products(\App\Product::where('published', 1)->where('featured', '1'))->limit(12)->get() as $key => $product) --}}
                                         {{-- @php
                                                 dd($product);
                                             @endphp --}}
@@ -50,10 +51,10 @@ $featured_count = \App\Product::where('published', 1)->where('featured', '1')->c
                                                             @if (file_exists(public_path($filepath)))
                                                                 <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $product->name }}" data-lazy="{{ asset($product->featured_img) }}" class="img-fluid pic-1">
                                                             @else
-                                                                <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $product->name }}" data-src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid pic-1">
+                                                                <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $product->name }}" class="img-fluid pic-1">
                                                             @endif
                                                         @else
-                                                                <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $product->name }}" data-src="{{ asset('uploads/No_Image.jpg') }}" class="img-fluid pic-1">
+                                                                <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ $product->name }}" class="img-fluid pic-1">
                                                         @endif
                                                     </a>
                                                 </div>

@@ -33,7 +33,7 @@
                                                 @if (file_exists($product->thumbnail_img)) 
                                                     <img src="{{ asset($product->thumbnail_img) }}" data-src="{{ asset($product->thumbnail_img) }}" alt="{{ __($product->name) }}">
                                                 @else
-                                                    <img src="{{ asset('frontend/images/placeholder.jpg') }}" alt="{{ __($product->name) }}">
+                                                    <img src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ __($product->name) }}">
                                                 @endif
                                             </a>
                                         </div>

@@ -176,10 +176,10 @@
 													@if (file_exists($orderDetail->product->featured_img))
 														<img height="50" src={{ asset($orderDetail->product->featured_img) }}></a>	
 													@else
-														<img height="50" src={{ asset('frontend/images/placeholder.jpg') }}></a>	
+														<img height="50" src={{ asset('uploads/No_Image.jpg') }}></a>	
 													@endif
 												@else
-													<img height="50" src={{ asset('frontend/images/placeholder.jpg') }}></a>	
+													<img height="50" src={{ asset('uploads/No_Image.jpg') }}></a>	
 												@endif
                                         @else
                                             <strong>{{ __('N/A') }}</strong>

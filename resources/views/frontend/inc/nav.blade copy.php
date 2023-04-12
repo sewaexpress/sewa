@@ -172,7 +172,7 @@
                                                   <div class="d-flex align-items-center">
                                                       <div class="dc-image">
                                                           <a href="{{ route('product', $product->slug) }}">
-                                                            <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset(json_decode($product->photos)[0]) }}" class="img-fluid lazyload" alt="{{ __($product->name) }}">
+                                                            <img src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset(json_decode($product->photos)[0]) }}" class="img-fluid lazyload" alt="{{ __($product->name) }}">
 
                                                           </a>
                                                       </div>
@@ -512,7 +512,7 @@
                                                                         <div class="d-flex align-items-center">
                                                                             <div class="dc-image">
                                                                                 <a href="{{ route('product', $product->slug) }}">
-                                                                                    <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->thumbnail_img) }}" class="img-fluid lazyload" alt="{{ __($product->name . '-' . $product->unit_price ) }}">
+                                                                                    <img src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($product->thumbnail_img) }}" class="img-fluid lazyload" alt="{{ __($product->name . '-' . $product->unit_price ) }}">
                                                                                 </a>
                                                                             </div>
                                                                             <div class="dc-content">
@@ -591,7 +591,7 @@
                                     @endphp
                                     <li class="category-nav-element" data-id="{{ $category->id }}">
                                         <a href="{{ route('products.category', $category->slug) }}">
-                                            <img class="cat-image lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->icon) }}" width="30" alt="{{ __($category->name) }}">
+                                            <img class="cat-image lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($category->icon) }}" width="30" alt="{{ __($category->name) }}">
                                             <span class="cat-name">{{ __($category->name) }}</span>
                                         </a>
                                         @if(count($category->subcategories)>0)
@@ -697,7 +697,7 @@
                   @foreach (\App\Category::all() as $key => $category)
                       <li>
                       <a href="{{ route('products.category', $category->slug) }}" class="text-truncate">
-                          <img class="cat-image lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->icon) }}" width="13" alt="{{ __($category->name) }}">
+                          <img class="cat-image lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($category->icon) }}" width="13" alt="{{ __($category->name) }}">
                           <span>{{ __($category->name) }}</span>
                       </a>
                   </li>

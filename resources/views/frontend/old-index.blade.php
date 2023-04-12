@@ -15,7 +15,7 @@
                         <ul class="categories no-scrollbar">
                             <li class="d-lg-none">
                                 <a href="{{ route('categories.all') }}">
-                                    <img class="cat-image lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset('frontend/images/icons/list.png') }}" width="30" alt="{{ __('All Category') }}">
+                                    <img class="cat-image lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset('frontend/images/icons/list.png') }}" width="30" alt="{{ __('All Category') }}">
                                     <span class="cat-name">{{__('All')}} <br> {{__('Categories')}}</span>
                                 </a>
                             </li>
@@ -25,7 +25,7 @@
                                 @endphp
                                 <li class="category-nav-element" data-id="{{ $category->id }}">
                                     <a href="{{ route('products.category', $category->slug) }}">
-                                        <img class="cat-image lazyload" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->icon) }}" width="30" alt="{{ __($category->name) }}">
+                                        <img class="cat-image lazyload" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($category->icon) }}" width="30" alt="{{ __($category->name) }}">
                                         <span class="cat-name">{{ __($category->name) }}</span>
                                     </a>
                                     @if(count($category->subcategories)>0)
@@ -67,7 +67,7 @@
                                         <a href="{{ route('products.category', $category->slug) }}" class="d-block">
                                             <div class="name">{{ __($category->name) }}</div>
                                             <div class="img">
-                                                <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->banner) }}" alt="{{ __($category->name) }}" class="lazyload img-fit">
+                                                <img src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($category->banner) }}" alt="{{ __($category->name) }}" class="lazyload img-fit">
                                             </div>
                                         </a>
                                     </div>
@@ -93,7 +93,7 @@
                                         <div class="row no-gutters align-items-center">
                                             <div class="col">
                                                 <div class="img">
-                                                    <img class="lazyload img-fit" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->flash_deal_img) }}" alt="{{ __($product->name) }}">
+                                                    <img class="lazyload img-fit" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($product->flash_deal_img) }}" alt="{{ __($product->name) }}">
                                                 </div>
                                             </div>
                                             <div class="col">
@@ -153,7 +153,7 @@
                                     <div class="card-body p-0">
                                         <div class="card-image">
                                             <a href="{{ route('product', $product->slug) }}" class="d-block">
-                                                <img class="img-fit lazyload mx-auto" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($product->featured_img) }}" alt="{{ __($product->name) }}">
+                                                <img class="img-fit lazyload mx-auto" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($product->featured_img) }}" alt="{{ __($product->name) }}">
                                             </a>
                                         </div>
 
@@ -240,7 +240,7 @@
                                        <div class="card-body p-0">
                                            <div class="card-image">
                                                <a href="{{ route('customer.product', $customer_product->slug) }}" class="d-block">
-                                                   <img class="img-fit lazyload mx-auto" src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($customer_product->thumbnail_img) }}" alt="{{ __($customer_product->name) }}">
+                                                   <img class="img-fit lazyload mx-auto" src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($customer_product->thumbnail_img) }}" alt="{{ __($customer_product->name) }}">
                                                </a>
                                            </div>
 
@@ -310,7 +310,7 @@
                                 <a href="{{ route('products.category', $category->slug) }}" class="bg-white border d-block c-base-2 box-2 icon-anim pl-2">
                                     <div class="row align-items-center no-gutters">
                                         <div class="col-3 text-center">
-                                            <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($category->banner) }}" alt="{{ __($category->name) }}" class="img-fluid img lazyload">
+                                            <img src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($category->banner) }}" alt="{{ __($category->name) }}" class="img-fluid img lazyload">
                                         </div>
                                         <div class="info col-7">
                                             <div class="name text-truncate pl-3 py-4">{{ __($category->name) }}</div>
@@ -341,7 +341,7 @@
                                 <a href="{{ route('products.brand', $brand->slug) }}" class="bg-white border d-block c-base-2 box-2 icon-anim pl-2">
                                     <div class="row align-items-center no-gutters">
                                         <div class="col-3 text-center">
-                                            <img src="{{ asset('frontend/images/placeholder.jpg') }}" data-src="{{ asset($brand->logo) }}" alt="{{ __($brand->name) }}" class="img-fluid img lazyload">
+                                            <img src="{{ asset('uploads/No_Image.jpg') }}" data-src="{{ asset($brand->logo) }}" alt="{{ __($brand->name) }}" class="img-fluid img lazyload">
                                         </div>
                                         <div class="info col-7">
                                             <div class="name text-truncate pl-3 py-4">{{ __($brand->name) }}</div>

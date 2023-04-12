@@ -70,10 +70,10 @@
                                                             @if (file_exists($wishlist->product->thumbnail_img))
                                                                 <img style="width: 100%;object-fit: contain;" src="{{ asset($wishlist->product->thumbnail_img) }}" alt="{{ __($wishlist->product->name) }}" class="img-fluid img lazyload">
                                                             @else
-                                                                <img style="width: 100%;object-fit: contain;" src="{{ asset('frontend/images/placeholder.jpg') }}" alt="{{ __($wishlist->product->name) }}" class="img-fluid img lazyload">
+                                                                <img style="width: 100%;object-fit: contain;" src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ __($wishlist->product->name) }}" class="img-fluid img lazyload">
                                                             @endif
                                                         @else
-                                                            <img style="width: 100%;object-fit: contain;" src="{{ asset('frontend/images/placeholder.jpg') }}" alt="{{ __($wishlist->product->name) }}" class="img-fluid img lazyload">
+                                                            <img style="width: 100%;object-fit: contain;" src="{{ asset('uploads/No_Image.jpg') }}" alt="{{ __($wishlist->product->name) }}" class="img-fluid img lazyload">
                                                         @endif
                                                     </a>
                                                 </div>
