@@ -16,26 +16,26 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!--Bootstrap Stylesheet [ REQUIRED ]-->
-    {{ config(‘app.asset_url’) }}
+    {{-- {{ config(‘app.asset_url’) }} --}}
     <link href="{{ config(‘app.url’) }}css/bootstrap.min.css" rel="stylesheet">
     {{-- <link href="{{ asset('css/bootstrap.min.css')}}" rel="stylesheet"> --}}
 
     <!--Font Awesome [ OPTIONAL ]-->
-    <link href="{{ asset('plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
+    <link href="{{ config(‘app.url’) }}plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
     <!--active-shop Stylesheet [ REQUIRED ]-->
-    <link href="{{ asset('css/active-shop.min.css')}}" rel="stylesheet">
+    <link href="{{ config(‘app.url’) }}css/active-shop.min.css" rel="stylesheet">
 
     <!--active-shop Premium Icon [ DEMONSTRATION ]-->
-    <link href="{{ asset('css/demo/active-shop-demo-icons.min.css')}}" rel="stylesheet">
+    <link href="{{ config(‘app.url’) }}css/demo/active-shop-demo-icons.min.css" rel="stylesheet">
 
     <!--Demo [ DEMONSTRATION ]-->
-    <link href="{{ asset('css/demo/active-shop-demo.min.css') }}" rel="stylesheet">
+    <link href="{{ config(‘app.url’) }}css/demo/active-shop-demo.min.css" rel="stylesheet">
 
     <!--Theme [ DEMONSTRATION ]-->
-    <link href="{{ asset('css/themes/type-c/theme-navy.min.css') }}" rel="stylesheet">
+    <link href="{{ config(‘app.url’) }}css/themes/type-c/theme-navy.min.css" rel="stylesheet">
 
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link href="{{ config(‘app.url’) }}css/custom.css" rel="stylesheet">
 
 </head>
 <body>
@@ -68,18 +68,18 @@
     <!--=================================================-->
 
     <!--jQuery [ REQUIRED ]-->
-    <script src=" {{asset('js/jquery.min.js') }}"></script>
+    <script src="{{ config(‘app.url’) }}js/jquery.min.js"></script>
 
 
     <!--BootstrapJS [ RECOMMENDED ]-->
-    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ config(‘app.url’) }}js/bootstrap.min.js"></script>
 
 
     <!--active-shop [ RECOMMENDED ]-->
-    <script src="{{ asset('js/active-shop.min.js') }}"></script>
+    <script src="{{ config(‘app.url’) }}js/active-shop.min.js"></script>
 
     <!--Alerts [ SAMPLE ]-->
-    <script src="{{asset('js/demo/ui-alerts.js') }}"></script>
+    <script src="{{ config(‘app.url’) }}js/demo/ui-alerts.js"></script>
 
     @yield('script')
 
