@@ -16,7 +16,9 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!--Bootstrap Stylesheet [ REQUIRED ]-->
-    <link href="{{ asset('css/bootstrap.min.css')}}" rel="stylesheet">
+    {{ config(‘app.asset_url’) }}
+    <link href="{{ config(‘app.url’) }}css/bootstrap.min.css" rel="stylesheet">
+    {{-- <link href="{{ asset('css/bootstrap.min.css')}}" rel="stylesheet"> --}}
 
     <!--Font Awesome [ OPTIONAL ]-->
     <link href="{{ asset('plugins/font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
