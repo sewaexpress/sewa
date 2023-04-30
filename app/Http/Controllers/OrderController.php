@@ -421,7 +421,8 @@ class OrderController extends Controller
             $order->save();
 
             
-            if($request->payment_option == 'cash_on_delivery'){
+            if($request->payment_option == 'removed-for-now'){
+                // if($request->payment_option == 'cash_on_delivery'){
 
                 set_time_limit(1500);
                 //stores the pdf for invoice

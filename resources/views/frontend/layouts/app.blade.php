@@ -1,11 +1,6 @@
 <!DOCTYPE html>
-{{-- @if(\App\Language::where('code', Session::get('locale', Config::get('app.locale')))->first()->rtl == 1)
-<html dir="rtl" lang="en">
-@else --}}
 <html lang="en">
-{{-- @endif --}}
 <head>
-
     @php
     $seosetting = \App\SeoSetting::first();
     @endphp
@@ -44,7 +39,7 @@
 
     <link type="image/x-icon" href="{{ asset(\App\GeneralSetting::first()->favicon) }}" rel="shortcut icon" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/bootstrap-4.3.1/css/bootstrap.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('frontend/css/font-awesome.min.css') }}" type="text/css" media="none" onload="if(media!='all')media='all'">
+    <link rel="stylesheet" href="{{ asset('frontend/css/font-awesome.min.css') }}" type="text/css" >
     <link rel="stylesheet" href="{{ asset('frontend/assets/slick/slick.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/slick/slick-theme.css') }}" />
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Readex+Pro:wght@200&display=swap" rel="stylesheet" />
@@ -57,15 +52,15 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/countdown/css/flipclock.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/swiper/drift-basic.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('frontend/assets/swiper/swiper.min.css') }}" />
-    <link rel="stylesheet" href="{{ asset('frontend/css/line-awesome.min.css') }}" type="text/css" media="none" onload="if(media!='all')media='all'">
-    <link type="text/css" href="{{ asset('frontend/css/bootstrap-tagsinput.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-    <link type="text/css" href="{{ asset('frontend/css/jodit.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-    <link type="text/css" href="{{ asset('frontend/css/sweetalert2.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-    <link type="text/css" href="{{ asset('frontend/css/xzoom.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-    <link type="text/css" href="{{ asset('frontend/css/jssocials.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-    <link type="text/css" href="{{ asset('frontend/css/jssocials-theme-flat.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-    <link type="text/css" href="{{ asset('frontend/css/intlTelInput.min.css') }}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
-    <link type="text/css" href="{{ asset('css/spectrum.min.css')}}" rel="stylesheet" media="none" onload="if(media!='all')media='all'">
+    <link rel="stylesheet" href="{{ asset('frontend/css/line-awesome.min.css') }}" type="text/css" >
+    <link type="text/css" href="{{ asset('frontend/css/bootstrap-tagsinput.css') }}" rel="stylesheet" >
+    <link type="text/css" href="{{ asset('frontend/css/jodit.min.css') }}" rel="stylesheet" >
+    <link type="text/css" href="{{ asset('frontend/css/sweetalert2.min.css') }}" rel="stylesheet" >
+    <link type="text/css" href="{{ asset('frontend/css/xzoom.min.css') }}" rel="stylesheet" >
+    <link type="text/css" href="{{ asset('frontend/css/jssocials.min.css') }}" rel="stylesheet" >
+    <link type="text/css" href="{{ asset('frontend/css/jssocials-theme-flat.min.css') }}" rel="stylesheet" >
+    <link type="text/css" href="{{ asset('frontend/css/intlTelInput.min.css') }}" rel="stylesheet" >
+    <link type="text/css" href="{{ asset('css/spectrum.min.css')}}" rel="stylesheet" >
     <link type="text/css" href="{{ asset('frontend/css/active-shop.min.css') }}" rel="stylesheet" media="all">
     <link type="text/css" href="{{ asset('frontend/css/main.min.css') }}" rel="stylesheet" media="all">
 
