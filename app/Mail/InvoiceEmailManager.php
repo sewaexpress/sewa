@@ -29,7 +29,7 @@ class InvoiceEmailManager extends Mailable
      public function build()
      {
          return $this->view($this->array['view'])
-                     ->from($this->array['from'])
+                     ->from('Sewa Digital Express')
                     //  ->to('joshibipin2052@gmail.com')
                      ->subject($this->array['subject'])
                      ->attach($this->array['file'],[
