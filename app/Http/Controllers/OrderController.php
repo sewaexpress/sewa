@@ -439,12 +439,12 @@ class OrderController extends Controller
                 // $pdf->download('Order-'.$order->code.'.pdf');
                 $data['view'] = 'emails.invoice';
                 $data['subject'] = 'Sewa Digital Express - Order Placed - ' . $order->code;
-                $data['from'] = Config::get('mail.username');
+                $data['from'] = Config::get('mail.from.name');
                 $data['content'] = 'Hi. Thank you for ordering from Sewa Digital Express. Here is the pdf of the invoice.';
                 $data['file'] = public_path('invoices/' . 'Order#' . $order->code . '.pdf');
                 $data['file_name'] = 'Order#' . $order->code . '.pdf';
 
-                if (Config::get('mail.username') != null) {
+                if (Config::get('mail.from.name') != null) {
                     try {
                         // Mail::to($request->session()->get('shipping_info')['email'])->send(new InvoiceEmailManager($data));
                         Mail::to($request->session()->get('shipping_info')['email'])->queue(new InvoiceEmailManager($data));
