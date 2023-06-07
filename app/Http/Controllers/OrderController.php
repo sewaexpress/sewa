@@ -421,7 +421,7 @@ class OrderController extends Controller
             $order->save();
 
             
-            // if($request->payment_option == 'removed-for-now'){
+            if($request->payment_option == 'removed-for-now'){
                 // if($request->payment_option == 'cash_on_delivery'){
 
                 set_time_limit(1500);
@@ -439,12 +439,12 @@ class OrderController extends Controller
                 // $pdf->download('Order-'.$order->code.'.pdf');
                 $data['view'] = 'emails.invoice';
                 $data['subject'] = 'Sewa Digital Express - Order Placed - ' . $order->code;
-                $data['from'] = Config::get('mail.from.name');
+                $data['from'] = Config::get('mail.username');
                 $data['content'] = 'Hi. Thank you for ordering from Sewa Digital Express. Here is the pdf of the invoice.';
                 $data['file'] = public_path('invoices/' . 'Order#' . $order->code . '.pdf');
                 $data['file_name'] = 'Order#' . $order->code . '.pdf';
 
-                if (Config::get('mail.from.name') != null) {
+                if (Config::get('mail.username') != null) {
                     try {
                         // Mail::to($request->session()->get('shipping_info')['email'])->send(new InvoiceEmailManager($data));
                         Mail::to($request->session()->get('shipping_info')['email'])->queue(new InvoiceEmailManager($data));
@@ -455,7 +455,7 @@ class OrderController extends Controller
                     }
                 }
                 unlink($data['file']);
-            // }
+            }
             // dd($data['file']);
             // foreach ($seller_products as $key => $seller_product) {
             //     $user = User::where('id', $key)->first();
