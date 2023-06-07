@@ -122,14 +122,6 @@
 				<tr><td class="gry-color small">Email: {{ (isset($shipping_address->name))?$shipping_address->email:$user['email'] }}</td></tr>
 				<tr><td class="gry-color small">Phone: {{ $shipping_address->phone }}</td></tr>
 			</table>
-
-			<table>
-				<tr>
-					<td class="strong small gry-color;text-align: right;">
-						<img alt='Tracking code Bar' src='https://barcode.tec-it.com/barcode.ashx?data={{ $order->code }}&code=Code128&translate-esc=on'/>
-					</td>
-				</tr>
-			</table>
 		</div>
 
 	    <div style="padding: 1.5rem;">
@@ -204,7 +196,7 @@
 	    </div>
 
 		
-		<div class="padding:0 1.5rem;">		
+		{{-- <div class="padding:0 1.5rem;">		
 			<div class="row">
 				<div class="col-lg-12">
 					<h2>Shipping Address QR Code</h2>
@@ -217,12 +209,12 @@
 					</style>
 					<img class="qr-code" alt='Tracking code Bar' src='https://qrcode.tec-it.com/API/QRCode?data={{ json_decode($order->shipping_address)->address }}, {{ json_decode($order->shipping_address)->city }}, {{ json_decode($order->shipping_address)->country }}&moduleSize=5&errorCorrectionLevel=L'/>
 				</div>
-				{{-- <div class="col-lg-12">
+				<div class="col-lg-12">
 					<h2>Shipping Address Bar Code</h2>
 					<img alt='Tracking code Bar' src='https://barcode.tec-it.com/barcode.ashx?data={{ json_decode($order->shipping_address)->address }}, {{ json_decode($order->shipping_address)->city }}, {{ json_decode($order->shipping_address)->country }}&code=Code128&translate-esc=on'/>
-				</div> --}}
+				</div>
 			</div>
-		</div>
+		</div> --}}
 	</div>
 </body>
 </html>
