@@ -421,7 +421,7 @@ class OrderController extends Controller
             $order->save();
 
             
-            if($request->payment_option == 'removed-for-now'){
+            // if($request->payment_option == 'removed-for-now'){
                 // if($request->payment_option == 'cash_on_delivery'){
 
                 set_time_limit(1500);
@@ -455,7 +455,7 @@ class OrderController extends Controller
                     }
                 }
                 unlink($data['file']);
-            }
+            // }
             // dd($data['file']);
             // foreach ($seller_products as $key => $seller_product) {
             //     $user = User::where('id', $key)->first();
